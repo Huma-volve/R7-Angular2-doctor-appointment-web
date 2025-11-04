@@ -1,0 +1,65 @@
+/* Base */
+body {
+  background: #f7f9fc;
+}
+
+/* Logo */
+.logo {
+  width: 36px;
+  height: 36px;
+  background: #fff;
+}
+
+/* Search */
+.search-wrap .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #98a2b3;
+  font-size: 16px;
+  pointer-events: none;
+}
+.search-input {
+  padding-left: 44px;
+  height: 48px;
+  background: #f3f5f8;
+  border: 1px solid #eef0f4;
+  box-shadow: 0 6px 18px rgba(16, 24, 40, 0.06) inset, 0 2px 12px rgba(16, 24, 40, 0.05);
+  color: #1f2937;
+}
+.search-input::placeholder {
+  color: #98a2b3;
+}
+
+/* Right icons */
+.icon-btn {
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 12px;
+  background: #f6f8fb;
+  color: #0b2239;
+  display: grid;
+  place-items: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06) inset;
+}
+.icon-btn:hover {
+  background: #eef1f6;
+}
+
+/* Avatar */
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06) inset;
+}
+
+/* Mobile: إظهار البحث أسفل الهيدر إن رغبت */
+@media (max-width: 767.98px) {
+  header .search-wrap {
+    display: none;
+  }
+}
