@@ -2,6 +2,32 @@
   --main-color: #145db8;
   --secondary-color: #e8eff8;
 }
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
+body {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Georgia', serif;
+  font-weight: 400;
+}
+
+p,
+span,
+li {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+}
+
 .btn-main {
   background-color: var(--main-color);
   color: white;
