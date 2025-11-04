@@ -1,0 +1,32 @@
+.div-round {
+  background-color: var(--secondary-color);
+  border-radius: 43px;
+  padding-block: 8px;
+  padding-inline: 16px;
+}
+.btn-home button {
+  width: 200px;
+}
+
+.custom-card {
+  border-radius: 20px;
+  overflow: hidden;
+  .card-img-top {
+    height: 400px;
+    object-fit: contain;
+  }
+  .card-body {
+    padding-top: 20px;
+    height: 150px;
+    overflow: hidden;
+    h5 {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    p {
+      color: #767676;
+      font-size: 0.99rem;
+      width: 50%;
+    }
+  }
+}
