@@ -1,0 +1,30 @@
+/* Footer palette matching the screenshot */
+.footer {
+  background-color: #081525; 
+}
+
+.footer-links li + li {
+  margin-top: 0.5rem;
+}
+.footer-links a {
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+}
+.footer-links a:hover {
+  color: #ffffff;
+}
+
+.social-btn {
+  width: 46px;
+  height: 46px;
+  display: inline-grid;
+  place-items: center;
+  background: #ffffff;
+  color: #0b2239;
+  border-radius: 0.6rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+.social-btn:hover {
+  color: #0b2239;
+  transform: translateY(-1px);
+}
