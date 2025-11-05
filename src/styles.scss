@@ -6,14 +6,24 @@
   background-color: var(--main-color);
   color: white;
   border: 1px solid var(--main-color);
-  border-radius: 16px;
+  border-radius: 10px;
   padding-inline: 8px;
   padding-block: 16px;
   cursor: pointer;
   transition: all 0.5s;
 }
-.btn-main:hover {
+
+.btn-second {
   background-color: white;
   color: var(--main-color);
   border: 1px solid var(--main-color);
+  border-radius: 10px;
+  padding-inline: 8px;
+  padding-block: 16px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.btn-main:hover,
+.btn-second:hover {
+  transform: translateY(-10px);
 }

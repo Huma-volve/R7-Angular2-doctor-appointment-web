@@ -1,0 +1,220 @@
+<div class="container py-4">
+  <div class="row">
+    <!-- Personal card -->
+    <div class=" col-md-3 mb-5">
+      <div class="personal-card card py-5 shadow-sm">
+        <div class="card-body text-center">
+          <div class="img position-relative d-inline-block rounded-circle">
+            <img
+              src="assets/images/profile-img.jpg"
+              alt="Seif Mohamed"
+              class="w-100 h-100 rounded-circle"
+            />
+            <div class="icon position-absolute px-1 rounded-circle bottom-0 end-0">
+              <i class="fa-regular fa-camera fa-sm"></i>
+            </div>
+          </div>
+
+          <div class="my-3">
+            <h4 class="card-title m-auto">Seif Mohamed</h4>
+            <i class="fa-solid fa-map-pin fa-sm text-muted"></i>
+            <span class="card-text text-muted fs-6">129, El-Nasr Street, Cairo</span>
+          </div>
+        </div>
+
+        <ul class="px-3">
+          <li
+            class="d-flex align-items-center li-item"
+            [class.active]="activeItem === 'personal'"
+            (click)="setActive('personal')"
+          >
+            <i class="pt-1 fa-regular fa-user fa-sm"></i>
+            <span class="fs-5 fw-light px-1">Personal information</span>
+          </li>
+
+          <li
+            class="d-flex align-items-center my-2 li-item"
+            [class.active]="activeItem === 'password'"
+            (click)="setActive('password')"
+          >
+            <i class="pt-1 fa-solid fa-lock fa-sm"></i>
+            <span class="fs-5 fw-light px-1">Password management</span>
+          </li>
+
+          <li class="text-danger d-flex align-items-center li-item" (click)="logout()">
+            <i class="pt-1 fa-solid fa-arrow-right-from-bracket fa-flip-horizontal fa-sm"></i>
+            <span class="fs-5 fw-light px-1">Log out</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Personal Information -->
+
+    <div class="col-md-9">
+      <div class="card border-0">
+        <div class="card-body p-5 pt-1">
+          @if (!hasProfileData) {
+          <div class="text-center py-5">
+            <img src="assets/images/empty-state.png" alt="No Data" class="mb-3" width="150" />
+            <h5 class="mb-2">No personal information found</h5>
+            <p class="text-muted mb-4">
+              Please add your personal details to complete your profile.
+            </p>
+            <button class="btn-main" (click)="createProfile()">Add information</button>
+          </div>
+          }@else {
+          <h4 class="mb-5 fw-semibold">Personal information</h4>
+          <form [formGroup]="profileForm" (ngSubmit)="saveChanges()">
+            <div class="row mb-4">
+              <!-- FULL NAME -->
+              <div class="col-md-6 mb-4">
+                <label for="fullName" class="form-label">Full Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="fullName"
+                  formControlName="fullName"
+                  placeholder="Seif Mohamed"
+                />
+                @if (profileForm.get('fullName')?.touched &&
+                profileForm.get('fullName')?.hasError('required')) {
+                <div class="text-danger mt-1">Full name is required.</div>
+                }
+              </div>
+
+              <!-- PHONE NUMBER -->
+              <div class="col-md-6 mb-4">
+                <label for="phoneNumber" class="form-label">Phone number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="phoneNumber"
+                  formControlName="phoneNumber"
+                  placeholder="01*******99"
+                />
+                @if (profileForm.get('phoneNumber')?.touched) {
+                @if(profileForm.get('phoneNumber')?.hasError('required')) {
+                <div class="text-danger mt-1">Phone number is required.</div>
+                } @else if(profileForm.get('phoneNumber')?.hasError('pattern')) {
+                <div class="text-danger mt-1">Please enter a valid Egyptian phone number.</div>
+                } }
+              </div>
+            </div>
+
+            <!-- EMAIL -->
+            <div class="row mb-4">
+              <div class="col-md-6 mb-4">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  formControlName="email"
+                  placeholder="SeifMohamed@gmail.com"
+                />
+                @if (profileForm.get('email')?.touched) {
+                @if(profileForm.get('email')?.hasError('required')) {
+                <div class="text-danger mt-1">Email is required.</div>
+                } @else if (profileForm.get('email')?.hasError('email')) {
+                <div class="text-danger mt-1">Please enter a valid email address.</div>
+                } }
+              </div>
+
+              <!-- BIRTHDAY -->
+              <div class="col-md-6 mb-4">
+                <label for="birthday" class="form-label">Your birthday</label>
+                <div class="row g-2">
+                  <!-- DAY -->
+                  <div class="col-4">
+                    <select
+                      id="day"
+                      class="form-select form-select-sm"
+                      formControlName="birthdayDay"
+                    >
+                      @for (i of [].constructor(31); track $index) {
+                      <option [value]="$index + 1">{{ $index + 1 }}</option>
+                      }
+                    </select>
+                  </div>
+
+                  <!-- MONTH -->
+                  <div class="col-4">
+                    <select
+                      id="month"
+                      class="form-select form-select-sm"
+                      formControlName="birthdayMonth"
+                    >
+                      <option>January</option>
+                      <option>February</option>
+                      <option>March</option>
+                      <option>April</option>
+                      <option>May</option>
+                      <option>June</option>
+                      <option>July</option>
+                      <option>August</option>
+                      <option>September</option>
+                      <option>October</option>
+                      <option>November</option>
+                      <option>December</option>
+                    </select>
+                  </div>
+
+                  <!-- YEAR -->
+                  <div class="col-4">
+                    <select
+                      id="year"
+                      class="form-select form-select-sm"
+                      formControlName="birthdayYear"
+                    >
+                      @for (y of [2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010]; track
+                      $index) {
+                      <option>{{ y }}</option>
+                      }
+                    </select>
+                  </div>
+                  @if ( (profileForm.get('birthdayDay')?.touched &&
+                  profileForm.get('birthdayDay')?.hasError('required')) ||
+                  (profileForm.get('birthdayMonth')?.touched &&
+                  profileForm.get('birthdayMonth')?.hasError('required')) ||
+                  (profileForm.get('birthdayYear')?.touched &&
+                  profileForm.get('birthdayYear')?.hasError('required')) ) {
+                  <div class="text-danger mt-2">Birthday is required.</div>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <!-- LOCATION -->
+            <div class="mb-5">
+              <label for="location" class="form-label">Location</label>
+              <input
+                type="text"
+                class="form-control"
+                id="location"
+                formControlName="location"
+                placeholder="128, El Nasr Street, Cairo, Egypt"
+              />
+              @if (profileForm.get('location')?.touched &&
+              profileForm.get('location')?.hasError('required')) {
+              <div class="text-danger mt-1">Location is required.</div>
+              }
+            </div>
+
+            <div class="d-flex justify-content-end">
+              <button
+                type="submit"
+                class="btn-main py-2 px-5 mt-3"
+                [disabled]="profileForm.invalid"
+              >
+                Save changes
+              </button>
+            </div>
+          </form>
+
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

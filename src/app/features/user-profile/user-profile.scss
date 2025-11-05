@@ -1,0 +1,68 @@
+.personal-card{
+  background-color: #F5F6F7 ;
+  border-radius: 15px;
+  border: #F5F6F7 ;
+}
+
+.img{
+  position: relative;
+  width: 120px;
+  height: 120px;
+  padding: 2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#ffffff, #ffffff, #145DB8);
+}
+
+.img img{
+  object-fit: cover;
+}
+
+.icon{
+  background: rgba(255, 255, 255 ,0.7);
+  color: #145DB8 !important;
+}
+
+.icon::before{
+  content: " ";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg,#ffffff, #ffffff, #145DB8);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+
+}
+
+.li-item {
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 8px;
+  transition: all 0.2s ease-in-out;
+}
+
+.li-item.active {
+  border: 2px solid #145DB8;
+  background-color: #F5F6F7;
+}
+
+
+.card-body {
+  font-family: 'Inter', sans-serif;
+  color: #05162C !important;
+}
+
+.card-body h4 {
+  font-weight: 600;
+}
+
+.card-body input{
+  border-radius: 10px;
+}
+
+.card-body select{
+  background-color: #F5F6F7 ;
+}
