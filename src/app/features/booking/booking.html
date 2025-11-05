@@ -1,0 +1,43 @@
+<div class="container-fluid px-5">
+    <div class="d-flex align-items-center justify-content-between ">
+        <div>
+            <h2>Your appointments</h2>
+            <div>
+                <ul class="nav nav-pills">
+
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="allBooking" routerLinkActive="active-nav">AllBooking</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="upcomingBooking" routerLinkActive="active-nav">Upcoming</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="completedBooking" routerLinkActive="active-nav">Completed</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" routerLink="canceledBooking" routerLinkActive="active-nav">Canceled</a>
+                    </li>
+
+
+
+                </ul>
+            </div>
+        </div>
+        <div class=" mt-5">
+            <div class="input-group">
+                <span class="input-group-text bg-white border-end-0">
+                    <i class="fa fa-calendar"></i>
+                </span>
+                <input type="date" id="dateInput" class="form-control border-start-0 rounded-end"
+                    [(ngModel)]="selectedDate" />
+            </div>
+
+        </div>
+    </div>
+
+    <div>
+        <router-outlet></router-outlet>
+
+    </div>
+
+</div>
