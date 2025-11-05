@@ -1,6 +1,6 @@
-<div class="container-fluid min-vh-100  pt-5">
+<div class="container-fluid min-vh-100 px-5 ">
     <section class="text-center">
-        <div class="mt-5 pt-5">
+        <div class="mt-5 ">
             <div class="d-inline-flex align-items-center  gap-2 div-round py-3">
                   <img src="assets/images/ix_ai.svg" alt="AI icon" class="d-block" />
                   <p class="mb-0">Upgrade your account</p>
@@ -8,9 +8,9 @@
 
             <h2 class="py-3">Find and book top doctors near you</h2>
             <p class="lead py-3">
-                Easily find top-rated specialists near you and book appointments in just a few clicks.<br>
-                Whether you need an in-person visit consultation, we're here to connect you with the right care—fast,
-                simple, and secure.
+                Easily find top-rated specialists near you and book <br> appointments in just a few clicks.
+                Whether you<br> need an in-person visit consultation, we're here to <br>connect you with the right
+                care—fast,simple, and <br>secure.
             </p>
             <div class="d-inline-flex align-items-center justify-content-center  gap-2 div-round">
                 <img src="assets/images/Frame.svg" alt="" class="d-block" />
@@ -18,11 +18,11 @@
             </div>
             <div class="btn-home d-flex align-items-center justify-content-center gap-3 py-5">
                 <button class="btn-main">Get started</button>
-                <button class="btn-second">Book Appointment</button>
+                <button class="btn-second"><i class="fa-solid fa-calendar-days"></i>Book Appointment</button>
             </div>
         </div>
     </section>
-    <section class="px-5">
+    <section class=" pb-5">
         <h3 class="text-center py-3">How it works</h3>
         <div>
             <div class="row g-5">
@@ -66,4 +66,144 @@
             </div>
         </div>
     </section>
+    <section>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="d-flex align-items-start justify-content-center flex-column h-100">
+                    <h3>Find Care Near You
+                        in Seconds</h3>
+                    <p class="py-3">
+                        Allow location access or choose your city to<br> instantly discover trusted doctors and
+                        clinics<br>
+                        around
+                        you—quick, easy, and local.
+                    </p>
+                    <button class="btn-second">
+                        <i class="fa-solid fa-magnifying-glass"></i> Search by location
+                    </button>
+                </div>
+
+            </div>
+            <div class="col-md-6 text-center">
+
+                <div>
+                    <img src="../../../assets/images/map.svg" alt="map">
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <section>
+        <div class="d-flex align-items-center justify-content-between my-3 p-3">
+            <div>
+                <h3>
+                    Top-Rated Doctors Chosen by Patients
+                </h3>
+                <p>
+                    Explore our highest-rated doctors, trusted by real patients for their expertise, care, and service.
+                    Book
+                    with confidence today.
+                </p>
+            </div>
+            <div>
+                <button class="btn-second px-4">
+                    View All
+                </button>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container py-4">
+            <owl-carousel-o [options]="carouselOptions" class="owl-theme">
+                <ng-template carouselSlide *ngFor="let d of doctors">
+                    <div class="doctor-item">
+                        <div class="card doctor-card shadow-sm">
+                            <div class="card-body">
+                                <div class="doctor-info d-flex align-items-start gap-3">
+                                    <img [src]="d.img" alt="Doctor" class="doc-img rounded-3" />
+                                    <div class="flex-grow-1">
+                                        <h6 class="fw-bold mb-1">{{ d.name }}</h6>
+                                        <p class="text-muted small mb-1">
+                                            {{ d.specialty }} | {{ d.hospital }}
+                                        </p>
+                                        <div class="d-flex align-items-center gap-2 small text-muted">
+                                            <span class="text-warning fw-bold">★</span>
+                                            <span class="fw-semibold">{{ d.rating }}</span>
+                                            <span>⏱ {{ d.time }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center mt-3 border-top pt-3">
+                                    <div class="text-muted">
+                                        Price<span class="small">/hour</span>
+                                    </div>
+                                    <div class="text-danger fw-semibold">\${{ d.price }}</div>
+                                </div>
+
+                                <button class="btn btn-primary w-100 mt-3 rounded-3">
+                                    Book appointment
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </owl-carousel-o>
+        </div>
+    </section>
+    <section>
+        <div class="text-center">
+            <h3>
+                Reviews
+            </h3>
+            <h3>That Speak for Themselves</h3>
+            <div class="py-3"><img src="../../../assets/images/stars.svg" alt=""></div>
+            <p class="py-4">“Quick and easy booking! I found a <br> great dermatologist near me and <br>booked an
+                appointment in just
+                a <br>few minutes.”</p>
+            <div class="py-3">
+                <img src="../../../assets/images/people.svg" alt="">
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="text-center">
+            <p class="div-round d-inline-block my-5">Frequently Asked Questions</p>
+            <h3 class="py-4">Got Questions ? We’ve got Answers!</h3>
+            <div class=" w-100 text-center">
+                <div
+                    class="d-flex align-items-center justify-content-between p-2 w-50 mb-3 accordion-body m-auto rounded-3">
+                    <p class="m-0">Is the app free to use?</p>
+                    <i class="fa-solid fa-plus"></i>
+                </div>
+                <div
+                    class="d-flex align-items-center justify-content-between p-2 w-50 mb-3 accordion-body m-auto rounded-3">
+                    <p class="m-0">How can I find a doctor?</p>
+                    <i class="fa-solid fa-plus"></i>
+                </div>
+                <div
+                    class="d-flex align-items-center justify-content-between p-2 w-50 mb-3 accordion-body m-auto rounded-3">
+                    <p class="m-0">Can I cancel my appointment?</p>
+                    <i class="fa-solid fa-plus"></i>
+                </div>
+                <div
+                    class="d-flex align-items-center justify-content-between p-2 w-50 mb-3 accordion-body m-auto rounded-3">
+                    <p class="m-0">What payment are supported</p>
+                    <i class="fa-solid fa-plus"></i>
+                </div>
+                <div
+                    class="d-flex align-items-center justify-content-between p-2 w-50 mb-3 accordion-body m-auto rounded-3">
+                    <p class="m-0">How do I edit my profile?</p>
+                    <i class="fa-solid fa-plus"></i>
+                </div>
+            </div>
+
+        </div>
+
+    </section>
+
+
+
 </div>
