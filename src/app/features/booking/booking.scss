@@ -1,0 +1,18 @@
+input[type='date']::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.5);
+}
+
+input[type='date'] {
+  font-weight: 500;
+  color: #1a202c;
+  padding-left: 0.5rem;
+}
+
+.active-nav {
+  background-color: var(--main-color);
+  color: white;
+}
+a {
+  color: black;
+}
