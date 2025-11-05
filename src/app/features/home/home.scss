@@ -1,14 +1,29 @@
-/* ================================
-   🌟 عام (ستايلات عامة)
-================================ */
 .div-round {
   background-color: var(--secondary-color);
   border-radius: 43px;
   padding: 8px 16px;
   color: var(--main-color);
 }
-
-/* ====== الأزرار الرئيسية ====== */
+.bg-main {
+  background-image: url(../../../assets/images/bg.svg);
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.locaiton {
+  position: absolute;
+  top: 30%;
+  left: 25%;
+}
+.arrow {
+  position: absolute;
+  top: 80%;
+  left: 70%;
+  rotate: 40deg;
+  img {
+    rotate: -25deg;
+  }
+}
 .btn-home button {
   width: 200px;
 }
@@ -19,12 +34,11 @@
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: #0f49a9; /* اللون الغامق يدوي */
+    background-color: #0f49a9;
     border-color: #0f49a9;
   }
 }
 
-/* ====== كروت الخطوات ====== */
 .custom-card {
   border-radius: 20px;
   overflow: hidden;
@@ -52,7 +66,6 @@
   }
 }
 
-/* ====== الأسئلة (FAQ) ====== */
 .accordion-body {
   background-color: #f5f6f7;
   transition: background-color 0.3s ease;
@@ -70,9 +83,6 @@
   }
 }
 
-/* ================================
-   🎠 إعدادات الكاروسيل (Owl Carousel)
-================================ */
 .owl-theme .owl-dots .owl-dot span {
   width: 8px;
   height: 8px;
@@ -84,10 +94,6 @@
   transform: scale(1.3);
   background-color: var(--main-color, #1659c7);
 }
-
-/* ================================
-   🧑‍⚕️ كروت الدكاترة داخل الكاروسيل
-================================ */
 .doctor-item {
   padding: 10px;
   animation: fadeIn 0.8s ease-in-out;
@@ -155,16 +161,29 @@
     transition: all 0.3s ease;
 
     &:hover {
-      background-color: #0f49a9; /* اللون الغامق ثابت */
+      background-color: #0f49a9;
       border-color: #0f49a9;
     }
   }
 }
-
-/* ================================
-   📱 استجابة الموبايل
-================================ */
+.footerimg {
+  position: relative;
+  bottom: -100px;
+  left: 0;
+  right: 0;
+}
 @media (max-width: 768px) {
+  .locaiton {
+    position: absolute;
+    top: 30%;
+    left: 5%;
+  }
+  .arrow {
+    position: absolute;
+    top: 40%;
+    left: 70%;
+    rotate: 40deg;
+  }
   .doctor-info {
     flex-direction: column;
     align-items: center;
@@ -181,10 +200,6 @@
     padding: 20px;
   }
 }
-
-/* ================================
-   ✨ حركات دخول ناعمة
-================================ */
 @keyframes fadeIn {
   from {
     opacity: 0;
