@@ -1,0 +1,74 @@
+<div class="d-flex flex-column align-items-center justify-content-center verify-layout">
+  <h2 class="c-h2">Code Verification</h2>
+  <p class="c-p">Code has been send to your phone number</p>
+  <p class="main-color">Check your phone number</p>
+  <form #verifyForm="ngForm" (ngSubmit)="submit(verifyForm)" novalidate>
+    <div class="input-group">
+      <input
+        #number1="ngModel"
+        ngModel
+        #number1Input
+        type="text"
+        class="form-control"
+        [ngClass]="{ 'input-active': verify }"
+        name="number1"
+        id="number1"
+        required
+        maxlength="1"
+        (input)="moveToNext($event, number2Input)"
+      />
+      <input
+        #number2="ngModel"
+        #number2Input
+        ngModel
+        type="text"
+        class="form-control"
+        [ngClass]="{ 'input-active': verify }"
+        name="number2"
+        id="number2"
+        required
+        maxlength="1"
+        (input)="moveToNext($event, number3Input)"
+        (keydown)="moveToPrev($event, number1Input)"
+      />
+      <input
+        #number3="ngModel"
+        #number3Input
+        ngModel
+        type="text"
+        class="form-control"
+        [ngClass]="{ 'input-active': verify }"
+        name="number3"
+        id="number3"
+        required
+        maxlength="1"
+        (input)="moveToNext($event, number4Input)"
+        (keydown)="moveToPrev($event, number2Input)"
+      />
+      <input
+        #number4="ngModel"
+        #number4Input
+        ngModel
+        type="text"
+        class="form-control"
+        [ngClass]="{ 'input-active': verify }"
+        name="number4"
+        id="number4"
+        required
+        maxlength="1"
+        (keydown)="moveToPrev($event, number3Input)"
+      />
+    </div>
+    @if(verify){
+    <p class="text-danger text-center">Wrong Code</p>
+    <div class="text-center mb-4">
+      <button class="main-color btn-text">Resend</button>
+      <span class="mx-2">Or</span>
+      <button class="main-color btn-text">Enter anther phone number</button>
+    </div>
+    } @else {
+    <p class="text-center">Resend code in <span class="main-color">55</span> s</p>
+    }
+    <button class="btn-main" type="submit">Verify</button>
+  </form>
+</div>

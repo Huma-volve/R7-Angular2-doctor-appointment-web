@@ -2,15 +2,64 @@
   --main-color: #145db8;
   --secondary-color: #e8eff8;
 }
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Georgia', serif;
+  font-weight: 400;
+}
+
+p,
+span,
+li,
+input:placeholder-shown,
+input,
+button,
+label,
+small {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+}
+label {
+  margin-bottom: 8pxy;
+}
+
+input:focus {
+  box-shadow: none !important;
+}
+
+.curser-pointer {
+  cursor: pointer;
+}
+
+.main-color {
+  color: var(--main-color);
+}
+
 .btn-main {
+  width: 378px;
+  height: 48px;
   background-color: var(--main-color);
   color: white;
   border: 1px solid var(--main-color);
-  border-radius: 10px;
-  padding-inline: 8px;
-  padding-block: 16px;
+  border-radius: 8px;
+  padding: 8px;
   cursor: pointer;
-  transition: all 0.5s;
+  margin-bottom: 16px;
+  transition: all 0.3s;
 }
 
 .btn-second {
@@ -26,4 +75,24 @@
 .btn-main:hover,
 .btn-second:hover {
   transform: translateY(-10px);
+}
+
+.btn-text {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  cursor: pointer;
+  outline: none !important;
+}
+.btn-sign-in-with-google {
+  width: 378px;
+  height: 48px;
+  background-color: white;
+  color: #05162c;
+  border: 1px solid #bbc1c7;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  margin-bottom: 16.5px;
+  font-weight: 500;
 }

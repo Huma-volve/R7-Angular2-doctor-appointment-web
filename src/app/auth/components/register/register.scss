@@ -1,18 +1,18 @@
-.loging-card-layout {
+.register-layout {
   width: 420px;
-  height: 329px;
+  height: 514px;
 }
 .c-h2 {
-  width: 99px;
+  width: 107px;
   height: 36px;
   margin-bottom: 16px;
 }
 
 .c-p {
-  width: 233px;
+  width: 371px;
   height: 17px;
   color: #6d7379;
-  font-size: 14px;
+  font-size: 12px;
   line-height: 100%;
   margin-bottom: 32px;
 }
@@ -56,4 +56,7 @@
 
 .divider::after {
   right: 0;
+}
+.c-margin-top {
+  margin-top: 72px;
 }
