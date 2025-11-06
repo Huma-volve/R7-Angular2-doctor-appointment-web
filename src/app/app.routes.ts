@@ -22,7 +22,7 @@ export const routes: Routes = [
       },
       {
         path: 'doctors-list',
-        loadComponent: () => import('./features//doctors-list/doctors-list').then((c) => c.DoctorsList),
+        loadComponent: () => import('./features/doctors-list/doctors-list').then((c) => c.DoctorsList),
       },
     ],
   },

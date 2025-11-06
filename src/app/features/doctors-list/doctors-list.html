@@ -1,4 +1,4 @@
-<div class="container doctor-list-page">
+<div class="container doctor-list">
   <!-- Header -->
   <div class="row header-bar align-items-center py-4">
     <div class="col-auto">
@@ -32,9 +32,9 @@
   </div>
 
   <!-- Main Content Area  -->
-  <div class="main-content-flex">
+  <div class="main-content ">
     <!-- Sidebar  -->
-    <div class="sidebar-col" [class.collapsed]="isSidebarCollapsed">
+    <div class="sidebar" [class.collapsed]="isSidebarCollapsed">
       <div class="sidebar-card card p-3 shadow-sm">
         <h5 class="mb-3">Filter Options</h5>
 
@@ -172,7 +172,7 @@
     </div>
 
     <!-- Doctor List Area  -->
-    <div class="doctor-list-area p-3">
+    <div class="doctor-list p-3">
       <h4 class="mb-3">Choose Specialties</h4>
 
       <!-- Specialties -->
@@ -195,11 +195,11 @@
       </div>
 
       <!-- Doctor Cards -->
-      <div class="doctor-cards-flex-grid g-4">
+      <div class="doctor-cards g-4">
         @for (doctor of filteredDoctors; track doctor.id) {
         <div class="doctor-card-col">
-          <div class="card doctor-card h-100 shadow-lg text-center">
-            <div class="card-contant">
+          <div class="card doctor-card bg-danger shadow-lg text-center">
+            <div class="card-contant ">
               <div class="card-img">
               <img
                 [src]="doctor.image"
