@@ -1,15 +1,14 @@
-.loging-card-layout {
+.verify-layout {
   width: 420px;
-  height: 329px;
+  height: 357px;
 }
 .c-h2 {
-  width: 99px;
+  width: 246px;
   height: 36px;
   margin-bottom: 16px;
 }
-
 .c-p {
-  width: 233px;
+  width: 306px;
   height: 17px;
   color: #6d7379;
   font-size: 14px;
@@ -18,9 +17,20 @@
 }
 
 .input-group {
-  width: 378px;
-  height: 48px;
+  width: 305px;
+  height: 63px;
+  margin: auto;
   margin-bottom: 32px;
+}
+
+.input-group input {
+  width: 62px;
+  height: 63px;
+  padding: 0px;
+  margin-right: 14px;
+  font-size: 32px;
+  border-radius: 4px;
+  text-align: center;
 }
 
 .input-group-text {
@@ -28,32 +38,13 @@
   border-radius: 10px;
   background-color: #f5f6f7;
 }
+.input-active {
+  border: 1px solid var(--main-color) !important;
+  background-color: #e8eff8;
+}
 
 .form-control {
   border: 1px solid #f5f6f7;
   border-radius: 10px;
   background-color: #f5f6f7;
-}
-
-.divider {
-  width: 378px;
-  height: 20px;
-  margin-bottom: 16px;
-}
-.divider::before,
-.divider::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  width: 45%;
-  height: 1px;
-  background: #ddd;
-}
-
-.divider::before {
-  left: 0;
-}
-
-.divider::after {
-  right: 0;
 }

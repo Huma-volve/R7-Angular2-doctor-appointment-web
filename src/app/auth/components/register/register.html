@@ -1,0 +1,115 @@
+<div class="d-flex flex-column align-items-center justify-content-center register-layout">
+  <h2 class="c-h2">Sign up</h2>
+  <p class="c-p">Please provide all information required to create your account</p>
+
+  <form #registerForm="ngForm" (ngSubmit)="submit(registerForm)" novalidate>
+    <div class="input-group">
+      <label for="fullName" class="d-block w-100">Full Name</label>
+      <input
+        #fullName="ngModel"
+        ngModel
+        type="text"
+        class="form-control"
+        name="fullName"
+        id="fullName"
+        required
+        placeholder="Full Name"
+      />
+      @if (fullName.invalid && fullName.touched) {
+      <div class="w-100 text-start my-2">
+        @if (fullName.errors?.['required']) {
+        <small class="text-danger">Full name is required.</small>
+        } @else if (fullName.errors?.['pattern']) {
+        <small class="text-danger"
+          >Please enter a valid Egyptian phone number (e.g. 01012345678).</small
+        >
+        }
+      </div>
+      }
+    </div>
+
+    <div
+      class="input-group"
+      [ngClass]="{ 'c-margin-top': fullName?.invalid && (fullName?.dirty || fullName?.touched) }"
+    >
+      <label for="email" class="d-block w-100">Email</label>
+      <input
+        #email="ngModel"
+        ngModel
+        type="email"
+        class="form-control"
+        name="email"
+        id="email"
+        required
+        placeholder="Email"
+        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+      />
+      @if (email.invalid && email.touched) {
+      <div class="w-100 text-start my-2">
+        @if (email.errors?.['required']) {
+        <small class="text-danger">Email is required.</small>
+        } @else if (email.errors?.['pattern']) {
+        <small class="text-danger">Please enter a valid Email.</small>
+        }
+      </div>
+      }
+    </div>
+
+    <div
+      class="input-group"
+      [ngClass]="{ 'c-margin-top': email?.invalid && (email?.dirty || email?.touched) }"
+    >
+      <label for="phoneNumber" class="d-block w-100">Phone Number</label>
+      <span class="input-group-text">
+        <img src="Flag.svg" alt="flag" width="24" />
+        <img src="weui_arrow-outlined.svg" class="curser-pointer" />
+      </span>
+      <input
+        #phoneNumber="ngModel"
+        ngModel
+        type="text"
+        class="form-control"
+        name="phoneNumber"
+        id="phoneNumber"
+        required
+        pattern="^(010|011|012|015)[0-9]{8}$"
+        placeholder="Enter your number"
+      />
+      @if (phoneNumber.invalid && phoneNumber.touched) {
+      <div class="w-100 text-start my-1">
+        @if (phoneNumber.errors?.['required']) {
+        <small class="text-danger">Phone number is required.</small>
+        } @else if (phoneNumber.errors?.['pattern']) {
+        <small class="text-danger"
+          >Please enter a valid Egyptian phone number (e.g. 01012345678).</small
+        >
+        }
+      </div>
+      }
+    </div>
+
+    <button
+      class="btn-main"
+      type="submit"
+      [ngClass]="{
+        'c-margin-top': phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)
+      }"
+    >
+      Sign in
+    </button>
+  </form>
+
+  <div class="divider position-relative">
+    <span class="bg-white text-muted text-center d-block">or</span>
+  </div>
+
+  <button class="btn-sign-in-with-google d-flex align-items-center justify-content-center gap-2">
+    <img src="flat-color-icons_google.svg" alt="Google" width="24" />
+    Sign in with Google
+  </button>
+
+  <p>
+    Already have an account!
+    <a routerLink="../login" class="text-primary fw-semibold text-decoration-none">Sign in</a>
+  </p>
+</div>

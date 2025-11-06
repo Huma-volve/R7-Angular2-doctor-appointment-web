@@ -2,9 +2,47 @@
   background-image: url(../../../../assets/images/mainbg.svg);
   background-position: center;
   background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .bg-main2 {
   background-image: url(../../../../assets/images/Vector4.svg);
+  background-position: center;
   background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.layout-logo {
+  width: 32px;
+  height: 32px;
+  top: 50px;
+  left: 100px;
+}
+
+.image-layout {
+  width: 848px;
+  height: 1133.657802673877px;
+  top: -135.57px;
+  left: 440.72px;
+  transform: rotate(-29.85 deg);
+}
+
+.image-layout2 {
+  width: 848px;
+  height: 1137.222743972454px;
+  top: -142.78px;
+  left: 425.97pxpx;
+  transform: rotate(-29.85 deg deg);
+}
+.cimagemain {
+  right: 300px;
+}
+.cimagemain2 {
+  right: 310px;
+}
+// @media  {
+
+// }
+.c-back-color {
+  background-color: #e8eff8;
 }

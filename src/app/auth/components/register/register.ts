@@ -2,19 +2,19 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-register',
   standalone: false,
-  templateUrl: './login.html',
-  styleUrl: './login.scss',
+  templateUrl: './register.html',
+  styleUrl: './register.scss',
 })
-export class Login {
+export class Register {
   private router = inject(Router);
   submit(form: any) {
     form.control.markAllAsTouched();
     if (form.invalid) {
       return;
     }
-    this.router.navigate(['/auth/verify']);
+    this.router.navigate(['/auth/login']);
     console.log('Form submitted:', form.value);
   }
 }
