@@ -1,3 +1,4 @@
+import { UpcomingBooking } from './features/upcoming-booking/upcoming-booking';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home';
 
@@ -18,13 +19,44 @@ export const routes: Routes = [
       },
       {
         path: 'user-profile',
-        loadComponent: () => import('./features/user-profile/user-profile').then((c) => c.UserProfile),
+        loadComponent: () =>
+          import('./features/user-profile/user-profile').then((c) => c.UserProfile),
       },
       {
         path: 'doctors-list',
         loadComponent: () => import('./features/doctors-list/doctors-list').then((c) => c.DoctorsList),
+
+      },
+      {
+        path: 'booking',
+        loadComponent: () => import('./features/booking/booking').then((c) => c.Booking),
+        children: [
+          { path: '', redirectTo: 'allBooking', pathMatch: 'full' },
+          {
+            path: 'allBooking',
+            loadComponent: () =>
+              import('./features/all-booking/all-booking').then((c) => c.AllBooking),
+          },
+          {
+            path: 'upcomingBooking',
+            loadComponent: () =>
+              import('./features/upcoming-booking/upcoming-booking').then((c) => c.UpcomingBooking),
+          },
+          {
+            path: 'completedBooking',
+            loadComponent: () =>
+              import('./features/completed-booking/completed-booking').then(
+                (c) => c.CompletedBooking
+              ),
+          },
+          {
+            path: 'canceledBooking',
+            loadComponent: () =>
+              import('./features/canceled-booking/canceled-booking').then((c) => c.CanceledBooking),
+          },
+        ],
+
       },
     ],
   },
-
 ];

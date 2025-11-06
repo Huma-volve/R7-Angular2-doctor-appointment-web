@@ -1,2 +1,57 @@
-<p>login works!</p>
-<button class="btn-main">Sign Now</button>
+<div class="d-flex flex-column align-items-center justify-content-center loging-card-layout">
+  <h2 class="c-h2">Sign in</h2>
+  <p class="c-p">Please enter your phone number</p>
+
+  <form #loginForm="ngForm" (ngSubmit)="submit(loginForm)" novalidate>
+    <div class="input-group">
+      <span class="input-group-text">
+        <img src="Flag.svg" alt="flag" width="24" />
+        <img src="weui_arrow-outlined.svg" class="curser-pointer" />
+      </span>
+      <input
+        #phoneNumber="ngModel"
+        ngModel
+        type="text"
+        class="form-control"
+        name="phoneNumber"
+        id="phoneNumber"
+        required
+        pattern="^(010|011|012|015)[0-9]{8}$"
+        placeholder="Enter your number"
+      />
+      @if (phoneNumber.invalid && phoneNumber.touched) {
+      <div class="w-100 text-start mt-1">
+        @if (phoneNumber.errors?.['required']) {
+        <small class="text-danger">Phone number is required.</small>
+        } @else if (phoneNumber.errors?.['pattern']) {
+        <small class="text-danger"
+          >Please enter a valid Egyptian phone number (e.g. 01012345678).</small
+        >
+        }
+      </div>
+      }
+    </div>
+
+    <button
+      class="btn-main"
+      type="submit"
+      [ngClass]="{ 'mt-4': phoneNumber.errors?.['pattern'] && (phoneNumber.errors | keyvalue)!.length > 0 }"
+    >
+      Sign in
+    </button>
+  </form>
+
+  <div class="divider position-relative">
+    <span class="bg-white text-muted text-center d-block">or</span>
+  </div>
+
+  <button class="btn-sign-in-with-google d-flex align-items-center justify-content-center gap-2">
+    <img src="flat-color-icons_google.svg" alt="Google" width="24" />
+    Sign in with Google
+  </button>
+
+  <p>
+    Don’t have an account?
+    <a routerLink="../register" class="text-primary fw-semibold text-decoration-none">Sign up</a>
+  </p>
+</div>
