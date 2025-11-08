@@ -1,0 +1,23 @@
+<div class="container py-4">
+  <h4 class="mb-3">Chats</h4>
+
+  <div class="input-group mb-3">
+    <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+    <input class="form-control" placeholder="Search by name..." [(ngModel)]="q" (ngModelChange)="filter()" />
+  </div>
+
+  <div class="list-group shadow-sm">
+    <a class="list-group-item list-group-item-action d-flex align-items-center" *ngFor="let c of filtered"
+      (click)="open(c.id)">
+      <img *ngIf="c.avatarUrl" [src]="c.avatarUrl" class="rounded-circle me-3" width="40" height="40" />
+      <div class="flex-fill">
+        <div class="d-flex justify-content-between">
+          <div class="fw-semibold">{{ c.title }}</div>
+          <small class="text-muted">{{ c.updatedAt | date:'short' }}</small>
+        </div>
+        <div class="text-muted small text-truncate">{{ c.lastMessage || 'No messages yet' }}</div>
+      </div>
+      <span *ngIf="c.unreadCount" class="badge bg-danger ms-2">{{ c.unreadCount }}</span>
+    </a>
+  </div>
+</div>
