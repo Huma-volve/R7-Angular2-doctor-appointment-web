@@ -1,6 +1,8 @@
 import { UpcomingBooking } from './features/upcoming-booking/upcoming-booking';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home';
+import { ChatList } from './features/chat/chat-list/chat-list';
+import { Chat } from './features/chat/chat/chat';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'layout', pathMatch: 'full' },
@@ -67,6 +69,12 @@ export const routes: Routes = [
         ],
 
       },
+      {
+        path: 'contactUs',
+        loadComponent: () => import('./features/contact-us/contact-us').then((c) => c.ContactUS),
+      },
+      { path: 'chats', component: ChatList },
+      { path: 'chats/:id', component: Chat },
     ],
   },
 ];
