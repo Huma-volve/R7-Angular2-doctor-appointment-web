@@ -28,6 +28,16 @@ export const routes: Routes = [
 
       },
       {
+        path: 'appointment/:id',
+        loadComponent: () => import('./features/appointment/appointment').then((c) => c.Appointment),
+
+      },
+      {
+        path: 'map',
+        loadComponent: () => import('./features/map/map').then((c) => c.Map),
+
+      },
+      {
         path: 'booking',
         loadComponent: () => import('./features/booking/booking').then((c) => c.Booking),
         children: [

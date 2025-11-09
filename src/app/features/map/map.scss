@@ -1,0 +1,16 @@
+.doctors-list {
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.map-container {
+  position: relative;
+  height: 100vh;
+}
+
+.map-address {
+  position: absolute;
+  bottom: 20px;
+  z-index: 10;
+  text-align: center;
+}

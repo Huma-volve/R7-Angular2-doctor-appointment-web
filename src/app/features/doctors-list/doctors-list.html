@@ -24,10 +24,10 @@
     </div>
 
     <div class="col-auto">
-      <button class="btn btn-outline-secondary d-flex align-items-center gap-2">
+      <a routerLink="/layout/map" class="btn btn-outline-secondary d-flex align-items-center gap-2">
         <i class="fas fa-map-marker-alt"></i>
         <span>Map</span>
-      </button>
+      </a>
     </div>
   </div>
 
@@ -224,7 +224,7 @@
                 <span>Price<span class="text-muted small">/hour</span></span>
                 <strong class="text-danger">${{ doctor.price }}</strong>
               </p>
-              <button class="btn-main w-100">Book appointment</button>
+              <button class="btn-main w-100" (click)="bookAppointment(doctor.id)">Book appointment</button>
             </div>
           </div>
         </div>

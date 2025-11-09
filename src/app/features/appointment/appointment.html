@@ -1,0 +1,209 @@
+@if (selectedDoctor) {
+
+<div class="container py-4">
+  <div class="d-flex align-items-center mb-4">
+    <a routerLink="/layout/doctors-list" class="text-dark me-2">
+      <i class="fa-solid fa-arrow-left pb-2"></i>
+    </a>
+    <h5>Make an appointment</h5>
+  </div>
+
+  <div class="row">
+    <div class="col-md-10 mx-auto col-lg-7 mb-4">
+      <div class="card shadow-sm p-3 mb-4">
+        <div class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-3">
+          <h5 class="card-title mb-0">Choose date and time</h5>
+          <div class="d-flex align-items-center">
+            <i class="fa-regular fa-calendar-days me-2"></i>
+            <span class="me-2">November, 2024</span>
+            <img src="/assets/images/arrow-top-dwon.svg" alt="" />
+          </div>
+        </div>
+        <!-- Date -->
+        <div class="mb-3">
+          @for (day of days; track day; let i = $index) {
+            <button class="date bg-light mt-2 py-2 rounded-3 border-0 text-secondary">
+              {{ day.name }}
+              <span class="d-block">{{ day.date }} </span>
+            </button>
+          }
+        </div>
+
+        <!-- Time -->
+        <div class="mb-3">
+          @for (time of times; track $index) {
+          <button class="bg-light me-4 mt-2 p-2 rounded-3 border-0 text-secondary">
+            {{ time }}
+          </button>
+          }
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between my-2">
+          <div class="d-flex align-items-center">
+            <i class="fa-regular fa-calendar-days text-primary me-2"></i>
+            <span>Monday, November 15 - 11:00 Am</span>
+          </div>
+
+          <button class="btn-main w-auto h-auto px-3 mb-0">Book</button>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h5 class="d-flex justify-content-between align-items-center">
+          Reviews and Rating
+          <span class="fa-xs text-primary-emphasis pt-2">
+            <i class="fa-solid fa-pencil"></i>
+            add review
+          </span>
+        </h5>
+        <div class="d-flex justify-content-between align-items-center my-3">
+          <h2>{{ selectedDoctor.rating }}/5</h2>
+
+          <div class="text-warning">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star-half-stroke"></i>
+            <span class="d-block text-muted">{{ selectedDoctor.reviews }}+ Reviews</span>
+          </div>
+        </div>
+
+        <!-- reviews -->
+        <div class="row">
+          <div class="col-md-6 mt-3">
+            <div class="card p-3 shadow-sm">
+              <div class="d-flex align-items-center mb-2">
+                <img
+                  src="assets/images/img-review-1.svg"
+                  alt="Nabila Reyna"
+                  class="rounded-circle me-2"
+                />
+                <div>
+                  <h6 class="mb-0">Nabila Reyna</h6>
+                  <small class="text-muted">30 min ago</small>
+                </div>
+                <div class="ms-auto text-warning bg-warning-subtle mb-2 p-1 rounded-1">
+                  <i class="fa-solid fa-star"></i>
+                  <span>4.5</span>
+                </div>
+              </div>
+              <p>
+                Excellent service! Dr. Jessica Turner was attentive and thorough. The clinic was
+                clean, and the staff were friendly. Highly recommend for in-person care!
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6 mt-3">
+            <div class="card p-3 shadow-sm">
+              <div class="d-flex align-items-center mb-2">
+                <img
+                  src="assets/images/img-review-2.svg"
+                  alt="Ferry Ichsan A"
+                  class="rounded-circle me-2"
+                />
+                <div>
+                  <h6 class="mb-0">Ferry Ichsan A</h6>
+                  <small class="text-muted">A week ago</small>
+                </div>
+                <div class="ms-auto text-warning bg-warning-subtle mb-2 p-1 rounded-1">
+                  <i class="fa-solid fa-star"></i>
+                  <span>4.5</span>
+                </div>
+              </div>
+              <p>
+                Quick and easy appointment! Dr. Jessica Turner was professional, and the staff made
+                me feel comfortable. Highly recommend!"
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Doctor Card -->
+    <div class="col-md-9 mx-auto col-lg-4">
+      <div class="doctor-card shadow-sm p-4">
+        <div class="d-flex justify-content-between mb-2">
+          <span class="bg-white rounded-circle p-1">
+            <i class="fa-regular fa-heart"></i>
+          </span>
+          <span class="bg-white rounded-circle p-1">
+            <i class="fa-regular fa-comment-dots"></i>
+          </span>
+        </div>
+
+        <div class="text-center mb-3">
+          <img
+            [src]="selectedDoctor.image"
+            [alt]="selectedDoctor.name"
+            class="rounded-circle mb-2"
+            style="width: 100px; height: 100px; object-fit: cover"
+          />
+          <h5 class="mb-0">Dr. {{ selectedDoctor.name }}</h5>
+          <p class="text-muted small">{{ selectedDoctor.specialty }}</p>
+        </div>
+
+        <div class="row text-center mb-4">
+          <div class="col">
+            <span class="bg-white rounded-circle p-2">
+              <i class="fa-solid fa-users"></i>
+            </span>
+            <p class="mb-0 mt-2 small fw-bold">{{ selectedDoctor.patients }}</p>
+            <small class="text-muted">patients</small>
+          </div>
+          <div class="col">
+            <span class="bg-white rounded-circle p-2">
+              <i class="fa-solid fa-award"></i>
+            </span>
+            <p class="mb-0 mt-2 small fw-bold">{{ selectedDoctor.experience }}</p>
+            <small class="text-muted">experience</small>
+          </div>
+          <div class="col">
+            <span class="bg-white rounded-circle p-2">
+              <i class="fa-solid fa-star"></i>
+            </span>
+            <p class="mb-0 mt-2 small fw-bold">{{ selectedDoctor.rating }}</p>
+            <small class="text-muted">rating</small>
+          </div>
+          <div class="col">
+            <span class="bg-white rounded-circle p-2">
+              <i class="fa-solid fa-message"></i>
+            </span>
+            <p class="mb-0 mt-2 small fw-bold">{{ selectedDoctor.reviews }}</p>
+            <small class="text-muted">reviews</small>
+          </div>
+        </div>
+
+        <h6 class="mb-2">About me</h6>
+        <p class="small text-muted mb-4">
+          {{ selectedDoctor.aboutMe }} <a class="text-decoration-none">Read more</a>
+        </p>
+
+        <h6 class="mb-2">Location</h6>
+        <div class="border rounded overflow-hidden" style="height: 150px">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110502.61185084385!2d31.17606249516498!3d30.059611342983867!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14583fa60b21beeb%3A0x79dfb296e8423bba!2sCairo%2C%20Cairo%20Governorate!5e0!3m2!1sen!2seg!4v1762664933056!5m2!1sen!2seg"
+            width="600"
+            height="450"
+            style="border: 0"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+        <p class="small text-muted mt-2">
+          <i class="fa-solid fa-map-pin"></i> {{ selectedDoctor.location }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+} @if (!selectedDoctor) {
+
+<div class="text-center mt-5">
+  <p>Doctor not found</p>
+</div>
+}

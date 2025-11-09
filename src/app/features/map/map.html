@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="row">
+    <!-- Header -->
+    <div class="header d-flex justify-content-between m-3 align-items-center">
+      <h5 class="card-title">{{ doctors.length }} Results</h5>
+      <a routerLink="/layout/home" class="me-3 btn-close" aria-label="Close"></a>
+    </div>
+
+    <!-- Doctors List -->
+    <div class="col-lg-4 doctors-list mb-4">
+        <div class="card-body">
+          @for (doctor of doctors; track $index) {
+          <div class="doctor-item shadow-sm p-3 bg-light rounded-3 d-flex align-items-center mb-3">
+            <img [src]="doctor.image" [alt]="doctor.name" class="me-3" width="60" height="60" />
+            <div>
+              <h6 class="mb-0">{{ doctor.name }}</h6>
+              <p class="text-muted mb-1">{{ doctor.specialty }} | {{ doctor.hospital }}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="me-2">
+                  <i class="fa-solid fa-star text-warning me-1"></i>
+                  {{ doctor.rating }}
+                </span>
+                <span>
+                  <i class="fa-regular fa-clock"></i>
+                  {{ doctor.availableTime }}
+                </span>
+              </div>
+            </div>
+          </div>
+          }
+        </div>
+    </div>
+
+    <!-- Map -->
+    <div class="col-lg-8 map-container mb-4">
+      <div class="w-100 h-100">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110502.61185084385!2d31.17606249516498!3d30.059611342983867!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14583fa60b21beeb%3A0x79dfb296e8423bba!2sCairo%2C%20Cairo%20Governorate!5e0!3m2!1sen!2seg!4v1762664933056!5m2!1sen!2seg"
+          width="100%"
+          height="100%"
+          class="rounded-5"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+      </div>
+      <div class="map-address bg-white p-2 ms-4">
+        <i class="fa-solid fa-map-pin text-primary"></i>
+        129,El-Nasr Street, Cairo, Egypt
+      </div>
+    </div>
+  </div>
+</div>
