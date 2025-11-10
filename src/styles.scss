@@ -33,9 +33,6 @@ small {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
 }
-label {
-  margin-bottom: 8pxy;
-}
 
 input:focus {
   box-shadow: none !important;
@@ -57,6 +54,7 @@ input:focus {
   padding-inline: 8px;
   padding-block: 16px;
   cursor: pointer;
+  margin-bottom: 16px;
   transition: all 0.3s;
 }
 
@@ -93,4 +91,15 @@ input:focus {
   cursor: pointer;
   margin-bottom: 16.5px;
   font-weight: 500;
+}
+.btn-auth {
+  width: 378px;
+  height: 48px;
+  background-color: var(--main-color);
+  color: white;
+  border: 1px solid var(--main-color);
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: all 0.3s;
 }

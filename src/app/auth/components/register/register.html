@@ -61,8 +61,8 @@
     >
       <label for="phoneNumber" class="d-block w-100">Phone Number</label>
       <span class="input-group-text">
-        <img src="Flag.svg" alt="flag" width="24" />
-        <img src="weui_arrow-outlined.svg" class="curser-pointer" />
+        <img src="assets/images/Flag.svg" alt="flag" width="24" />
+        <img src="assets/images/weui_arrow-outlined.svg" class="curser-pointer" />
       </span>
       <input
         #phoneNumber="ngModel"
@@ -89,7 +89,7 @@
     </div>
 
     <button
-      class="btn-main"
+      class="btn-auth"
       type="submit"
       [ngClass]="{
         'c-margin-top': phoneNumber?.invalid && (phoneNumber?.dirty || phoneNumber?.touched)
@@ -104,7 +104,7 @@
   </div>
 
   <button class="btn-sign-in-with-google d-flex align-items-center justify-content-center gap-2">
-    <img src="flat-color-icons_google.svg" alt="Google" width="24" />
+    <img src="assets/images/flat-color-icons_google.svg" alt="Google" width="24" />
     Sign in with Google
   </button>
 

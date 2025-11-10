@@ -1,4 +1,4 @@
-<div class="container doctor-list">
+<div class="container doctor-list-page">
   <!-- Header -->
   <div class="row header-bar align-items-center py-4">
     <div class="col-auto">
@@ -24,17 +24,17 @@
     </div>
 
     <div class="col-auto">
-      <a routerLink="/layout/map" class="btn btn-outline-secondary d-flex align-items-center gap-2">
+      <button class="btn btn-outline-secondary d-flex align-items-center gap-2">
         <i class="fas fa-map-marker-alt"></i>
         <span>Map</span>
-      </a>
+      </button>
     </div>
   </div>
 
   <!-- Main Content Area  -->
-  <div class="main-content ">
+  <div class="main-content-flex">
     <!-- Sidebar  -->
-    <div class="sidebar" [class.collapsed]="isSidebarCollapsed">
+    <div class="sidebar-col" [class.collapsed]="isSidebarCollapsed">
       <div class="sidebar-card card p-3 shadow-sm">
         <h5 class="mb-3">Filter Options</h5>
 
@@ -172,7 +172,7 @@
     </div>
 
     <!-- Doctor List Area  -->
-    <div class="doctor-list p-3">
+    <div class="doctor-list-area p-3">
       <h4 class="mb-3">Choose Specialties</h4>
 
       <!-- Specialties -->
@@ -195,28 +195,23 @@
       </div>
 
       <!-- Doctor Cards -->
-      <div class="doctor-cards g-4">
+      <div class="doctor-cards-flex-grid g-4">
         @for (doctor of filteredDoctors; track doctor.id) {
         <div class="doctor-card-col">
-          <div class="card doctor-card shadow-lg text-center">
-            <div class="card-contant ">
+          <div class="card doctor-card h-100 shadow-lg text-center">
+            <div class="card-contant">
               <div class="card-img">
-              <img
-                [src]="doctor.image"
-                alt="{{ doctor.name }}"
-                class="doctor-image"
-              />
-            </div>
-            <div>
-              <h5 class="card-title m-2">{{ doctor.name }}</h5>
-              <p class="text-muted mb-1">{{ doctor.specialty }} | {{ doctor.hospital }}</p>
-              <div class="d-flex justify-content-center align-items-center mb-2">
-                <i class="fas fa-star text-warning me-1"></i>
-                <span>{{ doctor.rating }}</span>
+                <img [src]="doctor.image" alt="{{ doctor.name }}" class="doctor-image" />
               </div>
-              <p class="mb-1"><i class="far fa-clock me-2 "></i> {{ doctor.availableTime }}</p>
-
-            </div>
+              <div>
+                <h5 class="card-title m-2">{{ doctor.name }}</h5>
+                <p class="text-muted mb-1">{{ doctor.specialty }} | {{ doctor.hospital }}</p>
+                <div class="d-flex justify-content-center align-items-center mb-2">
+                  <i class="fas fa-star text-warning me-1"></i>
+                  <span>{{ doctor.rating }}</span>
+                </div>
+                <p class="mb-1"><i class="far fa-clock me-2"></i> {{ doctor.availableTime }}</p>
+              </div>
             </div>
 
             <div class="card-body">
@@ -224,7 +219,7 @@
                 <span>Price<span class="text-muted small">/hour</span></span>
                 <strong class="text-danger">${{ doctor.price }}</strong>
               </p>
-              <button class="btn-main w-100" (click)="bookAppointment(doctor.id)">Book appointment</button>
+              <button class="btn-main w-100">Book appointment</button>
             </div>
           </div>
         </div>

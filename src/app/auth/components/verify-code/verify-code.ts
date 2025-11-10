@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-verify-code',
@@ -7,7 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './verify-code.scss',
 })
 export class VerifyCode {
+  private router = inject(Router);
   verify: boolean = false;
+  changeBtnVerifyTrabslatY: boolean = false;
   submit(form: any) {
     form.control.markAllAsTouched();
     if (form.invalid) {
@@ -28,5 +31,16 @@ export class VerifyCode {
     if (input && input.value === '' && event.key === 'Backspace' && prevInput) {
       prevInput.focus();
     }
+  }
+  changeTranslateY() {
+    this.changeBtnVerifyTrabslatY = true;
+  }
+  resendCode() {
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/auth/verify']);
+    });
+  }
+  goToSginIn() {
+    this.router.navigate(['/auth/login']);
   }
 }

@@ -60,15 +60,26 @@
       />
     </div>
     @if(verify){
-    <p class="text-danger text-center">Wrong Code</p>
-    <div class="text-center mb-4">
-      <button class="main-color btn-text">Resend</button>
-      <span class="mx-2">Or</span>
-      <button class="main-color btn-text">Enter anther phone number</button>
+    <div [ngClass]="{ 'btn-translatY': changeBtnVerifyTrabslatY }" class="">
+      <p class="text-danger text-center">Wrong Code</p>
+      <div class="text-center mb-4">
+        <button type="button" class="main-color btn-text" (click)="resendCode()">Resend</button>
+        <span class="mx-2">Or</span>
+        <button type="button" class="main-color btn-text" (click)="goToSginIn()">
+          Enter anther phone number
+        </button>
+      </div>
     </div>
     } @else {
     <p class="text-center">Resend code in <span class="main-color">55</span> s</p>
     }
-    <button class="btn-main" type="submit">Verify</button>
+    <button
+      class="btn-auth"
+      type="submit"
+      (click)="changeTranslateY()"
+      [ngClass]="{ 'btn-translatY': changeBtnVerifyTrabslatY && verify }"
+    >
+      Verify
+    </button>
   </form>
 </div>

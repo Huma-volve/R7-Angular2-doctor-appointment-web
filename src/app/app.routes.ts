@@ -26,18 +26,17 @@ export const routes: Routes = [
       },
       {
         path: 'doctors-list',
-        loadComponent: () => import('./features/doctors-list/doctors-list').then((c) => c.DoctorsList),
-
+        loadComponent: () =>
+          import('./features/doctors-list/doctors-list').then((c) => c.DoctorsList),
       },
       {
         path: 'appointment/:id',
-        loadComponent: () => import('./features/appointment/appointment').then((c) => c.Appointment),
-
+        loadComponent: () =>
+          import('./features/appointment/appointment').then((c) => c.Appointment),
       },
       {
         path: 'map',
         loadComponent: () => import('./features/map/map').then((c) => c.Map),
-
       },
       {
         path: 'booking',
@@ -67,7 +66,6 @@ export const routes: Routes = [
               import('./features/canceled-booking/canceled-booking').then((c) => c.CanceledBooking),
           },
         ],
-
       },
       {
         path: 'contactUs',
