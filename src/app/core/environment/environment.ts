@@ -1,4 +1,4 @@
 export const environment = {
-  apiBaseUrl: '',
+  apiBaseUrl: 'https://cure-doctor-booking.runasp.net/',
   socketUrl: '', // Socket.IO endpoint
 };
