@@ -1,15 +1,90 @@
-
 .card {
-  border-color: #99A2AB;
+  border-color: #99a2ab;
   border-radius: 20px;
 }
 
-.doctor-card{
-  background-color: #F5F6F7;
+.doctor-card {
+  background-color: #f5f6f7;
   border-radius: 20px;
 }
 
-.date{
+.date {
   width: 55px;
   margin-right: 45px;
+}
+
+.payment-header {
+  width: 331px;
+  height: 113px;
+}
+.custome-budget {
+  top: 84px;
+  right: 1px;
+}
+.container-div-image {
+  margin-right: 32px;
+}
+.doctor-details {
+  width: 186px;
+  height: 77px;
+  margin-top: 20px;
+}
+.doctor-details h2 {
+  width: 163px;
+  font-size: 20px;
+}
+.doctor-details p {
+  height: 17px;
+  width: 163px;
+  font-size: 14px;
+}
+.location p {
+  width: 164px;
+  font-size: 14px;
+  margin-bottom: 0px !important;
+}
+input[type='radio'] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #cdcdcd;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+input[type='radio']:checked {
+  background-color: #4caf50;
+  border-color: #4caf50;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='none' stroke='white' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M5 13l4 4L19 7'/></svg>");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+input[type='radio']:checked:hover {
+  background-color: #5cbe5f;
+  border-color: #5cbe5f;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='none' stroke='white' stroke-width='2' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'><path d='M5 13l4 4L19 7'/></svg>");
+}
+.change-bg-hover:hover {
+  background-color: #edf7ee;
+  border-radius: 10px !important;
+}
+
+.h2-price {
+  font-family: 'Montserrat', sans-serif !important;
+  letter-spacing: -1px;
+}
+.span-hour {
+  font-size: 12px;
+  color: #6d7379;
+}
+
+.span-price {
+  color: #fc4b4e;
+}
+
+.custom-position-btn-close {
+  top: 15px;
+  right: 10px;
 }

@@ -1,5 +1,129 @@
-@if (selectedDoctor) {
-
+@if (selectedDoctor) { @if (showPaymentModel) {
+<div class="modal fade" id="book" tabindex="-1" aria-labelledby="book" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content p-2">
+      <div class="modal-header d-block border-0 pb-0">
+        <div class="payment-header d-flex justify-content-between m-auto">
+          <div class="container-div-image position-relative">
+            <img class="rounded-circle h-100" src="assets/images/doctor-3.svg" alt="" />
+            <img
+              class="position-absolute custome-budget"
+              src="assets/images/budgetCorrect.svg"
+              alt=""
+            />
+          </div>
+          <div class="doctor-details">
+            <h2>Dr. Jessica Turner</h2>
+            <p>Pulmonologist</p>
+            <div class="d-flex justify-content-between align-items-center location">
+              <img class="location-image me-2" src="assets/images/Icon.svg" alt="" />
+              <p class="location-p">129,El-Nasr Street, Cairo</p>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center custom-margin-for-date mt-4">
+          <div class="d-flex">
+            <img class="me-2" src="assets/images/date.svg" alt="" />
+            <p class="m-0">
+              {{ date | prettyDate : { locale: 'en-US', showSpaceAfterComma: false } }}
+            </p>
+          </div>
+          <button class="main-color btn-text">Reschedule</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <h3>Payment Method</h3>
+        <div class="mb-2">
+          <div
+            class="d-flex justify-content-between align-items-center p-2 change-bg-hover"
+            #divVisa
+          >
+            <div class="d-flex align-items-center">
+              <input
+                class="me-2"
+                type="radio"
+                name="paymentType"
+                value="visa"
+                id="visa"
+                #inputVisa
+                (click)="changeBg(divVisa, divPaypal, divApplePay)"
+              />
+              <label for="visa" class="curser-pointer">Credit Cart</label>
+            </div>
+            <img src="assets/images/visa.svg" alt="Visa.svg" />
+          </div>
+          <div
+            class="d-flex justify-content-between align-items-center p-2 change-bg-hover"
+            #divPaypal
+          >
+            <div class="d-flex align-items-center">
+              <input
+                class="me-2"
+                type="radio"
+                name="paymentType"
+                value="paypal"
+                id="paypal"
+                (click)="changeBg(divPaypal, divVisa, divApplePay)"
+              />
+              <label for="paypal" class="curser-pointer">PayPal</label>
+            </div>
+            <img src="assets/images/PayPal.svg" alt="Pypal.svg" />
+          </div>
+          <div
+            class="d-flex justify-content-between align-items-center p-2 change-bg-hover"
+            #divApplePay
+          >
+            <div class="d-flex align-items-center">
+              <input
+                class="me-2"
+                type="radio"
+                name="paymentType"
+                value="applePay"
+                id="applePay"
+                (click)="changeBg(divApplePay, divVisa, divPaypal)"
+              />
+              <label for="applePay" class="curser-pointer">Apple Pay</label>
+            </div>
+            <img src="assets/images/ApplePay.svg" alt="ApplePay.svg" />
+          </div>
+        </div>
+        <button class="btn-text d-block w-100 mt-2">
+          <img src="assets/images/AddNewCardButton.svg" alt="" />
+        </button>
+      </div>
+      <div class="modal-footer flex-column border-0">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <h2 class="h2-price">Price <span class="span-hour">\hour</span></h2>
+          <span class="span-price">350$</span>
+        </div>
+        <button type="button" class="btn-main w-100">Pay</button>
+      </div>
+      <button
+        type="button"
+        class="btn-close position-absolute custom-position-btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+  </div>
+</div>
+} @if (showReviewModal) {
+<div class="modal fade" id="review" tabindex="-1" aria-labelledby="review" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header d-block border-0 pb-0"></div>
+      <div class="modal-body"></div>
+      <div class="modal-footer flex-column border-0"></div>
+      <button
+        type="button"
+        class="btn-close position-absolute custom-position-btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+  </div>
+</div>
+}
 <div class="container py-4">
   <div class="d-flex align-items-center mb-4">
     <a routerLink="/layout/doctors-list" class="text-dark me-2">
@@ -16,16 +140,16 @@
           <div class="d-flex align-items-center">
             <i class="fa-regular fa-calendar-days me-2"></i>
             <span class="me-2">November, 2024</span>
-            <img src="/assets/images/arrow-top-dwon.svg" alt="" />
+            <img src="assets/images/arrow-top-dwon.svg" alt="" />
           </div>
         </div>
         <!-- Date -->
         <div class="mb-3">
           @for (day of days; track day; let i = $index) {
-            <button class="date bg-light mt-2 py-2 rounded-3 border-0 text-secondary">
-              {{ day.name }}
-              <span class="d-block">{{ day.date }} </span>
-            </button>
+          <button class="date bg-light mt-2 py-2 rounded-3 border-0 text-secondary">
+            {{ day.name }}
+            <span class="d-block">{{ day.date }} </span>
+          </button>
           }
         </div>
 
@@ -44,14 +168,26 @@
             <span>Monday, November 15 - 11:00 Am</span>
           </div>
 
-          <button class="btn-main w-auto h-auto px-3 mb-0">Book</button>
+          <button
+            class="btn-main w-auto h-auto px-3 mb-0"
+            data-bs-toggle="modal"
+            data-bs-target="#book"
+            (click)="book()"
+          >
+            Book
+          </button>
         </div>
       </div>
 
       <div class="mb-4">
         <h5 class="d-flex justify-content-between align-items-center">
           Reviews and Rating
-          <span class="fa-xs text-primary-emphasis pt-2">
+          <span
+            class="fa-xs text-primary-emphasis pt-2 curser-pointer"
+            (click)="addReview()"
+            data-bs-toggle="modal"
+            data-bs-target="#review"
+          >
             <i class="fa-solid fa-pencil"></i>
             add review
           </span>
