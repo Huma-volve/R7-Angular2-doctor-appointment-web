@@ -1,17 +1,17 @@
 import { Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../service/auth';
-import { VerifyNumber } from '../../model/verify-number';
 import { ToastrService } from 'ngx-toastr';
+import { VerifyNumber } from '../../model/verify-number';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
-  selector: 'app-verify-code',
+  selector: 'app-verify-register',
   standalone: false,
-  templateUrl: './verify-code.html',
-  styleUrl: './verify-code.scss',
+  templateUrl: './verify-register.html',
+  styleUrl: './verify-register.scss',
 })
-export class VerifyCode implements OnInit {
+export class VerifyRegister implements OnInit {
   private destroyRef = inject(DestroyRef);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
@@ -32,7 +32,7 @@ export class VerifyCode implements OnInit {
     const otpNumber = `${form.value.number1}${form.value.number2}${form.value.number3}${form.value.number4}`;
 
     this.authService
-      .verifyLogin({ phoneNumber: this.phoneNumber, otpNumber } as VerifyNumber)
+      .verifyRegister({ phoneNumber: this.phoneNumber, otpNumber } as VerifyNumber)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
