@@ -1,5 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../../service/auth';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -9,12 +11,22 @@ import { Router } from '@angular/router';
 })
 export class Login {
   private router = inject(Router);
+  private authService = inject(AuthService);
+  private toastr = inject(ToastrService);
   submit(form: any) {
     form.control.markAllAsTouched();
     if (form.invalid) {
       return;
     }
-    this.router.navigate(['/auth/verify']);
-    console.log('Form submitted:', form.value);
+    this.authService.login(form.value).subscribe({
+      next: (res) => {
+        if (res.success) {
+          this.toastr.success(res.message);
+          this.router.navigate([`/auth/verify/${form.value.phoneNumber}`]);
+        } else {
+          this.toastr.error(res.message);
+        }
+      },
+    });
   }
 }

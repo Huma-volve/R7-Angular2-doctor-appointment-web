@@ -11,6 +11,11 @@
 body {
   font-family: Georgia, 'Times New Roman', Times, serif;
 }
+@media (min-width: 556px) {
+  body {
+    overflow-x: hidden;
+  }
+}
 
 h1,
 h2,

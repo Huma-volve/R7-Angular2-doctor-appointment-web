@@ -1,5 +1,8 @@
-import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../service/auth';
+import { VerifyNumber } from '../../model/verify-number';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-verify-code',
@@ -7,17 +10,31 @@ import { Router } from '@angular/router';
   templateUrl: './verify-code.html',
   styleUrl: './verify-code.scss',
 })
-export class VerifyCode {
+export class VerifyCode implements OnInit {
   private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+  private authService = inject(AuthService);
+  private toastr = inject(ToastrService);
   verify: boolean = false;
+  phoneNumber: string = '';
   changeBtnVerifyTrabslatY: boolean = false;
+  ngOnInit() {
+    this.phoneNumber = this.activatedRoute.snapshot.paramMap.get('phoneNumber') || '';
+  }
   submit(form: any) {
     form.control.markAllAsTouched();
     if (form.invalid) {
       return;
     }
+    const otpNumber = form.value;
+    this.authService
+      .verifyRegister({ phoneNumber: this.phoneNumber, otpNumber: form.value } as VerifyNumber)
+      .subscribe({
+        next: (res) => {
+          this.toastr.success(res.message);
+        },
+      });
     this.verify = true;
-    console.log('Form submitted:', form.value);
   }
   moveToNext(event: Event, nextInput?: HTMLInputElement) {
     const input = event.target as HTMLInputElement | null;
