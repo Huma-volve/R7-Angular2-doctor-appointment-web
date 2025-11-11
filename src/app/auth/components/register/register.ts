@@ -1,7 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../service/auth';
 import { ToastrService } from 'ngx-toastr';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-register',
@@ -10,6 +11,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './register.scss',
 })
 export class Register {
+  private destroyRef = inject(DestroyRef);
   private router = inject(Router);
   private authService = inject(AuthService);
   private toastr = inject(ToastrService);
@@ -19,11 +21,14 @@ export class Register {
       return;
     }
 
-    this.authService.register(form.value as Register).subscribe({
-      next: (res) => {
-        this.toastr.success(res.message);
-        this.router.navigate([`/auth/verify/${form.value.phoneNumber}`]);
-      },
-    });
+    this.authService
+      .register(form.value as Register)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res) => {
+          this.toastr.success(res.message);
+          this.router.navigate([`/auth/verifyRegister/${form.value.phoneNumber}`]);
+        },
+      });
   }
 }

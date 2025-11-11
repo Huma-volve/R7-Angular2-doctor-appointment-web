@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { View } from './components/view/view';
 import { Register } from './components/register/register';
 import { VerifyCode } from './components/verify-code/verify-code';
+import { VerifyRegister } from './components/verify-register/verify-register';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
       { path: 'login', component: Login, title: 'Login' },
       { path: 'register', component: Register, title: 'register' },
       { path: 'verify/:phoneNumber', component: VerifyCode, title: 'verify-code' },
+      { path: 'verifyRegister/:phoneNumber', component: VerifyRegister, title: 'verify-register' },
     ],
   },
 ];

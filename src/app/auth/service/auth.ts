@@ -36,16 +36,27 @@ export class AuthService {
   verifyRegister(body: VerifyNumber): Observable<{
     success: boolean;
     message: string;
-    data: null;
+    data: { accessToken: string; refreshToken: string };
   }> {
     return this.http.post<{
       success: boolean;
       message: string;
-      data: null;
+      data: { accessToken: string; refreshToken: string };
     }>(environment.endpoints.auth.verifyRegister, body);
   }
 
   verifyLogin(body: VerifyNumber): Observable<{
+    success: boolean;
+    message: string;
+    data: { accessToken: string; refreshToken: string };
+  }> {
+    return this.http.post<{
+      success: boolean;
+      message: string;
+      data: { accessToken: string; refreshToken: string };
+    }>(environment.endpoints.auth.verifyRegister, body);
+  }
+  resendOtp(phoneNumber: string): Observable<{
     success: boolean;
     message: string;
     data: null;
@@ -54,6 +65,47 @@ export class AuthService {
       success: boolean;
       message: string;
       data: null;
-    }>(environment.endpoints.auth.verifyRegister, body);
+    }>(environment.endpoints.auth.resendOtp, phoneNumber);
+  }
+  googleLogin(idToken: string): Observable<{
+    success: boolean;
+    message: string;
+    data: null;
+  }> {
+    environment.endpoints.auth.refreshToken;
+    return this.http.post<{
+      success: boolean;
+      message: string;
+      data: null;
+    }>(environment.endpoints.auth.googleLogin, idToken);
+  }
+  refreshToken(refreshToken: string): Observable<{
+    success: boolean;
+    message: string;
+    data: { accessToken: string; refreshToken: string };
+  }> {
+    environment.endpoints.auth.refreshToken;
+    return this.http.post<{
+      success: boolean;
+      message: string;
+      data: { accessToken: string; refreshToken: string };
+    }>(environment.endpoints.auth.refreshToken, refreshToken);
+  }
+
+  logout(): Observable<{ success: boolean; message: string; data: null }> {
+    const refreshToken = localStorage.getItem('refreshToken') || '';
+    return this.http.post<{ success: boolean; message: string; data: null }>(
+      environment.endpoints.auth.logout,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
+      }
+    );
+  }
+  clearTokens() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
   }
 }
