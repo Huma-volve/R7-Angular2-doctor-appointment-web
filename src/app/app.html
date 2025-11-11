@@ -1,4 +1,8 @@
-<router-outlet></router-outlet>
+@if(appInitialized){
+<ng-container>
+  <router-outlet></router-outlet>
+</ng-container>
+}
 <ngx-spinner
   bdColor="rgba(0, 0, 0, 0.8)"
   size="large"
