@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
+import { AuthRoutingModule } from '../../auth/auth-routing-module';
+import { RouterLink } from '@angular/router';
 type Doctor = {
   name: string;
   specialty: string;
@@ -14,7 +16,7 @@ type Doctor = {
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, CarouselModule],
+  imports: [CommonModule, CarouselModule, AuthRoutingModule, RouterLink],
   templateUrl: './home.html',
   styleUrls: ['./home.scss'],
 })

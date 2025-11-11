@@ -5,7 +5,7 @@ import { ChatList } from './features/chat/chat-list/chat-list';
 import { Chat } from './features/chat/chat/chat';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'layout', pathMatch: 'full' },
+  { path: '', redirectTo: 'auth', pathMatch: 'full' },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth-module').then((m) => m.AuthModule),
