@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterLink  } from '@angular/router';
 
 
 interface Doctor {
@@ -18,7 +19,7 @@ interface Doctor {
 @Component({
   selector: 'app-doctors-list',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule , RouterLink],
   templateUrl: './doctors-list.html',
   styleUrls: ['./doctors-list.scss'],
 })
@@ -138,4 +139,11 @@ export class DoctorsList implements OnInit {
       { id: 9, name: 'Olivia Kim', specialty: 'Pulmonologist', hospital: 'Lung Health Center', rating: 4.9, availableTime: '9:00am - 6:00pm', price: 380, gender: 'Female', image: 'assets/images/doctor-9.svg' }
     ];
   }
+
+  constructor(private router: Router) { }
+
+  bookAppointment(doctorId: number): void {
+    this.router.navigate(['/layout/appointment', doctorId]);
+  }
+
 }
