@@ -19,46 +19,67 @@ interface Doctor {
   location?: string;
 }
 
+
 @Component({
   selector: 'app-appointment',
-  imports: [RouterLink, PrettyDatePipe],
+  imports: [RouterLink, PrettyDatePipe ],
   templateUrl: './appointment.html',
   styleUrl: './appointment.scss',
 })
+
 export class Appointment {
+
+
+
   date = new Date();
   showPaymentModel: boolean = false;
   showReviewModal: boolean = false;
 
+  changeBg(selectedDiv: HTMLDivElement, otherDiv1?: HTMLDivElement, otherDiv2?: HTMLDivElement) {
+    selectedDiv.style.backgroundColor = '#edf7ee';
+    selectedDiv.style.borderRadius = '10px';
+    if (otherDiv1) otherDiv1.style.backgroundColor = 'white';
+    if (otherDiv2) otherDiv2.style.backgroundColor = 'white';
+  }
+  book() {
+    this.showPaymentModel = true;
+  }
+  addReview() {
+    this.showReviewModal = true;
+  }
+
+
+
   doctorId: number | null = null;
 
-  selectedDoctor: Doctor | undefined;
+  selectedDoctor: Doctor | undefined ;
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute) { }
 
   days = [
-    { name: 'Fri', date: 12 },
-    { name: 'Sat', date: 13 },
-    { name: 'Sun', date: 14 },
-    { name: 'Mon', date: 15 },
-    { name: 'Tue', date: 16 },
-    { name: 'Wed', date: 17 },
-    { name: 'Thu', date: 18 },
+  { name: 'Fri', date: 12 },
+  { name: 'Sat', date: 13 },
+  { name: 'Sun', date: 14 },
+  { name: 'Mon', date: 15 },
+  { name: 'Tue', date: 16 },
+  { name: 'Wed', date: 17 },
+  { name: 'Thu', date: 18 },
   ];
 
   times = [
-    '9:00 AM',
-    '10:00 AM',
-    '11:00 AM',
-    '12:30 PM',
-    '5:30 PM',
-    '7:00 PM',
-    '9:00 PM',
-    '10:00 PM',
-  ];
+  '9:00 AM',
+  '10:00 AM',
+  '11:00 AM',
+  '12:30 PM',
+  '5:30 PM',
+  '7:00 PM',
+  '9:00 PM',
+  '10:00 PM',
+];
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
+
+    this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       if (idParam) {
         this.doctorId = +idParam;
@@ -67,10 +88,13 @@ export class Appointment {
     });
   }
 
+
   private loadDoctorDetails(id: number): void {
     const allDoctors = this.getMockDoctors();
-    this.selectedDoctor = allDoctors.find((doc) => doc.id === id);
+    this.selectedDoctor = allDoctors.find(doc => doc.id === id);
   }
+
+
 
   private getMockDoctors(): Doctor[] {
     return [
@@ -230,16 +254,5 @@ export class Appointment {
     ];
   }
 
-  changeBg(selectedDiv: HTMLDivElement, otherDiv1?: HTMLDivElement, otherDiv2?: HTMLDivElement) {
-    selectedDiv.style.backgroundColor = '#edf7ee';
-    selectedDiv.style.borderRadius = '10px';
-    if (otherDiv1) otherDiv1.style.backgroundColor = 'white';
-    if (otherDiv2) otherDiv2.style.backgroundColor = 'white';
-  }
-  book() {
-    this.showPaymentModel = true;
-  }
-  addReview() {
-    this.showReviewModal = true;
-  }
+
 }

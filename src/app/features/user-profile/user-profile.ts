@@ -32,7 +32,6 @@ export class UserProfile {
   }
 
   ngOnInit(): void {
-    // this.hasProfileData = true;
     this.profileForm = this.fb.group({
       fullName: ['', Validators.required],
       phoneNumber: ['', [Validators.required,
