@@ -51,9 +51,12 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 ">
           <div class="card custom-card shadow-sm">
-            <img src="assets/images/choseDate.svg" class="card-img-top object-fit-cover" alt="Card image" />
+            <div class="scheduleImg text-center pt-4 overflow-hidden">
+              <img src="assets/images/choseDate.svg" alt="Card image" />
+
+            </div>
             <div class="card-body shadow-lg">
               <h5 class="card-title">Choose a Date & Time</h5>
               <p class="card-text text-muted small">
@@ -87,7 +90,7 @@
             instantly discover trusted doctors and clinics<br />
             around you—quick, easy, and local.
           </p>
-          <button class="btn-second">
+          <button routerLink="/layout/map" class="btn-second">
             <i class="fa-solid fa-magnifying-glass"></i> Search by location
           </button>
         </div>
@@ -130,9 +133,9 @@
                     <div class="d-flex align-items-center gap-2 small text-muted">
                       <span class="text-warning fw-bold">★</span>
                       <span><i class="fw-semibold"></i> {{ d.rating }}</span>
-                      <span class="ms-auto">⏱ {{ d.startDate ? (d.startDate | date:'shortTime') : '12:00 AM' }}-{{
-                        d.endDate ?
-                        (d.endDate | date:'shortTime') : '12:00 PM' }}</span>
+                      <span class="ms-auto">⏱
+                         {{ d.startDate ? (d.startDate | date:'shortTime') : '12:00 AM' }}
+                        -{{ d.endDate ?(d.endDate | date:'shortTime') : '12:00 PM' }}</span>
                     </div>
                   </div>
                 </div>
