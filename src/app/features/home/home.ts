@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit {
   GetTopRatedDoctors(): void {
     this._Home.getTopRate().subscribe({
       next: (res) => {
-        console.log(res.data);
         this.doctors = res.data;
       },
     });
