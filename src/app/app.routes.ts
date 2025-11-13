@@ -1,6 +1,4 @@
-import { UpcomingBooking } from './features/upcoming-booking/upcoming-booking';
 import { Routes } from '@angular/router';
-import { HomeComponent } from './features/home/home';
 import { ChatList } from './features/chat/chat-list/chat-list';
 import { Chat } from './features/chat/chat/chat';
 import { afterLoginGuard } from './core/guards/after-login-guard-guard';

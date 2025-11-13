@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
-import { AuthService } from '../../auth/service/auth';
 type Doctor = {
   name: string;
   specialty: string;
@@ -19,15 +18,7 @@ type Doctor = {
   templateUrl: './home.html',
   styleUrls: ['./home.scss'],
 })
-export class HomeComponent implements OnInit {
-  ngOnInit(): void {
-    this.authService.getDoctor().subscribe({
-      next: (res) => {
-        console.log(res);
-      },
-    });
-  }
-  private authService = inject(AuthService);
+export class HomeComponent {
   doctors: Doctor[] = [
     {
       name: 'Robert Johnson',

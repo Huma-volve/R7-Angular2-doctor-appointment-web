@@ -5,7 +5,6 @@ import { View } from './components/view/view';
 import { Register } from './components/register/register';
 import { VerifyCode } from './components/verify-code/verify-code';
 import { VerifyRegister } from './components/verify-register/verify-register';
-import { afterLoginGuard } from '../core/guards/after-login-guard-guard';
 
 const routes: Routes = [
   {
