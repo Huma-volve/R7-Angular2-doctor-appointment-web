@@ -1,62 +1,21 @@
+import { iTopRatedDoctors } from './../interfaces/itop-rated-doctors';
+import { Home } from './../Services/home';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
-type Doctor = {
-  name: string;
-  specialty: string;
-  hospital: string;
-  price: number;
-  img: string;
-  rating: number;
-  time: string;
-};
+import { AuthRoutingModule } from '../../auth/auth-routing-module';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, CarouselModule],
+  imports: [CommonModule, CarouselModule, AuthRoutingModule, RouterLink],
   templateUrl: './home.html',
-  styleUrls: ['./home.scss'],
+  styleUrl: './home.scss',
 })
-export class HomeComponent {
-  doctors: Doctor[] = [
-    {
-      name: 'Robert Johnson',
-      specialty: 'Orthopedic',
-      hospital: 'El-Nasr Hospital',
-      price: 350,
-      img: '../../../assets/images/DOCTOR.jpg',
-      rating: 4.8,
-      time: '9:30am - 8:00pm',
-    },
-    {
-      name: 'Robert Johnson',
-      specialty: 'Orthopedic',
-      hospital: 'El-Nasr Hospital',
-      price: 350,
-      img: '../../../assets/images/DOCTOR.jpg',
-      rating: 4.8,
-      time: '9:30am - 8:00pm',
-    },
-    {
-      name: 'Robert Johnson',
-      specialty: 'Orthopedic',
-      hospital: 'El-Nasr Hospital',
-      price: 350,
-      img: '../../../assets/images/DOCTOR.jpg',
-      rating: 4.8,
-      time: '9:30am - 8:00pm',
-    },
-    {
-      name: 'Robert Johnson',
-      specialty: 'Orthopedic',
-      hospital: 'El-Nasr Hospital',
-      price: 350,
-      img: '../../../assets/images/DOCTOR.jpg',
-      rating: 4.8,
-      time: '9:30am - 8:00pm',
-    },
-  ];
+export class HomeComponent implements OnInit {
+  doctors: iTopRatedDoctors[] = [];
+  private readonly _Home = inject(Home);
 
   carouselOptions: OwlOptions = {
     loop: true,
@@ -71,7 +30,17 @@ export class HomeComponent {
     responsive: {
       0: { items: 2 },
       768: { items: 3 },
-      1200: { items: 4 },
+      1200: { items: 3 },
     },
   };
+  GetTopRatedDoctors(): void {
+    this._Home.getTopRate().subscribe({
+      next: (res) => {
+        this.doctors = res.data;
+      },
+    });
+  }
+  ngOnInit(): void {
+    this.GetTopRatedDoctors();
+  }
 }
