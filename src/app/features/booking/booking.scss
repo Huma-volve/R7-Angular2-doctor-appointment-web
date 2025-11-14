@@ -16,3 +16,20 @@ input[type='date'] {
 a {
   color: black;
 }
+
+.active {
+  color: white !important;
+  background-color: var(--main-color) !important;
+  transition: all 1s !important;
+}
+.status-text {
+  &.Upcoming {
+    color: #0d6efd;
+  }
+  &.Completed {
+    color: #28a745;
+  }
+  &.Canceled {
+    color: #dc3545;
+  }
+}

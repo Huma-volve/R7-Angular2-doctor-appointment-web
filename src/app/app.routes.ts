@@ -1,8 +1,5 @@
-import { UpcomingBooking } from './features/upcoming-booking/upcoming-booking';
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home';
-import { ChatList } from './features/chat/chat-list/chat-list';
-import { Chat } from './features/chat/chat/chat';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'auth', pathMatch: 'full' },
@@ -41,38 +38,15 @@ export const routes: Routes = [
       {
         path: 'booking',
         loadComponent: () => import('./features/booking/booking').then((c) => c.Booking),
-        children: [
-          { path: '', redirectTo: 'allBooking', pathMatch: 'full' },
-          {
-            path: 'allBooking',
-            loadComponent: () =>
-              import('./features/all-booking/all-booking').then((c) => c.AllBooking),
-          },
-          {
-            path: 'upcomingBooking',
-            loadComponent: () =>
-              import('./features/upcoming-booking/upcoming-booking').then((c) => c.UpcomingBooking),
-          },
-          {
-            path: 'completedBooking',
-            loadComponent: () =>
-              import('./features/completed-booking/completed-booking').then(
-                (c) => c.CompletedBooking
-              ),
-          },
-          {
-            path: 'canceledBooking',
-            loadComponent: () =>
-              import('./features/canceled-booking/canceled-booking').then((c) => c.CanceledBooking),
-          },
-        ],
       },
       {
         path: 'contactUs',
         loadComponent: () => import('./features/contact-us/contact-us').then((c) => c.ContactUS),
       },
-      { path: 'chats', component: ChatList },
-      { path: 'chats/:id', component: Chat },
+      {
+        path: 'chats',
+        loadComponent: () => import('./features/chat/chat-list/chat-list').then((c) => c.ChatPage),
+      },
     ],
   },
 ];
