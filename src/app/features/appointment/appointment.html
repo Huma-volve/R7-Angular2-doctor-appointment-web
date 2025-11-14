@@ -1,7 +1,4 @@
-@if (selectedDoctor) {
-
-
-@if (showPaymentModel) {
+@if (selectedDoctor) { @if (showPaymentModel) {
 <div class="modal fade" id="book" tabindex="-1" aria-labelledby="book" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content p-2">
@@ -45,8 +42,8 @@
               <input
                 class="me-2"
                 type="radio"
-                name="paymentType"
-                value="visa"
+                name="payment"
+                value="0"
                 id="visa"
                 #inputVisa
                 (click)="changeBg(divVisa, divPaypal, divApplePay)"
@@ -63,8 +60,8 @@
               <input
                 class="me-2"
                 type="radio"
-                name="paymentType"
-                value="paypal"
+                name="payment"
+                value="1"
                 id="paypal"
                 (click)="changeBg(divPaypal, divVisa, divApplePay)"
               />
@@ -80,8 +77,8 @@
               <input
                 class="me-2"
                 type="radio"
-                name="paymentType"
-                value="applePay"
+                name="payment"
+                value="2"
                 id="applePay"
                 (click)="changeBg(divApplePay, divVisa, divPaypal)"
               />
@@ -128,9 +125,6 @@
 </div>
 }
 
-
-
-
 <div class="container py-4">
   <div class="d-flex align-items-center mb-4">
     <a routerLink="/layout/doctors-list" class="text-dark me-2">
@@ -153,10 +147,10 @@
         <!-- Date -->
         <div class="mb-3">
           @for (day of days; track day; let i = $index) {
-            <button class="date bg-light mt-2 py-2 rounded-3 border-0 text-secondary">
-              {{ day.name }}
-              <span class="d-block">{{ day.date }} </span>
-            </button>
+          <button class="date bg-light mt-2 py-2 rounded-3 border-0 text-secondary">
+            {{ day.name }}
+            <span class="d-block">{{ day.date }} </span>
+          </button>
           }
         </div>
 
@@ -175,7 +169,15 @@
             <span>Monday, November 15 - 11:00 Am</span>
           </div>
 
-          <button class="btn-main w-auto h-auto px-3 mb-0">Book</button>
+          <button
+            type="button"
+            class="btn-main w-auto h-auto px-3 mb-0"
+            data-bs-toggle="modal"
+            data-bs-target="#book"
+            (click)="book()"
+          >
+            Book
+          </button>
         </div>
       </div>
 
@@ -184,7 +186,15 @@
           Reviews and Rating
           <span class="fa-xs text-primary-emphasis pt-2">
             <i class="fa-solid fa-pencil"></i>
-            add review
+            <button
+              class="btn-text"
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#review"
+              (click)="addReview()"
+            >
+              add review
+            </button>
           </span>
         </h5>
         <div class="d-flex justify-content-between align-items-center my-3">
