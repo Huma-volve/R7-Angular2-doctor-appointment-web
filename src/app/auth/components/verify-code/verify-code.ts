@@ -37,9 +37,7 @@ export class VerifyCode implements OnInit {
       .subscribe({
         next: (res) => {
           if (res.success) {
-            localStorage.setItem('accessToken', res.data.accessToken);
-            localStorage.setItem('refreshToken', res.data.refreshToken);
-            this.router.navigate(['/home']);
+            this.router.navigate(['/layout/home']);
             this.toastr.success(res.message);
           } else {
             this.verify = true;
