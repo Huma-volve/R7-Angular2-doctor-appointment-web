@@ -22,16 +22,19 @@
 
         <div class="flex-fill">
           <div class="d-flex justify-content-between">
-            <strong>{{ doctor.name }}</strong>
+            <strong>{{ doctor?.name ?? '' }}</strong>
           </div>
-          <h6 class=" text-success">
-            {{ doctor.lastMessage.length > 20
+          <h6 class="text-success">
+            {{ doctor?.lastMessage
+            ? (doctor.lastMessage.length > 20
             ? (doctor.lastMessage | slice:0:50) + '...'
-            : doctor.lastMessage
-            }}
+            : doctor.lastMessage)
+            : '' }}
           </h6>
         </div>
+         
       </a>
+          
     </div>
   </div>
 

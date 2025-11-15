@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './features/home/home';
-import { ChatList } from './features/chat/chat-list/chat-list';
 import { afterLoginGuard } from './core/guards/after-login-guard-guard';
 import { authGuard } from './core/guards/auth-guard';
 
