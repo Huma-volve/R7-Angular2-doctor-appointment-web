@@ -1,23 +1,68 @@
-<div class="container py-4">
-  <h4 class="mb-3">Chats</h4>
+<div class="chat-wrapper p-3">
+  <div class="left-pane" [class.hide-on-mobile]="selectedChatId && isMobile">
+    <div class="header p-3 border-end">
+      <h4 class="m-0">Chats</h4>
+    </div>
 
-  <div class="input-group mb-3">
-    <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
-    <input class="form-control" placeholder="Search by name..." [(ngModel)]="q" (ngModelChange)="filter()" />
+    <div class="search p-3 border-end">
+      <div class="input-group">
+        <span class="input-group-text">
+          <i class="fa-solid fa-magnifying-glass"></i>
+        </span>
+        <input #SearchInput class="form-control" placeholder="Search…" [(ngModel)]="q" (input)="filter()" />
+
+      </div>
+    </div>
+
+    <div class="list-group chat-list">
+      <a class="list-group-item list-group-item-action d-flex align-items-center" *ngFor="let doctor of filtered()"
+        (click)="selectChat(doctor)">
+        <img [src]="doctor.img ? baseUrl + doctor.img : 'assets/images/default-user.webp'" class="rounded-circle me-3"
+          width="45" height="45" />
+
+        <div class="flex-fill">
+          <div class="d-flex justify-content-between">
+            <strong>{{ doctor.name }}</strong>
+          </div>
+          <h6 class=" text-success">
+            {{ doctor.lastMessage.length > 20
+            ? (doctor.lastMessage | slice:0:50) + '...'
+            : doctor.lastMessage
+            }}
+          </h6>
+        </div>
+      </a>
+    </div>
   </div>
 
-  <div class="list-group shadow-sm">
-    <a class="list-group-item list-group-item-action d-flex align-items-center" *ngFor="let c of filtered"
-      (click)="open(c.id)">
-      <img *ngIf="c.avatarUrl" [src]="c.avatarUrl" class="rounded-circle me-3" width="40" height="40" />
-      <div class="flex-fill">
-        <div class="d-flex justify-content-between">
-          <div class="fw-semibold">{{ c.title }}</div>
-          <small class="text-muted">{{ c.updatedAt | date:'short' }}</small>
-        </div>
-        <div class="text-muted small text-truncate">{{ c.lastMessage || 'No messages yet' }}</div>
+  <div class="right-pane" [class.fullscreen]="isMobile && selectedChatId">
+    <div *ngIf="!selectedChatId" class="empty-chat">
+      <h5>Select a conversation</h5>
+    </div>
+
+    <div *ngIf="selectedChatId" class="chat-area d-flex flex-column">
+      <div class="chat-header border-bottom p-3 d-flex align-items-center">
+        <button class="btn btn-link d-md-none me-3" (click)="closeChat()">
+          <i class="fa-solid fa-arrow-left"></i>
+        </button>
+        <img [src]="ProfileImg() ? baseUrl + ProfileImg() : 'assets/images/default-user.webp'"
+          class="rounded-circle me-3" width="45" height="45" />
+
+        <h5 class="m-0">{{title()}}</h5>
       </div>
-      <span *ngIf="c.unreadCount" class="badge bg-danger ms-2">{{ c.unreadCount }}</span>
-    </a>
+
+      <div class="messages flex-fill p-3 overflow-auto" #scrollMe id="scrollMe">
+        <app-message-bubble *ngFor="let m of messages()" [msg]="m"></app-message-bubble>
+      </div>
+
+      <div class="chat-input border-top p-3">
+        <form (ngSubmit)="send()" class="d-flex gap-2">
+          <input class="form-control" [(ngModel)]="text" name="text" placeholder="Type..." />
+          <button class="btn btn-primary" [disabled]="!text.trim()">
+            Send
+          </button>
+        </form>
+      </div>
+    </div>
   </div>
 </div>

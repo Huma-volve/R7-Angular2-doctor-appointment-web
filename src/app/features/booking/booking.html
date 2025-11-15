@@ -6,24 +6,36 @@
                 <ul class="nav nav-pills">
 
                     <li class="nav-item">
-                        <a class="nav-link" routerLink="allBooking" routerLinkActive="active-nav">AllBooking</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="upcomingBooking" routerLinkActive="active-nav">Upcoming</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="completedBooking" routerLinkActive="active-nav">Completed</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="canceledBooking" routerLinkActive="active-nav">Canceled</a>
+                        <a class="nav-link" [class.active]="selectedTab() === 'AllBooking'"
+                            (click)="setTab('AllBooking')">
+                            AllBooking
+                        </a>
                     </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" [class.active]="selectedTab() === 'upcoming'" (click)="setTab('upcoming')">
+                            Upcoming
+                        </a>
+                    </li>
 
+                    <li class="nav-item">
+                        <a class="nav-link" [class.active]="selectedTab() === 'completed'"
+                            (click)="setTab('completed')">
+                            Completed
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" [class.active]="selectedTab() === 'canceled'" (click)="setTab('canceled')">
+                            Canceled
+                        </a>
+                    </li>
 
                 </ul>
             </div>
         </div>
-        <div class=" mt-5">
+
+        <div class="mt-5">
             <div class="input-group">
                 <span class="input-group-text bg-white border-end-0">
                     <i class="fa fa-calendar"></i>
@@ -31,12 +43,56 @@
                 <input type="date" id="dateInput" class="form-control border-start-0 rounded-end"
                     [(ngModel)]="selectedDate" />
             </div>
-
         </div>
     </div>
+    <div class="container py-4">
+        <div class="row g-3">
 
-    <div>
-        <router-outlet></router-outlet>
+            <div class="col-md-6 col-lg-4" *ngFor="let item of filteredAppointments()">
+
+                <div class="card appointment-card shadow-sm ">
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+                            <div class="text-muted small">
+                                <i class="fa-regular fa-calendar"></i>
+                                {{ item.appointmentAt | date: 'EEEE, MMM d - h:mm a' }}
+                            </div>
+
+                            <span class="fw-semibold status-text {{ item.status }}">
+                                {{ item.status }}
+                            </span>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-2">
+                            <img [src]="BaseUrl + item.doctorImg" alt="doctor" class="rounded-circle me-3" width="60"
+                                height="60" />
+
+                            <div>
+                                <h6 class="mb-0 fw-bold">{{ item.doctorName }}</h6>
+                                <small class="text-muted">{{ item.doctorSpeciality }}</small>
+                            </div>
+                        </div>
+
+                        <div class="text-muted small mb-3">
+                            <i class="fa-solid fa-location-dot me-1"></i>
+                            129,El-Nasr Street, Cairo, Egypt
+                        </div>
+
+                        <div class="d-flex justify-content-between gap-2">
+                            <button *ngFor="let btn of getButtons(item.status)" class="{{ btn.class }} w-50"
+                                (click)="handleButtonClick(btn.action, item)">
+                                {{ btn.text }}
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
     </div>
 
 </div>

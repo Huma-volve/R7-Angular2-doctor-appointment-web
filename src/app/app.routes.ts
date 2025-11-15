@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
+import { HomeComponent } from './features/home/home';
 import { ChatList } from './features/chat/chat-list/chat-list';
-import { Chat } from './features/chat/chat/chat';
 import { afterLoginGuard } from './core/guards/after-login-guard-guard';
 import { authGuard } from './core/guards/auth-guard';
 
@@ -48,43 +48,16 @@ export const routes: Routes = [
       {
         path: 'booking',
         loadComponent: () => import('./features/booking/booking').then((c) => c.Booking),
-        children: [
-          { path: '', redirectTo: 'allBooking', pathMatch: 'full' },
-          {
-            path: 'allBooking',
-            loadComponent: () =>
-              import('./features/all-booking/all-booking').then((c) => c.AllBooking),
-            title: 'allBooking',
-          },
-          {
-            path: 'upcomingBooking',
-            loadComponent: () =>
-              import('./features/upcoming-booking/upcoming-booking').then((c) => c.UpcomingBooking),
-            title: 'upcomingBooking',
-          },
-          {
-            path: 'completedBooking',
-            loadComponent: () =>
-              import('./features/completed-booking/completed-booking').then(
-                (c) => c.CompletedBooking
-              ),
-            title: 'completedBooking',
-          },
-          {
-            path: 'canceledBooking',
-            loadComponent: () =>
-              import('./features/canceled-booking/canceled-booking').then((c) => c.CanceledBooking),
-            title: 'canceledBooking',
-          },
-        ],
       },
       {
         path: 'contactUs',
         loadComponent: () => import('./features/contact-us/contact-us').then((c) => c.ContactUS),
         title: 'contactUs',
       },
-      { path: 'chats', component: ChatList, title: 'chats' },
-      { path: 'chats/:id', component: Chat, title: 'chats' },
+      {
+        path: 'chats',
+        loadComponent: () => import('./features/chat/chat-list/chat-list').then((c) => c.ChatPage),
+      },
     ],
   },
 ];
