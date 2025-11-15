@@ -1,42 +1,155 @@
+import {
+  Component,
+  OnInit,
+  signal,
+  ChangeDetectorRef,
+  AfterViewChecked,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Router, RouterModule } from '@angular/router';
-import { ChatSummary } from '../../interfaces/chat';
-import { ChatService } from '../../Services/chat';
 import { FormsModule } from '@angular/forms';
+import { ChatService } from '../../Services/chat';
+import { ChatSummary } from '../../interfaces/chat';
+import { Message } from '../../interfaces/message';
+import { MessageBubble } from '../message-bubble/message-bubble';
+import { environment } from '../../../core/environment/environment';
 
 @Component({
-  selector: 'app-chat-list',
+  selector: 'app-chat-page',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, FormsModule, MessageBubble],
   templateUrl: './chat-list.html',
   styleUrls: ['./chat-list.scss'],
 })
-export class ChatList implements OnInit {
-  chats: ChatSummary[] = [];
-  filtered: ChatSummary[] = [];
+export class ChatPage implements OnInit, AfterViewChecked {
+  chats = signal<ChatSummary[]>([]);
+  filtered = signal<any>([]);
+  messages = signal<Message[]>([]);
+  baseUrl = environment.apiBaseUrl;
   q = '';
+  text = '';
 
-  constructor(private chat: ChatService, private router: Router, private cdr: ChangeDetectorRef) {}
+  selectedChatId: number = 0;
+  selectedReceiverId: string | null = null;
 
-  async ngOnInit() {
-    this.chats = await this.chat.fetchChats();
-    this.filter();
-    this.cdr.detectChanges();
+  title = signal('Chat');
+  ProfileImg = signal<string | any>('');
+  isMobile = false;
+
+  @ViewChild('scrollMe') scrollContainer?: ElementRef<HTMLDivElement>;
+  private shouldScroll = false;
+  private meId = 'current-user-id';
+
+  constructor(private chat: ChatService, private cdr: ChangeDetectorRef) {}
+
+  ngOnInit() {
+    this.isMobile = window.innerWidth < 768;
+    this.getChat();
   }
+  getChat(): void {
+    this.chat.getChats().subscribe((res: any) => {
+      const list = (res.data?.chatListDTOs || []).map((c: any) => ({
+        id: c.doctorId,
+        chatId: c.id,
+        name: c.doctorName,
+        img: c.img,
+        lastMessage: c.lastMessageContent,
+        isSuggestion: false,
+      }));
 
+      this.chats.set(list);
+      this.filtered.set([...list]);
+      console.log('filtered', this.filtered());
+    });
+  }
+  ngAfterViewChecked() {
+    if (this.shouldScroll) {
+      this.scrollToBottom();
+      this.shouldScroll = false;
+    }
+  }
   filter() {
-    const qq = (this.q || '').toLowerCase().trim();
+    const term = this.q.trim().toLowerCase();
 
-    if (!qq) {
-      this.filtered = [...this.chats];
+    if (!term) {
+      this.filtered.set([...this.chats()]);
+      this.closeChat();
+      this.getChat();
+
       return;
     }
 
-    this.filtered = this.chats.filter((c) => c.title.toLowerCase().includes(qq));
+    this.chat.searchDoctors(term).subscribe({
+      next: (res: any) => {
+        this.filtered.set(res.data.doctorsListDTO);
+      },
+    });
   }
 
-  open(id: string) {
-    this.router.navigate(['/layout/chats', id]);
+  selectChat(item: any) {
+    this.selectedChatId = item.id;
+
+    if (!item.isSuggestion) {
+      this.openChat(item.id, item.title);
+      return;
+    }
+
+    this.chat.startChat(item.id).subscribe({
+      next: (res) => {
+        this.selectedReceiverId = item.id;
+        this.openChat(res.chatId, item.title);
+      },
+    });
+  }
+
+  openChat(chatId: string, name: string) {
+    this.chat.startChat(chatId).subscribe({
+      next: (res: any) => {
+        console.log('startchat', res);
+        this.messages.set(res.data.messageListDTO);
+        this.selectedChatId = res.data.id;
+        this.selectedReceiverId = res.data.receiverId;
+        this.title.set(res.data.name);
+        this.ProfileImg.set(res.data.image);
+      },
+    });
+    if (this.isMobile) window.scrollTo(0, 0);
+  }
+
+  send() {
+    if (!this.selectedChatId || !this.selectedReceiverId) return;
+    const content = this.text.trim();
+    if (!content) return;
+
+    const optimistic: Message = {
+      id: Date.now(),
+      isPatient: true,
+      content: content,
+      senderUserId: this.meId,
+      mediaUrl: null,
+      fileType: '',
+      sentAt: new Date().toISOString(),
+      isRead: false,
+    };
+
+    this.messages.update((list) => [...list, optimistic]);
+    this.shouldScroll = true;
+
+    this.chat.sendMessage(this.selectedChatId, content, this.selectedReceiverId).subscribe();
+    this.text = '';
+  }
+
+  scrollToBottom() {
+    if (!this.scrollContainer) return;
+    const el = this.scrollContainer.nativeElement;
+    el.scrollTop = el.scrollHeight;
+  }
+
+  closeChat() {
+    this.selectedChatId = 0;
+    this.selectedReceiverId = null;
+    this.messages.set([]);
   }
 }

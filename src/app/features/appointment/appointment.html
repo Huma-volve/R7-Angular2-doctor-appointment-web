@@ -146,7 +146,6 @@
         </div>
         <!-- Date -->
         <div class="mb-3">
-
           @for (day of days; track day) {
           <button
             [class.active]="selectedDay === day"
@@ -155,7 +154,6 @@
           >
             {{ day.label }}
             <span class="d-block">{{ day.number }} </span>
-
           </button>
           }
         </div>
