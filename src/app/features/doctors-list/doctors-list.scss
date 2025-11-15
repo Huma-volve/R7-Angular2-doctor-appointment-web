@@ -63,24 +63,17 @@
 .doctor-cards {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  justify-content: flex-start;
 }
 
 .doctor-card-col {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: calc(33.333% - 1rem);
-  max-width: calc(33.333% - 1rem);
-  display: flex;
+  width: calc(31.333% - 1rem);
+  margin: 20px;
 
   @media (max-width: 992px) {
-    flex-basis: calc(50% - 0.75rem);
-    max-width: calc(50% - 0.75rem);
+    width: calc(45% - 0.75rem);
   }
   @media (max-width: 768px) {
-    flex-basis: 100%;
-    max-width: 100%;
+    width: 100%;
   }
 }
 
@@ -98,9 +91,7 @@
 
 .doctor-image {
   width: 80px;
-  height: 80px;
   object-fit: cover;
-  margin-top: 1rem;
 }
 
 /* Search input specific styles */

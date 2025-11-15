@@ -45,28 +45,14 @@
           <div class="form-check">
             <input
               class="form-check-input"
-              type="radio"
+              type="checkbox"
               [id]="'date' + date"
               [value]="date"
               name="availableDate"
-              [(ngModel)]="availableDateFilter"
-              (change)="applyFilters()"
             />
             <label class="form-check-label" [for]="'date' + date">{{ date }}</label>
           </div>
           }
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              id="dateAny"
-              [value]="null"
-              name="availableDate"
-              [(ngModel)]="availableDateFilter"
-              (change)="applyFilters()"
-            />
-            <label class="form-check-label" for="dateAny">Any</label>
-          </div>
         </div>
 
         <!-- Gender Filter -->
@@ -80,10 +66,8 @@
               id="genderMale"
               value="Male"
               autocomplete="off"
-              [(ngModel)]="genderFilter"
-              (change)="applyFilters()"
             />
-            <label class="btn btn-outline-primary rounded-3 mx-1" for="genderMale">Male</label>
+            <label class="btn btn-outline-secondary rounded-3 mx-1" for="genderMale">Male</label>
 
             <input
               type="radio"
@@ -92,10 +76,10 @@
               id="genderFemale"
               value="Female"
               autocomplete="off"
-              [(ngModel)]="genderFilter"
-              (change)="applyFilters()"
             />
-            <label class="btn btn-outline-primary rounded-3 mx-2" for="genderFemale">Female</label>
+            <label class="btn btn-outline-secondary rounded-3 mx-2" for="genderFemale"
+              >Female</label
+            >
             <input
               type="radio"
               class="btn-check"
@@ -103,8 +87,6 @@
               id="genderAny"
               [value]="null"
               autocomplete="off"
-              [(ngModel)]="genderFilter"
-              (change)="applyFilters()"
             />
           </div>
         </div>
@@ -115,38 +97,22 @@
           <div class="form-check">
             <input
               class="form-check-input"
-              type="radio"
+              type="checkbox"
               name="consultationType"
               id="typeInclinic"
               value="In-clinic"
-              [(ngModel)]="consultationTypeFilter"
-              (change)="applyFilters()"
             />
             <label class="form-check-label" for="typeInclinic">In-clinic</label>
           </div>
           <div class="form-check">
             <input
               class="form-check-input"
-              type="radio"
+              type="checkbox"
               name="consultationType"
               id="typeHomeVisit"
               value="Home Visit"
-              [(ngModel)]="consultationTypeFilter"
-              (change)="applyFilters()"
             />
             <label class="form-check-label" for="typeHomeVisit">Home Visit</label>
-          </div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="consultationType"
-              id="typeAnyConsultation"
-              [value]="null"
-              [(ngModel)]="consultationTypeFilter"
-              (change)="applyFilters()"
-            />
-            <label class="form-check-label" for="typeAnyConsultation">Any</label>
           </div>
         </div>
 
@@ -195,27 +161,33 @@
       </div>
 
       <!-- Doctor Cards -->
-      <div class="doctor-cards g-4">
-        @for (doctor of filteredDoctors; track doctor.id) {
-        <div class="doctor-card-col">
-          <div class="card doctor-card shadow-lg text-center">
-            <div class="card-contant">
-              <div class="card-img">
-                <img [src]="doctor.image" alt="{{ doctor.name }}" class="doctor-image" />
-              </div>
+      <div class="doctor-cards">
+        @for (doctor of allDoctors(); track doctor.id) {
+        <div class="d-flex m-3 doctor-card-col">
+          <div class="card h-100 doctor-card shadow-lg">
+            <div class="card-contant rounded-4 d-flex align-items-center">
+              <img
+                [src]="doctor.imgUrl"
+                alt="{{ doctor.fullName }}"
+                class="doctor-image rounded-2 mx-4 mt-2"
+              />
+
               <div>
-                <h5 class="card-title m-2">{{ doctor.name }}</h5>
-                <p class="text-muted mb-1">{{ doctor.specialty }} | {{ doctor.hospital }}</p>
-                <div class="d-flex justify-content-center align-items-center mb-2">
+                <h5 class="card-title my-2">{{ doctor.fullName }}</h5>
+                <p class="text-muted mb-2">{{ doctor.specialistTitle }} | El-Nasr Hospital</p>
+                <div class="d-flex align-items-center mb-2">
                   <i class="fas fa-star text-warning me-1"></i>
-                  <span>{{ doctor.rating }}</span>
+                  <span class="me-3">{{ doctor.rating }}</span>
+                  <span>
+                    <i class="fa-regular fa-clock text-muted"></i>
+                    9:30am - 8:00pm
+                  </span>
                 </div>
-                <p class="mb-1"><i class="far fa-clock me-2"></i> {{ doctor.availableTime }}</p>
               </div>
             </div>
 
-            <div class="card-body">
-              <p class="d-flex justify-content-between mx-2 pt-2 border-top">
+            <div class="card-body pt-1">
+              <p class="d-flex justify-content-between mx-2 border-top">
                 <span>Price<span class="text-muted small">/hour</span></span>
                 <strong class="text-danger">${{ doctor.price }}</strong>
               </p>

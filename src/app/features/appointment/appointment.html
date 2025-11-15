@@ -1,4 +1,4 @@
-@if (selectedDoctor) { @if (showPaymentModel) {
+@if (doctorDetails()) { @if (showPaymentModel) {
 <div class="modal fade" id="book" tabindex="-1" aria-labelledby="book" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content p-2">
@@ -25,7 +25,7 @@
           <div class="d-flex">
             <img class="me-2" src="assets/images/date.svg" alt="" />
             <p class="m-0">
-              {{ date | prettyDate : { locale: 'en-US', showSpaceAfterComma: false } }}
+              {{ today | prettyDate : { locale: 'en-US', showSpaceAfterComma: false } }}
             </p>
           </div>
           <button class="main-color btn-text">Reschedule</button>
@@ -146,10 +146,14 @@
         </div>
         <!-- Date -->
         <div class="mb-3">
-          @for (day of days; track day; let i = $index) {
-          <button class="date bg-light mt-2 py-2 rounded-3 border-0 text-secondary">
-            {{ day.name }}
-            <span class="d-block">{{ day.date }} </span>
+          @for (day of days; track day) {
+          <button
+            [class.active]="selectedDay === day"
+            class="date bg-light mt-2 py-2 rounded-3 border-0 text-secondary"
+            (click)="selectDay(day)"
+          >
+            {{ day.label }}
+            <span class="d-block">{{ day.number }} </span>
           </button>
           }
         </div>
@@ -157,7 +161,11 @@
         <!-- Time -->
         <div class="mb-3">
           @for (time of times; track $index) {
-          <button class="bg-light me-4 mt-2 p-2 rounded-3 border-0 text-secondary">
+          <button
+            class="bg-light me-4 mt-2 p-2 rounded-3 border-0 text-secondary"
+            [class.active]="selectedTime === time"
+            (click)="selectTime(time)"
+          >
             {{ time }}
           </button>
           }
@@ -166,7 +174,11 @@
         <div class="d-flex align-items-center justify-content-between my-2">
           <div class="d-flex align-items-center">
             <i class="fa-regular fa-calendar-days text-primary me-2"></i>
-            <span>Monday, November 15 - 11:00 Am</span>
+            @if (selectedDay || selectedTime) {
+            <span class="text-muted">
+              {{ selectedDay.label }}, November {{ selectedDay.number }} - {{ selectedTime }}
+            </span>
+            }
           </div>
 
           <button
@@ -198,7 +210,7 @@
           </span>
         </h5>
         <div class="d-flex justify-content-between align-items-center my-3">
-          <h2>{{ selectedDoctor.rating }}/5</h2>
+          <h2>{{ doctorDetails()?.rating }}/5</h2>
 
           <div class="text-warning">
             <i class="fa-solid fa-star"></i>
@@ -206,7 +218,7 @@
             <i class="fa-solid fa-star"></i>
             <i class="fa-solid fa-star"></i>
             <i class="fa-solid fa-star-half-stroke"></i>
-            <span class="d-block text-muted">{{ selectedDoctor.reviews }}+ Reviews</span>
+            <span class="d-block text-muted">{{ doctorDetails()?.reviews }}+ Reviews</span>
           </div>
         </div>
 
@@ -277,13 +289,13 @@
 
         <div class="text-center mb-3">
           <img
-            [src]="selectedDoctor.image"
-            [alt]="selectedDoctor.name"
+            [src]="doctorDetails()?.imgUrl"
+            [alt]="doctorDetails()?.fullName"
             class="rounded-circle mb-2"
             style="width: 100px; height: 100px; object-fit: cover"
           />
-          <h5 class="mb-0">Dr. {{ selectedDoctor.name }}</h5>
-          <p class="text-muted small">{{ selectedDoctor.specialty }}</p>
+          <h5 class="mb-0">Dr. {{ doctorDetails()?.fullName }}</h5>
+          <p class="text-muted small">{{ doctorDetails()?.specialities }}</p>
         </div>
 
         <div class="row text-center mb-4">
@@ -291,35 +303,35 @@
             <span class="bg-white rounded-circle p-2">
               <i class="fa-solid fa-users"></i>
             </span>
-            <p class="mb-0 mt-2 small fw-bold">{{ selectedDoctor.patients }}</p>
+            <p class="mb-0 mt-2 small fw-bold">2,000+</p>
             <small class="text-muted">patients</small>
           </div>
           <div class="col">
             <span class="bg-white rounded-circle p-2">
               <i class="fa-solid fa-award"></i>
             </span>
-            <p class="mb-0 mt-2 small fw-bold">{{ selectedDoctor.experience }}</p>
+            <p class="mb-0 mt-2 small fw-bold">{{ doctorDetails()?.experienceYears }}</p>
             <small class="text-muted">experience</small>
           </div>
           <div class="col">
             <span class="bg-white rounded-circle p-2">
               <i class="fa-solid fa-star"></i>
             </span>
-            <p class="mb-0 mt-2 small fw-bold">{{ selectedDoctor.rating }}</p>
+            <p class="mb-0 mt-2 small fw-bold">{{ doctorDetails()?.rating }}</p>
             <small class="text-muted">rating</small>
           </div>
           <div class="col">
             <span class="bg-white rounded-circle p-2">
               <i class="fa-solid fa-message"></i>
             </span>
-            <p class="mb-0 mt-2 small fw-bold">{{ selectedDoctor.reviews }}</p>
+            <p class="mb-0 mt-2 small fw-bold">{{ doctorDetails()?.reviewsCount }}</p>
             <small class="text-muted">reviews</small>
           </div>
         </div>
 
         <h6 class="mb-2">About me</h6>
         <p class="small text-muted mb-4">
-          {{ selectedDoctor.aboutMe }} <a class="text-decoration-none">Read more</a>
+          {{ doctorDetails()?.about }} <a class="text-decoration-none">Read more</a>
         </p>
 
         <h6 class="mb-2">Location</h6>
@@ -335,14 +347,14 @@
           ></iframe>
         </div>
         <p class="small text-muted mt-2">
-          <i class="fa-solid fa-map-pin"></i> {{ selectedDoctor.location }}
+          <i class="fa-solid fa-map-pin"></i> {{ doctorDetails()?.address }}
         </p>
       </div>
     </div>
   </div>
 </div>
 
-} @if (!selectedDoctor) {
+} @if (!doctorDetails()) {
 
 <div class="text-center mt-5">
   <p>Doctor not found</p>

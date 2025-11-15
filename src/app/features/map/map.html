@@ -2,19 +2,19 @@
   <div class="row">
     <!-- Header -->
     <div class="header d-flex justify-content-between m-3 align-items-center">
-      <h5 class="card-title">{{ doctors.length }} Results</h5>
-      <a routerLink="/layout/home" class="me-3 btn-close" aria-label="Close"></a>
+      <h5 class="card-title">{{ allDoctors().length }} Results</h5>
+      <a routerLink="/layout/doctors-list" class="me-3 btn-close" aria-label="Close"></a>
     </div>
 
     <!-- Doctors List -->
     <div class="col-lg-4 doctors-list mb-4">
         <div class="card-body">
-          @for (doctor of doctors; track $index) {
+          @for (doctor of allDoctors(); track $index) {
           <div class="doctor-item shadow-sm p-3 bg-light rounded-3 d-flex align-items-center mb-3">
-            <img [src]="doctor.image" [alt]="doctor.name" class="me-3" width="60" height="60" />
+            <img [src]="doctor.imgUrl" [alt]="doctor.fullName" class="me-3" width="60" height="60" />
             <div>
-              <h6 class="mb-0">{{ doctor.name }}</h6>
-              <p class="text-muted mb-1">{{ doctor.specialty }} | {{ doctor.hospital }}</p>
+              <h6 class="mb-0">{{ doctor.fullName }}</h6>
+              <p class="text-muted mb-1">{{ doctor.specialistTitle }} |  El-Nasr Hospital</p>
               <div class="d-flex justify-content-between align-items-center">
                 <span class="me-2">
                   <i class="fa-solid fa-star text-warning me-1"></i>
@@ -22,7 +22,7 @@
                 </span>
                 <span>
                   <i class="fa-regular fa-clock"></i>
-                  {{ doctor.availableTime }}
+                  9:30am - 8:00pm
                 </span>
               </div>
             </div>

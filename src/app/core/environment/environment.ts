@@ -18,5 +18,13 @@ export const environment = {
       init: 'api/Profile/PaymentMethods/init',
       confirm: 'api/Profile/PaymentMethods/confirm',
     },
+    doctors: {
+      getAll: 'api/Customer/Doctors/GetAllDoctors',
+      getDetails: (id: number) => `api/Customer/Doctors/DoctorDetails/${id}`,
+    },
+    specialists: {
+      getAllSpecialists: 'api/Customer/Specialists/GetAllSpecialists',
+      getAllDoctorsSpecialists: (id: number) => `api/Customer/Specialists/GetAllDoctorsInSpecialist/${id}`,
+    },
   },
 };
