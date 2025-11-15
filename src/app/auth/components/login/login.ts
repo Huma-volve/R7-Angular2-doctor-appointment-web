@@ -26,7 +26,7 @@ export class Login {
       .subscribe({
         next: (res) => {
           this.toastr.success(res.message);
-          this.router.navigate(['/auth/verify', form.value.phoneNumber]);
+          this.router.navigate([`/auth/verify/${form.value.phoneNumber}`]);
         },
       });
   }
