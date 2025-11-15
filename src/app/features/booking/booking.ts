@@ -5,6 +5,9 @@ import { AuthRoutingModule } from '../../auth/auth-routing-module';
 import { environment } from '../../core/environment/environment';
 import { AppointmentsData } from '../interfaces/YourAppointments';
 import { YourAppointments } from '../Services/your-appointments';
+import { bookingServices } from '../Services/bookingServices';
+import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-booking',
@@ -14,44 +17,37 @@ import { YourAppointments } from '../Services/your-appointments';
 })
 export class Booking implements OnInit {
   private readonly _YourAppointments = inject(YourAppointments);
+  private readonly _bookingServices = inject(bookingServices);
+  private readonly _ToastrService = inject(ToastrService);
+  private readonly router = inject(Router);
+
   selectedDate = signal<string>(new Date().toISOString().substring(0, 10));
-  selectedTab = signal<'AllBooking' | 'upcoming' | 'completed' | 'canceled'>('AllBooking');
+  selectedTab = signal<'AllBooking' | 'upcoming' | 'completed' | 'Cancelled'>('AllBooking');
   appointments = signal<AppointmentsData[]>([]);
+  BaseUrl = environment.apiBaseUrl;
   filteredAppointments = computed(() => {
     const tab = this.selectedTab();
     const all = this.appointments();
 
     switch (tab) {
       case 'upcoming':
-        return all.filter(
-          (a) => a.status === 'Upcoming' && a.appointmentAt.substring(0, 10) === this.selectedDate()
-        );
+        return all.filter((a) => a.status === 'Upcoming');
 
       case 'completed':
-        return all.filter(
-          (a) =>
-            a.status === 'Completed' && a.appointmentAt.substring(0, 10) === this.selectedDate()
-        );
+        return all.filter((a) => a.status === 'Completed');
 
-      case 'canceled':
-        return all.filter(
-          (a) => a.status === 'Canceled' && a.appointmentAt.substring(0, 10) === this.selectedDate()
-        );
+      case 'Cancelled':
+        return all.filter((a) => a.status === 'Cancelled');
 
       default:
         return all;
     }
   });
 
-  BaseUrl = environment.apiBaseUrl;
-
-  ngOnInit(): void {
-    this.getPatientBookings();
-  }
-
   getPatientBookings(): void {
     this._YourAppointments.PatientBookings().subscribe({
       next: (res: any) => {
+        console.log(res);
         this.appointments.set(res.data.data);
       },
     });
@@ -71,7 +67,7 @@ export class Booking implements OnInit {
           { text: 'Feedback', class: 'btn-second', action: 'feedback' },
         ];
 
-      case 'Canceled':
+      case 'Cancelled':
         return [
           { text: 'Book again', class: 'btn-main', action: 'bookAgain' },
           { text: 'Support', class: 'btn-second', action: 'support' },
@@ -84,28 +80,42 @@ export class Booking implements OnInit {
 
   handleButtonClick(action: string, item: AppointmentsData) {
     switch (action) {
-      case 'cancel':
-        console.log('Cancel clicked for:', item);
+      case 'Cancelled':
+        this._bookingServices.CancelBooking(item.id).subscribe({
+          next: (res) => {
+            this._ToastrService.success(res.message, 'success');
+            this.getPatientBookings();
+          },
+        });
         break;
 
       case 'reschedule':
         console.log('Reschedule clicked for:', item);
+        this._bookingServices.RescheduleBooking(item.id, this.selectedDate()).subscribe({
+          next: (res) => {
+            this._ToastrService.success(res.message, 'success');
+            this.getPatientBookings();
+          },
+        });
         break;
 
       case 'bookAgain':
-        console.log('Book again clicked for:', item);
+        this.router.navigate(['/layout/appointment', item.doctorId]);
         break;
 
       case 'feedback':
-        console.log('Feedback clicked for:', item);
+        this.router.navigate(['/layout/appointment', item.doctorId]);
         break;
 
       case 'support':
-        console.log('Support clicked for:', item);
+        this.router.navigate(['/layout/appointment', item.doctorId]);
         break;
     }
   }
-  setTab(tab: 'AllBooking' | 'upcoming' | 'completed' | 'canceled') {
+  setTab(tab: 'AllBooking' | 'upcoming' | 'completed' | 'Cancelled') {
     this.selectedTab.set(tab);
+  }
+  ngOnInit(): void {
+    this.getPatientBookings();
   }
 }

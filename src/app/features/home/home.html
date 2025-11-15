@@ -3,7 +3,7 @@
     <div class="mt-5 position-relative">
       <div class="d-flex align-items-center flex-column location">
         <img src="assets/images/location.svg" alt="location icon" class="d-block" />
-        <p class="mb-0 div-round">Doctors near you</p>
+        <p routerLink="/layout/doctors-list" class="mb-0 div-round currsor">Doctors near you</p>
       </div>
       <div class="d-inline-flex align-items-center gap-2 div-round py-3">
         <img src="assets/images/ix_ai.svg" alt="AI icon" class="d-block" />
@@ -31,7 +31,7 @@
       </div>
       <div class="d-flex align-items-center arrow">
         <img src="assets/images/arrow.svg" alt="arrow icon" class="d-block" />
-        <p class="mb-0 div-round">Doctors near you</p>
+        <p routerLink="/layout/doctors-list" class="mb-0 div-round currsor">Book Now</p>
       </div>
     </div>
   </section>
@@ -134,7 +134,7 @@
                       <span class="text-warning fw-bold">★</span>
                       <span><i class="fw-semibold"></i> {{ d.rating }}</span>
                       <span class="ms-auto">⏱
-                         {{ d.startDate ? (d.startDate | date:'shortTime') : '12:00 AM' }}
+                        {{ d.startDate ? (d.startDate | date:'shortTime') : '12:00 AM' }}
                         -{{ d.endDate ?(d.endDate | date:'shortTime') : '12:00 PM' }}</span>
                     </div>
                   </div>
