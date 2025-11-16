@@ -1,0 +1,14 @@
+// export interface ProfileResponse {
+//   success: boolean;
+//   message: string;
+//   data: ProfileData;
+// }
+
+export interface Profile {
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  address: string;
+  birthDate: string;
+  imgUrl: string;
+}

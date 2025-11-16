@@ -17,8 +17,7 @@
           type="text"
           class="form-control search-input"
           placeholder="Search Doctors"
-          [(ngModel)]="searchText"
-          (ngModelChange)="applyFilters()"
+          (input)="onSearch($any($event.target).value)"
         />
       </div>
     </div>
@@ -144,17 +143,17 @@
       <!-- Specialties -->
       <div class="mb-4">
         <div class="pb-2">
-          @for (specialty of specialties; track specialty.name) {
+          @for (specialty of specialties(); track specialty.id) {
           <button
             class="btn second-color specialty-tag flex-shrink-0 mb-2 me-2"
             [ngClass]="{
-              'btn-primary': isSpecialtySelected(specialty.name),
-              'btn-outline-primary': !isSpecialtySelected(specialty.name)
+              'btn-primary': isSpecialtySelected(specialty.id),
+              'btn-outline-primary': !isSpecialtySelected(specialty.id)
             }"
-            (click)="toggleSpecialty(specialty.name)"
+            (click)="toggleSpecialty(specialty.id)"
           >
-            <i class="fas {{ specialty.icon }} mb-1 pe-4 "></i>
-            <span>{{ specialty.name }}</span>
+            <span class="mb-1 pe-4">{{ specialty.emoji }}</span>
+            <span>{{ specialty.title }}</span>
           </button>
           }
         </div>
@@ -167,7 +166,7 @@
           <div class="card h-100 doctor-card shadow-lg">
             <div class="card-contant rounded-4 d-flex align-items-center">
               <img
-                [src]="doctor.imgUrl"
+                [src]="doctor.imgUrl || '/assets/images/default-user.webp'"
                 alt="{{ doctor.fullName }}"
                 class="doctor-image rounded-2 mx-4 mt-2"
               />
@@ -191,7 +190,7 @@
                 <span>Price<span class="text-muted small">/hour</span></span>
                 <strong class="text-danger">${{ doctor.price }}</strong>
               </p>
-              <button class="btn-main w-100" (click)="bookAppointment(doctor.id)">
+              <button class="btn-main py-2 w-100" (click)="bookAppointment(doctor.id)">
                 Book appointment
               </button>
             </div>

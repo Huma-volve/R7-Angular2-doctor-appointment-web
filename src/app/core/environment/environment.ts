@@ -26,5 +26,12 @@ export const environment = {
       getAllSpecialists: 'api/Customer/Specialists/GetAllSpecialists',
       getAllDoctorsSpecialists: (id: number) => `api/Customer/Specialists/GetAllDoctorsInSpecialist/${id}`,
     },
+    search: {
+      searchDoctors: 'api/Customer/SearchData/SearchDoctors'
+    },
+    profile: {
+      getProfile: 'api/profile/Editprofile/getprofile',
+      updateProfile: 'api/profile/editprofile/updateprofile',
+    },
   },
 };
