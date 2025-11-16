@@ -161,7 +161,9 @@
   left: 0;
   right: 0;
 }
-
+.currsor {
+  cursor: pointer;
+}
 @media (max-width: 768px) {
   .location {
     display: none !important;
