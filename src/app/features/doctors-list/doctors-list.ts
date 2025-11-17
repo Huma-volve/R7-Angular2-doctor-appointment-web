@@ -14,6 +14,7 @@ import { specialties } from '../interfaces/specialties';
   styleUrls: ['./doctors-list.scss'],
 })
 export class DoctorsList {
+
   private readonly doctorService = inject(Doctors);
 
 
@@ -52,7 +53,7 @@ export class DoctorsList {
 
   applyFilters(): void {
     let tempDoctors = [...this.allDoctors()];
-    
+
     // Sort Filter
     switch (this.sortFilter) {
       case 'priceLowToHigh':
