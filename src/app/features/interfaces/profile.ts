@@ -1,9 +1,3 @@
-// export interface ProfileResponse {
-//   success: boolean;
-//   message: string;
-//   data: ProfileData;
-// }
-
 export interface Profile {
   fullName: string;
   email: string;

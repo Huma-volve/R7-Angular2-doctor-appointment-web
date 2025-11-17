@@ -1,12 +1,12 @@
 <div class="container py-4">
   <div class="row">
     <!-- Personal card -->
-    <div class=" col-md-3 mb-5">
+    <div class="col-md-3 mb-5">
       <div class="personal-card card py-5 shadow-sm">
         <div class="card-body text-center">
           <div class="img position-relative d-inline-block rounded-circle">
             <img
-              src="assets/images/profile-img.jpg"
+              [src]="baseUrl + profile()?.imgUrl || 'assets/images/profile-img.jpg'"
               alt="Seif Mohamed"
               class="w-100 h-100 rounded-circle"
             />
@@ -16,7 +16,7 @@
           </div>
 
           <div class="my-3">
-            <h4 class="card-title m-auto">Seif Mohamed</h4>
+            <h4 class="card-title m-auto">{{ profile()?.fullName }}</h4>
             <i class="fa-solid fa-map-pin fa-sm text-muted"></i>
             <span class="card-text text-muted fs-6">129, El-Nasr Street, Cairo</span>
           </div>
@@ -75,11 +75,10 @@
                   class="form-control"
                   id="fullName"
                   formControlName="fullName"
-                  placeholder="Seif Mohamed"
+                  placeholder="Full Name"
                 />
-                @if (profileForm.get('fullName')?.touched &&
-                profileForm.get('fullName')?.hasError('required')) {
-                <div class="text-danger mt-1">Full name is required.</div>
+                @if (updateProfile()?.FullName) {
+                <div class="text-danger mt-1">{{ updateProfile()?.FullName[0] }}</div>
                 }
               </div>
 
@@ -91,14 +90,22 @@
                   class="form-control"
                   id="phoneNumber"
                   formControlName="phoneNumber"
-                  placeholder="01*******99"
+                  placeholder="Phone number"
                 />
-                @if (profileForm.get('phoneNumber')?.touched) {
-                @if(profileForm.get('phoneNumber')?.hasError('required')) {
-                <div class="text-danger mt-1">Phone number is required.</div>
-                } @else if(profileForm.get('phoneNumber')?.hasError('pattern')) {
-                <div class="text-danger mt-1">Please enter a valid Egyptian phone number.</div>
-                } }
+                @if (updateProfile()?.PhoneNumber) {
+                <div>
+                  @if (profileForm.controls['phoneNumber'].value === '') {
+                  <div class="text-danger mt-1">
+                    {{ updateProfile().PhoneNumber[0] }}
+                  </div>
+                  }
+                  @if (profileForm.controls['phoneNumber'].value !== '') {
+                  <div class="text-danger mt-1">
+                    {{ updateProfile().PhoneNumber[1] }}
+                  </div>
+                  }
+                </div>
+                }
               </div>
             </div>
 
@@ -111,14 +118,22 @@
                   class="form-control"
                   id="email"
                   formControlName="email"
-                  placeholder="SeifMohamed@gmail.com"
+                  placeholder="Email"
                 />
-                @if (profileForm.get('email')?.touched) {
-                @if(profileForm.get('email')?.hasError('required')) {
-                <div class="text-danger mt-1">Email is required.</div>
-                } @else if (profileForm.get('email')?.hasError('email')) {
-                <div class="text-danger mt-1">Please enter a valid email address.</div>
-                } }
+                @if (updateProfile()?.Email) {
+                <div>
+                  @if (profileForm.controls['email'].value === '') {
+                  <div class="text-danger mt-1">
+                    {{ updateProfile().Email[0] }}
+                  </div>
+                  }
+                  @if (profileForm.controls['email'].value !== '') {
+                  <div class="text-danger mt-1">
+                    {{ updateProfile().Email[1] }}
+                  </div>
+                  }
+                </div>
+                }
               </div>
 
               <!-- BIRTHDAY -->
@@ -173,13 +188,8 @@
                       }
                     </select>
                   </div>
-                  @if ( (profileForm.get('birthdayDay')?.touched &&
-                  profileForm.get('birthdayDay')?.hasError('required')) ||
-                  (profileForm.get('birthdayMonth')?.touched &&
-                  profileForm.get('birthdayMonth')?.hasError('required')) ||
-                  (profileForm.get('birthdayYear')?.touched &&
-                  profileForm.get('birthdayYear')?.hasError('required')) ) {
-                  <div class="text-danger mt-2">Birthday is required.</div>
+                  @if (updateProfile()?.BirthDate){
+                  <div class="text-danger mt-1">{{ updateProfile()?.BirthDate[0] }}</div>
                   }
                 </div>
               </div>
@@ -193,7 +203,7 @@
                 class="form-control"
                 id="location"
                 formControlName="location"
-                placeholder="128, El Nasr Street, Cairo, Egypt"
+                placeholder="Location"
               />
               @if (profileForm.get('location')?.touched &&
               profileForm.get('location')?.hasError('required')) {
@@ -202,16 +212,9 @@
             </div>
 
             <div class="d-flex justify-content-end">
-              <button
-                type="submit"
-                class="btn-main py-2 px-5 mt-3"
-                [disabled]="profileForm.invalid"
-              >
-                Save changes
-              </button>
+              <button type="submit" class="btn-main py-2 px-5 mt-3">Save changes</button>
             </div>
           </form>
-
           }
         </div>
       </div>
