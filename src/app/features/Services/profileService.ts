@@ -3,7 +3,6 @@ import { Injectable } from "@angular/core";
 import { Profile } from "../interfaces/profile";
 import { environment } from "../../core/environment/environment";
 import { Observable } from "rxjs";
-import { ApiValidationErrors } from "../interfaces/apiValidationErrors";
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +17,7 @@ export class ProfileService {
   }
 
   updateProfile(data: any) {
-    return this.http.put<ApiValidationErrors | any>(`${environment.endpoints.profile.updateProfile}`, data);
+    return this.http.put<any>(`${environment.endpoints.profile.updateProfile}`, data);
   }
 
 
