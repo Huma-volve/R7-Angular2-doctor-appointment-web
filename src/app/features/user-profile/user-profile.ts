@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Profile } from '../interfaces/profile';
+import { ProfileService } from '../Services/profileService';
+import { environment } from '../../core/environment/environment';
 
 
 @Component({
@@ -11,57 +14,81 @@ import { Router } from '@angular/router';
   styleUrl: './user-profile.scss',
 })
 export class UserProfile {
+  private readonly profileService = inject(ProfileService);
 
   activeItem: string = 'personal';
 
-  setActive(item: string) {
-    this.activeItem = item;
-  }
-  logout() {
-    this.router.navigate(['/login']);
-  }
-
+  profile = signal<Profile | null>(null);
+  updateProfile = signal<any>(null);
   hasProfileData = true;
   profileForm!: FormGroup;
+  baseUrl = environment.apiBaseUrl;
 
   constructor(
     private fb: FormBuilder,
     private router: Router
+  ) {}
 
-  ) {
-  }
+  private loadProfile(): void {
+    this.profileService.getProfile().subscribe({
+      next: (response) => {
 
-  ngOnInit(): void {
-    this.profileForm = this.fb.group({
-      fullName: ['', Validators.required],
-      phoneNumber: ['', [Validators.required,
-        Validators.pattern(/^(\+201|01|00201)[0-2,5]{1}[0-9]{8}/)]],
-      email: ['', [Validators.required, Validators.email]],
+        // this.hasProfileData = false;
+        if (response?.data) {
+          this.profileForm.patchValue(response?.data)
+        }
 
-      birthdayDay: ['29', Validators.required],
-      birthdayMonth: ['July', Validators.required],
-      birthdayYear: ['2002', Validators.required],
-
-      location: ['', Validators.required]
-    });
-  }
+    },
+  });
+}
 
   saveChanges() {
+    this.profileService.updateProfile(this.profileForm.value).subscribe({
+        next: (response) => {
+        console.log("Updated successfully", response);
+        this.updateProfile.set(null);
+      },
+      error: (err) => {
+        console.log("Update Error:", err);
 
-    if (this.profileForm.valid) {
-      console.log(this.profileForm);
+        if (err.error?.errors) {
+          this.updateProfile.set(err.error.errors);
+        }
+        this.profileForm.reset();
+      }
+    });
 
-      console.log('Form Submitted!', this.profileForm.value);
-      this.profileForm.reset();
-    } else {
-      console.log('Form is invalid');
-      this.profileForm.markAllAsTouched();
-    }
+    console.log('Form submitted successfully');
+    console.log(this.profileForm.value);
+  }
 
+  setActive(item: string) {
+    this.activeItem = item;
   }
 
   createProfile() {
     this.hasProfileData = false;
     this.profileForm.reset();
   }
+
+  ngOnInit(): void {
+    this.profileForm = this.fb.group({
+      fullName: ['', Validators.required],
+      phoneNumber: ['',Validators.required,],
+      email: ['', Validators.required],
+
+      birthdayDay: ['29', Validators.required],
+      birthdayMonth: ['July', Validators.required],
+      birthdayYear: ['2009', Validators.required],
+
+      location: ['', Validators.required],
+    });
+
+    this.loadProfile();
+  }
+
+  logout() {
+    this.router.navigate(['/auth/login']);
+  }
+
 }
