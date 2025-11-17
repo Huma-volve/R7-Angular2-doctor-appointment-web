@@ -3,6 +3,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PrettyDatePipe } from '../../shared/pipe/pretty-date-pipe';
 import { DoctorDetails } from '../interfaces/doctor-details';
 import { Doctors } from '../Services/doctors';
+import { environment } from '../../core/environment/environment';
 
 
 @Component({
@@ -103,4 +104,5 @@ export class Appointment {
         this.generateDays();
   }
 
+  baseUrl = environment.apiBaseUrl;
 }

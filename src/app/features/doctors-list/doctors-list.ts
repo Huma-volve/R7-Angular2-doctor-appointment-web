@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink  } from '@angular/router';
 import { Doctor } from '../interfaces/doctor';
 import { Doctors } from '../Services/doctors';
+import { specialties } from '../interfaces/specialties';
 
 @Component({
   selector: 'app-doctors-list',
@@ -13,6 +14,7 @@ import { Doctors } from '../Services/doctors';
   styleUrls: ['./doctors-list.scss'],
 })
 export class DoctorsList {
+
   private readonly doctorService = inject(Doctors);
 
 
@@ -21,21 +23,27 @@ export class DoctorsList {
   isSidebarCollapsed: boolean = true;
 
   allDoctors = signal<Doctor[]>([])
+  specialties = signal<specialties[]>([])
+  specialtyDoctors = signal<Doctor[]>([]);
+  searchDoctors = signal('');
+
+  onSearch(term: string) {
+  this.searchDoctors.set(term);
+
+  const body = {
+    keyword: term || null,
+    specialityId: null,
+    gender: null,
+    sortBy: null,
+    pageNumber: 1,
+    pageSize: 10
+  };
+
+  this.search(body);
+}
 
   sortFilter: string = '';
-  searchText: string = '';
-  selectedSpecialties: string[] = [];
-
-  specialties = [
-    { name: 'Dentist', icon: 'fa-tooth' },
-    { name: 'Cardiologist', icon: 'fa-heartbeat' },
-    { name: 'ENT', icon: 'fa-ear-listen' },
-    { name: 'Neurologist', icon: 'fa-brain' },
-    { name: 'General Practitioner', icon: 'fa-user-md' },
-    { name: 'Ophthalmologist', icon: 'fa-eye' },
-    { name: 'Pulmonologist', icon: 'fa-lungs' }
-
-  ];
+  selectedSpecialties: number[] = [];
 
   sortOptions = [
     { label: 'Most recommended', value: 'recommended' },
@@ -45,22 +53,6 @@ export class DoctorsList {
 
   applyFilters(): void {
     let tempDoctors = [...this.allDoctors()];
-
-    // Search Text Filter
-    if (this.searchText) {
-      const lowerCaseSearch = this.searchText.toLowerCase();
-      tempDoctors = tempDoctors.filter(doc =>
-        doc.fullName.toLowerCase().includes(lowerCaseSearch) ||
-        doc.specialistTitle.toLowerCase().includes(lowerCaseSearch)
-      );
-    }
-
-    // Specialty Filter
-    if (this.selectedSpecialties.length > 0) {
-      tempDoctors = tempDoctors.filter(doc =>
-        this.selectedSpecialties.includes(doc.specialistTitle)
-      );
-    }
 
     // Sort Filter
     switch (this.sortFilter) {
@@ -84,18 +76,18 @@ export class DoctorsList {
   }
 
 
-  toggleSpecialty(specialtyName: string): void {
-    const index = this.selectedSpecialties.indexOf(specialtyName);
+  toggleSpecialty(id: number): void {
+    const index = this.selectedSpecialties.indexOf(id);
     if (index > -1) {
       this.selectedSpecialties.splice(index, 1);
     } else {
-      this.selectedSpecialties.push(specialtyName);
+      this.selectedSpecialties.push(id);
     }
     this.applyFilters();
   }
 
-  isSpecialtySelected(specialtyName: string): boolean {
-    return this.selectedSpecialties.includes(specialtyName);
+  isSpecialtySelected(id: number): boolean {
+    return this.selectedSpecialties.includes(id);
   }
 
     private loadDoctors(): void {
@@ -104,8 +96,34 @@ export class DoctorsList {
         this.allDoctors.set(response.data);
           console.log(this.allDoctors);
       },
+      });
+
+  }
+    private loadSpecialties(): void {
+      this.doctorService.getAllSpecialties().subscribe({
+      next: (response) => {
+        this.specialties.set(response.data);
+          console.log(this.specialties);
+      },
     });
   }
+
+  getDoctorsBySpecialty(id: number): void {
+  this.doctorService.getDoctorsBySpecialty(id).subscribe({
+    next: (response) => {
+      this.specialtyDoctors.set(response.data);
+      console.log("Doctors in this specialty:", this.specialtyDoctors());
+    },
+  });
+  }
+
+  private search(body: any): void {
+  this.doctorService.searchDoctors(body).subscribe({
+    next: (response) => {
+      this.allDoctors.set(response.data.doctors);
+    },
+  });
+}
 
   bookAppointment(doctorId: number): void {
     this.router.navigate(['/layout/appointment', doctorId]);
@@ -113,5 +131,6 @@ export class DoctorsList {
 
   ngOnInit(): void {
     this.loadDoctors();
+    this.loadSpecialties();
   }
 }

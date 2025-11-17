@@ -12,4 +12,7 @@ export interface Doctor {
   price: number;
   startDate: string | null;
   endDate: string | null;
+  latitude: string | null;
+  longitude: string | null;
 }
+

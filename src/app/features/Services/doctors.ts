@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../core/environment/environment';
 import { map, Observable } from 'rxjs';
 import { Doctor } from '../interfaces/doctor';
-import { specialists } from '../interfaces/specialists';
+import { specialties } from '../interfaces/specialties';
 import { DoctorDetails } from '../interfaces/doctor-details';
 
 @Injectable({
@@ -17,16 +17,26 @@ export class Doctors {
   getAllDoctors(): Observable<Doctor | any> {
     return this.http.get<Doctor>(`${environment.endpoints.doctors.getAll}`)
   }
-  getAllSpecialists(): Observable<specialists | any> {
-    return this.http.get<specialists>(`${environment.endpoints.specialists.getAllSpecialists}`)
-  }
+
   getDoctorDetails(id: number) {
   return this.http.get<{ success: boolean, message: string, data: DoctorDetails }>(
     `${environment.endpoints.doctors.getDetails(id)}`
   ).pipe(
-    map((response: { data: any; }) => response.data) // هنا ناخد الـ data بس
+    map((response: { data: any; }) => response.data)
   );
-}
+  }
+
+  getAllSpecialties(): Observable<specialties | any> {
+    return this.http.get<specialties>(`${environment.endpoints.specialists.getAllSpecialists}`)
+  }
+
+  getDoctorsBySpecialty(id: number): Observable<Doctor | any> {
+    return this.http.get<Doctor>(`${environment.endpoints.specialists.getAllDoctorsSpecialists}/${id}`)
+  }
+
+  searchDoctors(body: any): Observable<any> {
+    return this.http.post(`${environment.endpoints.search.searchDoctors}`, body);
+  }
 
 }
 
