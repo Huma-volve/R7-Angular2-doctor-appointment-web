@@ -2,19 +2,54 @@
   <header class="py-3 bg-white header-wrapper">
     <div class="container-fluid px-3">
       <div class="d-flex align-items-center justify-content-between gap-3 header-content">
+
+        <!-- Logo -->
         <a href="#" class="d-inline-flex align-items-center text-decoration-none">
           <img src="assets/images/NavLogo.svg" class="logo me-2" alt="Logo" />
         </a>
 
+        <!-- Search Form -->
         <form class="flex-grow-1 search-form" [class.active]="toggle">
           <div class="position-relative search-wrap mx-auto" style="max-width: 780px">
+
             <i class="fas fa-search search-icon"></i>
-            <input
-              type="search"
-              class="form-control search-input rounded-pill"
-              placeholder="Search about specialty, doctor"
-              aria-label="Search"
-            />
+            <input #search type="search" class="form-control search-input rounded-pill"
+              placeholder="Search about specialty, doctor" (input)="onSearch(search.value)" />
+
+
+            <div class="search-results" [class.show]="filtered().length > 0" *ngIf="filtered().length > 0">
+              <ul class="list-group">
+                <li class="list-group-item" *ngFor="let item of filtered()">
+
+                  <div class="result-item d-flex align-items-center" [routerLink]="['/layout/appointment', item.id]"
+                    style="cursor:pointer" (click)="closeSearch(search) ">
+                    <img class="result-img"
+                      [src]="item?.imgUrl ? baseUrl + item.imgUrl : 'assets/images/default-user.webp'" alt="" />
+
+                    <div class="flex-grow-1 ms-3">
+                      <p class="m-0 fw-semibold result-name">{{ item.fullName }}</p>
+
+                      <div class="d-flex align-items-center justify-content-between">
+                        <p class="m-0 small text-muted">
+                          <i class="fa-solid fa-location-dot pe-2"></i>
+                          {{ item.address }}
+                        </p>
+
+                        <p class="m-0 fw-bold text-primary small result-specialist">
+                          {{ item.specialistTitle }}
+                        </p>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </li>
+              </ul>
+            </div>
+
+
+
+
           </div>
         </form>
 
@@ -25,19 +60,68 @@
             <a routerLink="../layout/chats">Chat</a>
           </div>
 
+          <!-- Menu Icon -->
           <button class="icon-btn" aria-label="Menu" (click)="changeToggle()">
-            <img
-              [src]="toggle ? 'assets/images/XIcon.svg' : 'assets/images/headerIconToggle.svg'"
-              alt="Toggle Icon"
-            />
+            <img [src]="toggle ? 'assets/images/XIcon.svg' : 'assets/images/headerIconToggle.svg'" alt="Toggle Icon" />
           </button>
 
+          <!-- Notifications -->
           <button class="icon-btn" aria-label="Notifications">
             <i class="far fa-bell"></i>
           </button>
-          <button type="button" class="btn-main" (click)="logout()">logout</button>
-          <img class="avatar" src="https://i.pravatar.cc/56?img=12" alt="User" />
+
+          <!-- User Dropdown -->
+          <div class="dropdown user-dropdown">
+            <img id="userMenuBtn" [src]="data()?.imgUrl ? baseUrl + data()?.imgUrl : 'assets/images/default-user.webp'"
+              class="avatar" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;" />
+
+            <div class="dropdown-menu dropdown-menu-end custom-dropdown-menu p-3">
+              <div class="d-flex align-items-center mb-3">
+                <img [src]="data()?.imgUrl ? baseUrl + data()?.imgUrl : 'assets/images/default-user.webp'"
+                  class="profile-img me-3" />
+
+                <div>
+                  <h5 class="mb-0 fw-bold">{{data()?.firstName}}{{data()?.lastName}}</h5>
+                  <small class="text-muted">
+                    <i class="fa-solid fa-location-dot me-1"></i>
+                    {{ data()?.address ? (data()?.address | slice:0:20) + '...' : '' }}
+                  </small>
+                </div>
+                <i routerLink="/layout/user-profile" class="fa-solid fa-gear ms-auto text-primary"></i>
+              </div>
+
+              <hr>
+
+              <a routerLink="" class="dropdown-item custom-item ">
+                <i class="fa-solid fa-wallet me-2"></i> Payment Method
+                <i class="fa-solid fa-chevron-right ms-auto"></i>
+              </a>
+
+              <a class="dropdown-item custom-item">
+                <i class="fa-regular fa-heart me-2"></i> Favorite
+                <i class="fa-solid fa-chevron-right ms-auto"></i>
+              </a>
+
+              <a routerLink="/layout/user-profile" class="dropdown-item custom-item">
+                <i class="fa-solid fa-gear me-2"></i> Settings
+                <i class="fa-solid fa-chevron-right ms-auto"></i>
+              </a>
+
+              <a class="dropdown-item custom-item">
+                <i class="fa-solid fa-lock me-2"></i> Privacy Policy
+                <i class="fa-solid fa-chevron-right ms-auto"></i>
+              </a>
+
+              <hr>
+
+              <a (click)="logout()" class="dropdown-item logout-item text-danger fw-semibold">
+                <i class="fa-solid fa-right-from-bracket me-2"></i> Log out
+              </a>
+            </div>
+          </div>
+
         </div>
+
       </div>
     </div>
   </header>
