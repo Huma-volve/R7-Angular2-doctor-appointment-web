@@ -45,13 +45,22 @@
     <span class="bg-white text-muted text-center d-block">or</span>
   </div>
 
-  <button class="btn-sign-in-with-google d-flex align-items-center justify-content-center gap-2">
+  <!-- <button
+    id="googleBtn"
+    type="button"
+    class="btn-sign-in-with-google d-flex align-items-center justify-content-center gap-2"
+    (click)="googleLogin()"
+  >
     <img src="assets/images/flat-color-icons_google.svg" alt="Google" width="24" />
     Sign in with Google
-  </button>
+  </button> -->
+  <div class="google-wrap">
+    <div id="googleBtn"></div>
+  </div>
 
   <p>
     Don’t have an account?
     <a routerLink="../register" class="text-primary fw-semibold text-decoration-none">Sign up</a>
   </p>
 </div>
+<div id="googleBtn"></div>

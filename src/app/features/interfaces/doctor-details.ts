@@ -20,5 +20,4 @@ export interface DoctorDetails{
   bookingCount: number;
   availableSlots:[]
   reviews: []
-
 }

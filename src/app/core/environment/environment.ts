@@ -24,7 +24,24 @@ export const environment = {
     },
     specialists: {
       getAllSpecialists: 'api/Customer/Specialists/GetAllSpecialists',
-      getAllDoctorsSpecialists: (id: number) => `api/Customer/Specialists/GetAllDoctorsInSpecialist/${id}`,
+      getAllDoctorsSpecialists: (id: number) =>
+        `api/Customer/Specialists/GetAllDoctorsInSpecialist/${id}`,
+    },
+    Notifications: {
+      getByUser: 'api/Customer/Notifications/GetNotificationsByUser',
+      markRead: (id: string) => `api/Customer/Notifications/MarkAsRead/${id}`,
+    },
+    NotificationSettings: {
+      setting: 'api/Profile/NotificationSettings',
+      toggle: 'api/Profile/NotificationSettings/toggle',
+    },
+    Reviews: {
+      getReviews: 'api/Customer/Reviews/GetReviews',
+      getReviewsByDoctorId: (doctorId: number) =>
+        `api/Customer/Reviews/GetReviewsByDoctor/${doctorId}`,
+      deleteReviewByDoctorId: (doctorId: number) => `api/Customer/Reviews/DeleteReview/${doctorId}`,
+      addReviw: 'api/Customer/Reviews/AddReview',
+      editReviewByDoctorId: (doctorId: number) => `api/Customer/Reviews/UpdateReview/${doctorId}`,
     },
     search: {
       searchDoctors: 'api/Customer/SearchData/SearchDoctors'

@@ -12,6 +12,7 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { provideToastr } from 'ngx-toastr';
 import { globalInterceptor } from './core/interceptors/global';
 import { errorInterceptor } from './core/interceptors/error';
+import { OAuthModule, OAuthService } from 'angular-oauth2-oidc';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,5 +30,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch(), withInterceptors([globalInterceptor, errorInterceptor])),
     provideToastr(),
     provideAnimations(),
+    OAuthService,
+    ...(OAuthModule.forRoot()?.providers ?? []),
   ],
 };

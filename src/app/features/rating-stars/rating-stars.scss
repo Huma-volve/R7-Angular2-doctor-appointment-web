@@ -1,0 +1,17 @@
+.stars {
+  display: flex;
+  gap: 8px;
+}
+
+.stars span {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  background-image: url('../../../assets/images/star-no-color.svg');
+  background-size: cover;
+}
+
+.stars span.active,
+.stars span.hover {
+  background-image: url('../../../assets/images/star-color.svg');
+}
