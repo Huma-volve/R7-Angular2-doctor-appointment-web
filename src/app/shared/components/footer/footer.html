@@ -12,10 +12,17 @@
                     Cure helps you find trusted doctors, book appointments, and manage your health—quickly and easily.
                 </p>
                 <div class="d-flex gap-3">
-                    <a class="social-btn" href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a class="social-btn" href="#" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                    <a class="social-btn" href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-                    <a class="social-btn" href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a class="social-btn" href="https://www.facebook.com/mohamed.fekry.430814" aria-label="Facebook"
+                        target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+
+                    <a class="social-btn" href="https://wa.me/+201000005619" aria-label="WhatsApp" target="_blank"
+                        rel="noopener noreferrer"><i class="fab fa-whatsapp"></i></a>
+                    <a class="social-btn" href="https://www.youtube.com/" aria-label="YouTube" target="_blank"
+                        rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+                    <a class="social-btn" href="www.linkedin.com/in/mohammed-fekry3" aria-label="LinkedIn"
+                        target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
                 </div>
             </div>
 
@@ -23,10 +30,10 @@
             <div class="col-6 col-lg-2">
                 <h6 class="text-uppercase text-opacity-75 mb-3">Company</h6>
                 <ul class="list-unstyled footer-links">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Doctors</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Contact Us</a></li>
+                    <li><a routerLink="/layout">Home</a></li>
+                    <li><a routerLink="/layout/doctors-list">Doctors</a></li>
+                    <li><a routerLink="#">FAQs</a></li>
+                    <li><a routerLink="/layout/contactUs">Contact Us</a></li>
                 </ul>
             </div>
 
@@ -34,10 +41,10 @@
             <div class="col-6 col-lg-3">
                 <h6 class="text-uppercase text-opacity-75 mb-3">Support</h6>
                 <ul class="list-unstyled footer-links">
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">How it works</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms &amp; Conditions</a></li>
+                    <li><a>Help Center</a></li>
+                    <li><a [routerLink]="['/layout/home']" fragment="Howitworks">How it works</a></li>
+                    <li><a>Privacy Policy</a></li>
+                    <li><a>Terms &amp; Conditions</a></li>
                 </ul>
             </div>
 
@@ -49,7 +56,7 @@
                     <i class="fas fa-phone me-3 mt-1 text-secondary"></i>
                     <div>
                         <div class="small text-opacity-75">Phone</div>
-                        <div>080 707 555-321</div>
+                        <div>+201000005619</div>
                     </div>
                 </div>
 
@@ -57,7 +64,7 @@
                     <i class="fas fa-envelope me-3 mt-1 text-secondary"></i>
                     <div>
                         <div class="small text-opacity-75">Email</div>
-                        <div>demo@example.com</div>
+                        <div>Mo7mdFekry@gmail.com</div>
                     </div>
                 </div>
 
@@ -75,12 +82,12 @@
         <div
             class="d-flex flex-column flex-md-row justify-content-between align-items-center border-top border-secondary mt-4 pt-3">
             <div class="small text-opacity-75">
-                ©2024 Techvio - All Right Reserved
+                ©2025 Huma Volve - All Right Reserved
             </div>
             <div class="small">
-                <a class="text-white text-decoration-none me-2" href="#">Terms &amp; Condition</a>
+                <a class="text-white text-decoration-none me-2">Terms &amp; Condition</a>
                 <span class="text-secondary">|</span>
-                <a class="text-white text-decoration-none ms-2" href="#">Privacy Policy</a>
+                <a class="text-white text-decoration-none ms-2">Privacy Policy</a>
             </div>
         </div>
     </div>
