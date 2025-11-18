@@ -1,0 +1,11 @@
+<div class="stars">
+  @for (star of [1,2,3,4,5]; track $index) {
+  <span
+    [class.active]="isActive(star)"
+    [class.hover]="isHover(star)"
+    (mouseenter)="setHover(star)"
+    (mouseleave)="clearHover()"
+    (click)="select(star)"
+  ></span>
+  }
+</div>
