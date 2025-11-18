@@ -23,13 +23,22 @@
         <div class="flex-fill">
           <div class="d-flex justify-content-between">
             <strong>{{ doctor?.name ?? '' }}</strong>
+            <div class="d-flex  align-items-center">
+              <i class="fa-heart cursor-pointer "
+                [ngClass]="doctor?.isFavouriteDoctor ? 'fa-solid text-danger' : 'fa-regular'"
+                (click)="toggleFavourite(doctor)">
+              </i>
+              <h6 *ngIf="doctor?.unReadMessages > 0" class="badge bg-danger m-0">
+                {{ doctor.unReadMessages }}
+              </h6>
+
+            </div>
+
           </div>
           <h6 class="text-success">
-            {{ doctor?.lastMessage
-            ? (doctor.lastMessage.length > 20
-            ? (doctor.lastMessage | slice:0:50) + '...'
-            : doctor.lastMessage)
-            : '' }}
+            {{ doctor?.lastMessageContent ? (doctor.lastMessageContent.length > 20? (doctor.lastMessageContent |
+            slice:0:50) + '...' :
+            doctor.lastMessageContent) : '' }}
           </h6>
         </div>
          
