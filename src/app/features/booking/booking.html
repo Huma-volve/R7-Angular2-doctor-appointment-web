@@ -31,6 +31,11 @@
                             Canceled
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" [class.active]="selectedTab() === 'Pending'" (click)="setTab('Pending')">
+                            Pending
+                        </a>
+                    </li>
 
                 </ul>
             </div>

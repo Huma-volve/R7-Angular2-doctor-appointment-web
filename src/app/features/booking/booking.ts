@@ -22,7 +22,9 @@ export class Booking implements OnInit {
   private readonly router = inject(Router);
 
   selectedDate = signal<string>(new Date().toISOString().substring(0, 10));
-  selectedTab = signal<'AllBooking' | 'upcoming' | 'completed' | 'Cancelled'>('AllBooking');
+  selectedTab = signal<'AllBooking' | 'upcoming' | 'completed' | 'Cancelled' | 'Pending'>(
+    'AllBooking'
+  );
   appointments = signal<AppointmentsData[]>([]);
   BaseUrl = environment.apiBaseUrl;
   filteredAppointments = computed(() => {
@@ -38,6 +40,9 @@ export class Booking implements OnInit {
 
       case 'Cancelled':
         return all.filter((a) => a.status === 'Cancelled');
+
+      case 'Pending':
+        return all.filter((a) => a.status === 'Pending');
 
       default:
         return all;
@@ -73,6 +78,12 @@ export class Booking implements OnInit {
           { text: 'Support', class: 'btn-second', action: 'support' },
         ];
 
+      case 'Pending':
+        return [
+          { text: 'Cancel', class: 'btn-second', action: 'cancel' },
+          { text: 'Reschedule', class: 'btn-main', action: 'reschedule' },
+        ];
+
       default:
         return [];
     }
@@ -80,7 +91,7 @@ export class Booking implements OnInit {
 
   handleButtonClick(action: string, item: AppointmentsData) {
     switch (action) {
-      case 'Cancelled':
+      case 'cancel':
         this._bookingServices.CancelBooking(item.id).subscribe({
           next: (res) => {
             this._ToastrService.success(res.message, 'success');
@@ -112,7 +123,7 @@ export class Booking implements OnInit {
         break;
     }
   }
-  setTab(tab: 'AllBooking' | 'upcoming' | 'completed' | 'Cancelled') {
+  setTab(tab: 'AllBooking' | 'upcoming' | 'completed' | 'Cancelled' | 'Pending') {
     this.selectedTab.set(tab);
   }
   ngOnInit(): void {
