@@ -166,6 +166,22 @@
 .currsor {
   cursor: pointer;
 }
+
+.faq-accordion .accordion-button {
+  background: #f7f8fa;
+  font-size: 18px;
+  font-weight: 600;
+  color: #0d253f;
+  border-radius: 8px !important;
+  padding: 18px 20px;
+}
+.faq-accordion .accordion-button:focus {
+  box-shadow: none;
+}
+.accordion-item {
+  border-radius: 10px !important;
+}
+
 @media (max-width: 768px) {
   .location {
     display: none !important;

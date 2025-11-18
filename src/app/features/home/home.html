@@ -135,8 +135,10 @@
                       <span class="text-warning fw-bold">★</span>
                       <span><i class="fw-semibold"></i> {{ d.rating }}</span>
                       <span class="ms-auto">⏱
-                        {{ d.startDate ? (d.startDate | date:'shortTime') : '12:00 AM' }}
-                        -{{ d.endDate ?(d.endDate | date:'shortTime') : '12:00 PM' }}</span>
+                        {{ d.startDate ? (('1970-01-01T' + d.startDate) | date:'shortTime') : '12:00 AM' }}
+
+                        -{{ d.endDate ? (('1970-01-01T' + d.endDate) | date:'shortTime') : '12:00 PM' }}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -171,7 +173,7 @@
     </div>
   </section>
   <section>
-    <div class="text-center">
+    <!-- <div class="text-center">
       <p class="div-round d-inline-block my-5">Frequently Asked Questions</p>
       <h3 class="py-4">Got Questions ? We’ve got Answers!</h3>
       <div class="w-100 text-center">
@@ -196,7 +198,98 @@
           <i class="fa-solid fa-plus"></i>
         </div>
       </div>
+    </div> -->
+    <div class="container py-5">
+      <div class="accordion faq-accordion" id="faqAccordion">
+
+        <!-- Item 1 -->
+        <div class="accordion-item mb-3 border-0 shadow-sm">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q1">
+              What is this app used for?
+            </button>
+          </h2>
+          <div id="q1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              The app helps users find doctors, book appointments, and manage their medical profile.
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="accordion-item mb-3 border-0 shadow-sm">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q2">
+              Is the app free to use?
+            </button>
+          </h2>
+          <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Yes, the app is completely free for all users.
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="accordion-item mb-3 border-0 shadow-sm">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q3">
+              How can I find a doctor?
+            </button>
+          </h2>
+          <div id="q3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              You can search using specialty, location, or available appointment times.
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="accordion-item mb-3 border-0 shadow-sm">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q4">
+              Can I cancel my appointment?
+            </button>
+          </h2>
+          <div id="q4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Yes, you can cancel anytime before the appointment time.
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="accordion-item mb-3 border-0 shadow-sm">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q5">
+              What payment are supported?
+            </button>
+          </h2>
+          <div id="q5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              The app supports card payments, wallet, and cash.
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 6 -->
+        <div class="accordion-item mb-3 border-0 shadow-sm">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#q6">
+              How do I edit my profile?
+            </button>
+          </h2>
+          <div id="q6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              You can update your profile details from the settings menu.
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
+
+
   </section>
 
   <section class="footerimg_parent text-center position-relative">

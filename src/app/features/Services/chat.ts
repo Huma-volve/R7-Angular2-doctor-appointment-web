@@ -27,4 +27,7 @@ export class ChatService {
     formData.append('Content', content);
     return this.http.post(`api/chat/chat/send`, formData);
   }
+  toggleFavouriteDoctor(chat: object): Observable<any> {
+    return this.http.post('api/chat/chat/chatfavourite', chat);
+  }
 }

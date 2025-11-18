@@ -5,7 +5,9 @@
   overflow: hidden;
   background: #f4f4f4;
 }
-
+.cursor-pointer {
+  cursor: pointer !important;
+}
 .left-pane {
   width: 30%;
   border-right: 1px solid #ddd;

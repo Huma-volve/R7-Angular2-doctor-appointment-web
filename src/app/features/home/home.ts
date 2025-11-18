@@ -30,14 +30,15 @@ export class HomeComponent implements OnInit {
     autoplayHoverPause: true,
     autoHeight: false,
     responsive: {
-      0: { items: 2 },
-      768: { items: 3 },
+      0: { items: 1 },
+      768: { items: 2 },
       1200: { items: 3 },
     },
   };
   GetTopRatedDoctors(): void {
     this._Home.getTopRate().subscribe({
       next: (res) => {
+        console.log(res);
         this.doctors = res.data;
       },
     });
