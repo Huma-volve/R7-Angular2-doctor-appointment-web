@@ -43,5 +43,12 @@ export const environment = {
       addReviw: 'api/Customer/Reviews/AddReview',
       editReviewByDoctorId: (doctorId: number) => `api/Customer/Reviews/UpdateReview/${doctorId}`,
     },
+    search: {
+      searchDoctors: 'api/Customer/SearchData/SearchDoctors'
+    },
+    profile: {
+      getProfile: 'api/profile/Editprofile/getprofile',
+      updateProfile: 'api/profile/editprofile/updateprofile',
+    },
   },
 };

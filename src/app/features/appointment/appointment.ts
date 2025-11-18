@@ -3,10 +3,15 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PrettyDatePipe } from '../../shared/pipe/pretty-date-pipe';
 import { DoctorDetails } from '../interfaces/doctor-details';
 import { Doctors } from '../Services/doctors';
+<<<<<<< HEAD
 import { RatingStars } from '../rating-stars/rating-stars';
 import { FormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Reviews } from '../Services/reviews';
+=======
+import { environment } from '../../core/environment/environment';
+
+>>>>>>> main
 
 @Component({
   selector: 'app-appointment',
@@ -133,4 +138,9 @@ export class Appointment implements OnInit {
         console.log(res);
       });
   }
+<<<<<<< HEAD
+=======
+
+  baseUrl = environment.apiBaseUrl;
+>>>>>>> main
 }
