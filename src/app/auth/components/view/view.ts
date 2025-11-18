@@ -15,7 +15,6 @@ export class View {
 
   ngOnInit() {
     this.authService.isAuthenticated$.pipe(take(1)).subscribe((res) => {
-      console.log(res);
       this.appInitialized = res;
     });
   }

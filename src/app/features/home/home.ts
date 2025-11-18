@@ -5,6 +5,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { AuthRoutingModule } from '../../auth/auth-routing-module';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../auth/service/auth';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +17,7 @@ import { RouterLink } from '@angular/router';
 export class HomeComponent implements OnInit {
   doctors: iTopRatedDoctors[] = [];
   private readonly _Home = inject(Home);
+  private authService = inject(AuthService);
 
   carouselOptions: OwlOptions = {
     loop: true,

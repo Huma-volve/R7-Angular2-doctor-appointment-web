@@ -10,10 +10,9 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       toastr.error(error.error?.message || 'Unexpected error', `Error ${error.status}`);
-      if (error.status === 401) {
+      if (error.status === 401 && !req.url.includes('/refresh')) {
         router.navigate(['/auth/login']);
       }
-
       return throwError(() => error);
     })
   );

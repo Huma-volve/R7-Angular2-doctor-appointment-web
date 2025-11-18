@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../core/environment/environment';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, from, Observable, of, switchMap, tap } from 'rxjs';
 import { Register } from '../components/register/register';
 import { VerifyNumber } from '../model/verify-number';
-
+import { jwtDecode } from 'jwt-decode';
+declare const google: any;
 @Injectable({
   providedIn: 'root',
 })
@@ -17,14 +18,6 @@ export class AuthService {
     if (typeof window !== 'undefined') {
       this.isAuthenticatedSubject.next(this.hasTokens());
     }
-  }
-  getDoctor(): Observable<any> {
-    return this.http.get<any>(`api/Customer/Doctors/GetAllDoctors`);
-  }
-  setAuthenticated(isAuth: boolean) {
-    this.isAuthenticatedSubject.next(isAuth);
-    if (isAuth) localStorage.setItem('accessToken', 'token');
-    else localStorage.removeItem('accessToken');
   }
   private hasTokens(): boolean {
     if (typeof window === 'undefined') return false;
@@ -39,6 +32,8 @@ export class AuthService {
 
   handleLoginResponse(res: { success: boolean; data: any }) {
     if (res.success && res.data) {
+      const userDetails = jwtDecode(res.data.accessToken);
+      localStorage.setItem('userDetails', JSON.stringify(userDetails));
       this.saveTokens(res.data.accessToken, res.data.refreshToken);
     }
   }
@@ -102,39 +97,42 @@ export class AuthService {
       success: boolean;
       message: string;
       data: null;
-    }>(environment.endpoints.auth.resendOtp, phoneNumber);
+    }>(environment.endpoints.auth.resendOtp, { phoneNumber });
   }
-  googleLogin(idToken: string): Observable<{
-    success: boolean;
-    message: string;
-    data: null;
-  }> {
-    environment.endpoints.auth.refreshToken;
+  refresh() {
+    const refreshToken = localStorage.getItem('refreshToken') || '';
+
     return this.http
       .post<{
         success: boolean;
+        data: { accessToken: string; refreshToken: string };
         message: string;
-        data: null;
-      }>(environment.endpoints.auth.googleLogin, idToken)
-      .pipe(tap((res) => this.handleLoginResponse(res)));
+      }>(environment.endpoints.auth.refreshToken, { refreshToken })
+      .pipe(
+        tap((res) => {
+          if (res.success) {
+            this.saveTokens(res.data.accessToken, res.data.refreshToken);
+          }
+        }),
+        switchMap((res) => of(res.data))
+      );
   }
   refreshToken(refreshToken: string): Observable<{
     success: boolean;
     message: string;
     data: { accessToken: string; refreshToken: string };
   }> {
-    environment.endpoints.auth.refreshToken;
     return this.http
       .post<{
         success: boolean;
         message: string;
         data: { accessToken: string; refreshToken: string };
-      }>(environment.endpoints.auth.refreshToken, refreshToken)
+      }>(environment.endpoints.auth.refreshToken, { refreshToken })
       .pipe(tap((res) => this.handleLoginResponse(res)));
   }
 
   logout(): Observable<{ success: boolean; message: string; data: null }> {
-    const refreshToken = localStorage.getItem('refreshToken') || '';
+    const refreshToken = localStorage.getItem('refreshToken') || 'acb.ssj.sko';
     return this.http
       .post<{ success: boolean; message: string; data: null }>(
         environment.endpoints.auth.logout,
@@ -150,6 +148,77 @@ export class AuthService {
   clearTokens() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userDetails');
     this.isAuthenticatedSubject.next(false);
+  }
+
+  sendGoogleTokenToBackend(idToken: string): Observable<{
+    success: boolean;
+    message: string;
+    data: null;
+  }> {
+    return this.http
+      .post<{
+        success: boolean;
+        message: string;
+        data: null;
+      }>(environment.endpoints.auth.googleLogin, { idToken })
+      .pipe(tap((res) => console.log('Backend response:', res)));
+  }
+
+  loadGoogleScript(): Observable<void> {
+    if (typeof window === 'undefined') return of(); // SSR STOP
+
+    return new Observable((observer) => {
+      if (document.getElementById('google-script')) {
+        observer.next();
+        observer.complete();
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.id = 'google-script';
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        observer.next();
+        observer.complete();
+      };
+      script.onerror = () => observer.error('Google script failed to load');
+
+      document.body.appendChild(script);
+    });
+  }
+
+  initGoogleLogin(buttonElementId: string): Observable<string> {
+    return this.loadGoogleScript().pipe(
+      switchMap(() => {
+        return new Observable<string>((observer) => {
+          if (typeof google === 'undefined') {
+            observer.error('Google is undefined');
+            return;
+          }
+
+          google.accounts.id.initialize({
+            client_id: '974678887899-qe6sjnel0u95gbcb9kprm3j4jjuclrpq.apps.googleusercontent.com',
+            callback: (response: any) => {
+              observer.next(response.credential);
+              observer.complete();
+            },
+            use_fedcm_for_prompt: false,
+          });
+
+          const btn = document.getElementById(buttonElementId);
+          if (btn) {
+            google.accounts.id.renderButton(btn, {
+              theme: 'outline',
+              size: 'large',
+              width: '100%',
+            });
+          }
+        });
+      })
+    );
   }
 }

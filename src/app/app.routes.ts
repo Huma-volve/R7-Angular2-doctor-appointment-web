@@ -1,6 +1,4 @@
 import { Routes } from '@angular/router';
-import { HomeComponent } from './features/home/home';
-import { ChatList } from './features/chat/chat-list/chat-list';
 import { afterLoginGuard } from './core/guards/after-login-guard-guard';
 import { authGuard } from './core/guards/auth-guard';
 
@@ -59,5 +57,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/chat/chat-list/chat-list').then((c) => c.ChatPage),
       },
     ],
+  },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./shared/components/not-found-page/not-found-page').then((c) => c.NotFoundPage),
   },
 ];

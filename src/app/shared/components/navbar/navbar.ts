@@ -18,7 +18,6 @@ export class Navbar {
     this.toggle = !this.toggle;
   }
   logout() {
-    console.log('hfhfhf');
     this.authService.logout().subscribe({
       next: (res) => {
         this.toastr.success(res.message);
