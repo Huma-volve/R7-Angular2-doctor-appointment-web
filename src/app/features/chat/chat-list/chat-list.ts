@@ -15,6 +15,7 @@ import { ChatSummary } from '../../interfaces/chat';
 import { Message } from '../../interfaces/message';
 import { MessageBubble } from '../message-bubble/message-bubble';
 import { environment } from '../../../core/environment/environment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-chat-page',
@@ -42,7 +43,11 @@ export class ChatPage implements OnInit, AfterViewChecked {
   private shouldScroll = false;
   private meId = 'current-user-id';
 
-  constructor(private chat: ChatService, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private chat: ChatService,
+    private cdr: ChangeDetectorRef,
+    private readonly _tostar: ToastrService
+  ) {}
 
   ngOnInit() {
     this.isMobile = window.innerWidth < 768;
@@ -151,5 +156,24 @@ export class ChatPage implements OnInit, AfterViewChecked {
     this.selectedChatId = 0;
     this.selectedReceiverId = null;
     this.messages.set([]);
+  }
+  toggleFavourite(doctor: any) {
+    const oldValue = doctor.isFavouriteDoctor;
+    doctor.isFavouriteDoctor = !doctor.isFavouriteDoctor;
+
+    const request = {
+      chatId: doctor.chatId,
+      receiverId: doctor.id,
+    };
+    console.log(request);
+    this.chat.toggleFavouriteDoctor(request).subscribe({
+      next: (res) => {
+        if (res.data.isMarkedFavourite == true) {
+          this._tostar.success('chat is marked favourite success');
+        } else {
+          this._tostar.success('chat is marked Un favourite success');
+        }
+      },
+    });
   }
 }
