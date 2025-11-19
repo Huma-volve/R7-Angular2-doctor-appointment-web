@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
+import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink  } from '@angular/router';
@@ -15,19 +15,42 @@ import { specialties } from '../interfaces/specialties';
 })
 export class DoctorsList {
 
+@ViewChild('scrollContainer') scrollContainer!: ElementRef<HTMLDivElement>;
+
+  scrollLeft() {
+    this.scrollContainer.nativeElement.scrollBy({ left: -150, behavior: 'smooth' });
+  }
+
+  scrollRight() {
+    this.scrollContainer.nativeElement.scrollBy({ left: 150, behavior: 'smooth' });
+  }
+
+
+// _____________________________________________
+
   private readonly doctorService = inject(Doctors);
 
 
   constructor(private router: Router) { }
 
+  currentPage = signal(1);
+  pageSize = 9;
+  totalDoctors = 0;
+  pagedDoctors = signal<Doctor[]>([]);
+
   isSidebarCollapsed: boolean = true;
 
   allDoctors = signal<Doctor[]>([])
   specialties = signal<specialties[]>([])
-  specialtyDoctors = signal<Doctor[]>([]);
   searchDoctors = signal('');
+  sortFilter: string = '';
+  selectedSpecialties: number[] = [];
 
   onSearch(term: string) {
+    if (term.trim() === '') {
+      this.loadDoctors();
+      return;
+    }
   this.searchDoctors.set(term);
 
   const body = {
@@ -42,8 +65,6 @@ export class DoctorsList {
   this.search(body);
 }
 
-  sortFilter: string = '';
-  selectedSpecialties: number[] = [];
 
   sortOptions = [
     { label: 'Most recommended', value: 'recommended' },
@@ -68,7 +89,9 @@ export class DoctorsList {
         break;
     }
 
-    this.allDoctors.set(tempDoctors) ;
+    this.allDoctors.set(tempDoctors);
+    this.currentPage.set(1);
+    this.applyPagination();
   }
 
   toggleSidebar(): void {
@@ -78,27 +101,57 @@ export class DoctorsList {
 
   toggleSpecialty(id: number): void {
     const index = this.selectedSpecialties.indexOf(id);
-    if (index > -1) {
-      this.selectedSpecialties.splice(index, 1);
-    } else {
-      this.selectedSpecialties.push(id);
+    if (this.selectedSpecialties[0] === id) {
+    this.selectedSpecialties = [];
+  } else {
+    this.selectedSpecialties = [id];
     }
-    this.applyFilters();
+    // this.applyFilters();
+  if (this.selectedSpecialties.length > 0) {
+    this.getDoctorsBySpecialty(this.selectedSpecialties[0]);
+  } else {
+    this.loadDoctors();
+  }
+
   }
 
   isSpecialtySelected(id: number): boolean {
     return this.selectedSpecialties.includes(id);
   }
 
-    private loadDoctors(): void {
-      this.doctorService.getAllDoctors().subscribe({
-      next: (response) => {
-        this.allDoctors.set(response.data);
-          console.log(this.allDoctors);
-      },
-      });
-
+  private loadDoctors(): void {
+  this.doctorService.getAllDoctors().subscribe({
+    next: (response) => {
+      this.allDoctors.set(response.data);
+      this.totalDoctors = response.data.length;
+      this.applyPagination();
+    },
+  });
   }
+
+applyPagination() {
+  const all = this.allDoctors();
+  if (this.currentPage() === 1) {
+    this.pagedDoctors.set(all.slice(0, 9));
+  } else {
+    this.pagedDoctors.set(all.slice(9));
+  }
+}
+
+nextPage() {
+  if (this.currentPage() === 1) {
+    this.currentPage.set(2);
+    this.applyPagination();
+  }
+}
+
+prevPage() {
+  if (this.currentPage() === 2) {
+    this.currentPage.set(1);
+    this.applyPagination();
+  }
+  }
+
     private loadSpecialties(): void {
       this.doctorService.getAllSpecialties().subscribe({
       next: (response) => {
@@ -111,9 +164,10 @@ export class DoctorsList {
   getDoctorsBySpecialty(id: number): void {
   this.doctorService.getDoctorsBySpecialty(id).subscribe({
     next: (response) => {
-      this.specialtyDoctors.set(response.data);
-      console.log("Doctors in this specialty:", this.specialtyDoctors());
-    },
+      this.allDoctors.set(response.data);
+      this.currentPage.set(1);
+      this.applyPagination();
+      },
   });
   }
 
@@ -121,6 +175,8 @@ export class DoctorsList {
   this.doctorService.searchDoctors(body).subscribe({
     next: (response) => {
       this.allDoctors.set(response.data.doctors);
+      this.currentPage.set(1);
+      this.applyPagination();
     },
   });
 }

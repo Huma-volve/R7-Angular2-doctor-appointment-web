@@ -31,7 +31,7 @@ export class Doctors {
   }
 
   getDoctorsBySpecialty(id: number): Observable<Doctor | any> {
-    return this.http.get<Doctor>(`${environment.endpoints.specialists.getAllDoctorsSpecialists}/${id}`)
+    return this.http.get<Doctor>(`${environment.endpoints.specialists.getAllDoctorsSpecialists(id)}`)
   }
 
   searchDoctors(body: any): Observable<any> {

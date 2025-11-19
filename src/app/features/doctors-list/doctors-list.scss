@@ -7,6 +7,24 @@
   color: #145db8;
 }
 
+.specialties-wrapper {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+
+  .specialties-container {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .specialties-container::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .main-content {
   flex-grow: 1;
   display: flex;
