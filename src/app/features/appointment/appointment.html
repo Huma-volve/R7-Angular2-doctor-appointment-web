@@ -208,7 +208,7 @@
       <div class="mb-4">
         <h5 class="d-flex justify-content-between align-items-center">
           Reviews and Rating
-          <span class="fa-xs text-primary-emphasis pt-2">
+          <span (click)="addReview()" class="fa-xs text-primary-emphasis pt-2">
             <i class="fa-solid fa-pencil"></i>
             <button
               class="btn-text"
@@ -301,7 +301,7 @@
         <div class="text-center mb-3">
           <div class="container-div-image d-inline-block position-relative">
             <img
-              [src]="baseUrl+doctorDetails()?.imgUrl"
+              [src]="doctorDetails()?.imgUrl || '/assets/images/default-user.webp'"
               [alt]="doctorDetails()?.fullName"
               class="rounded-circle mb-2"
               style="width: 100px; height: 100px; object-fit: cover"

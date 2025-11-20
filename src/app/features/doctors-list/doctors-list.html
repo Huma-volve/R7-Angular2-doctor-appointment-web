@@ -3,11 +3,12 @@
   <div class="row header-bar align-items-center py-4">
     <div class="col-auto">
       <button
-        class="btn btn-outline-secondary d-flex align-items-center gap-2"
+        class="btn btn-outline-secondary d-flex align-items-center py-0"
         (click)="toggleSidebar()"
       >
-        <i class="fas fa-filter"></i>
-        <span>Filter</span>
+        <i class="fa-solid fa-sliders fa-sm"></i>
+        <span class="border-end border-1 border-secondary p-2">Filter</span>
+        <i class="fa-solid fa-angle-left fa-sm ps-2"></i>
       </button>
     </div>
 
@@ -15,7 +16,7 @@
       <div class="input-group">
         <input
           type="text"
-          class="form-control search-input"
+          class="form-control search-input border-secondary p-2"
           placeholder="Search Doctors"
           (input)="onSearch($any($event.target).value)"
         />
@@ -23,7 +24,10 @@
     </div>
 
     <div class="col-auto">
-      <a routerLink="/layout/map" class="btn btn-outline-secondary d-flex align-items-center gap-2">
+      <a
+        routerLink="/layout/map"
+        class="btn btn-outline-secondary p-2 d-flex align-items-center gap-2"
+      >
         <i class="fas fa-map-marker-alt"></i>
         <span>Map</span>
       </a>
@@ -35,8 +39,6 @@
     <!-- Sidebar  -->
     <div class="sidebar" [class.collapsed]="isSidebarCollapsed">
       <div class="sidebar-card card p-3 shadow-sm">
-        <h5 class="mb-3">Filter Options</h5>
-
         <!-- Available Date Filter -->
         <div class="filter-section mb-3">
           <h6>Available Date</h6>
@@ -79,14 +81,6 @@
             <label class="btn btn-outline-secondary rounded-3 mx-2" for="genderFemale"
               >Female</label
             >
-            <input
-              type="radio"
-              class="btn-check"
-              name="gender"
-              id="genderAny"
-              [value]="null"
-              autocomplete="off"
-            />
           </div>
         </div>
 
@@ -141,7 +135,32 @@
       <h4 class="mb-3">Choose Specialties</h4>
 
       <!-- Specialties -->
-      <div class="mb-4">
+      <div class="specialties-wrapper d-flex align-items-center">
+        <button class="btn btn-outline-secondary border-0 p-1 bg-secondary-subtle rounded-circle mx-1 mb-2" (click)="scrollLeft()">
+          <i class="fa-solid fa-angle-left"></i>
+        </button>
+
+        <div class="specialties-container" #scrollContainer>
+          @for (specialty of specialties(); track specialty.id) {
+          <button
+            class="btn second-color specialty-tag flex-shrink-0 mb-2 me-2"
+            [ngClass]="{
+              'btn-primary': isSpecialtySelected(specialty.id),
+              'btn-outline-primary': !isSpecialtySelected(specialty.id)
+            }"
+            (click)="toggleSpecialty(specialty.id)"
+          >
+            <span class="mb-1 pe-4">{{ specialty.emoji }}</span>
+            <span>{{ specialty.title }}</span>
+          </button>
+          }
+        </div>
+        <button class="btn btn-outline-secondary border-0 p-1 bg-secondary-subtle rounded-circle mb-2" (click)="scrollRight()">
+          <i class="fa-solid fa-angle-right"></i>
+        </button>
+      </div>
+
+      <!-- <div class="mb-4">
         <div class="pb-2">
           @for (specialty of specialties(); track specialty.id) {
           <button
@@ -157,11 +176,11 @@
           </button>
           }
         </div>
-      </div>
+      </div> -->
 
       <!-- Doctor Cards -->
       <div class="doctor-cards">
-        @for (doctor of allDoctors(); track doctor.id) {
+        @for (doctor of pagedDoctors(); track doctor.id) {
         <div class="d-flex m-3 doctor-card-col">
           <div class="card h-100 doctor-card shadow-lg">
             <div class="card-contant rounded-4 d-flex align-items-center">
@@ -172,9 +191,22 @@
               />
 
               <div class="pe-1">
-                <h5 class="card-title my-2">{{ doctor.fullName }}</h5>
-                <p class="text-muted mb-2">{{ doctor.specialistTitle }} | El-Nasr Hospital</p>
-                <div class=" align-items-center mb-2">
+                <h5 class="card-title my-2">
+                  {{
+                    doctor.fullName.length > 18
+                      ? doctor.fullName.slice(0, 18) + '...'
+                      : doctor.fullName
+                  }}
+                </h5>
+                <p class="text-muted mb-2 overflow-hidden">
+                  {{
+                    doctor.specialistTitle.length > 9
+                      ? doctor.specialistTitle.slice(0, 8) + '...'
+                      : doctor.specialistTitle
+                  }}
+                  | El-Nasr Hospital
+                </p>
+                <div class="align-items-center mb-2">
                   <i class="fas fa-star text-warning me-1"></i>
                   <span class="me-3">{{ doctor.rating }}</span>
                   <span>
@@ -202,11 +234,16 @@
         </div>
         }
       </div>
-
-      <!-- Previous & Next -->
-      <div class="d-flex justify-content-between mt-5">
-        <button class="btn-main py-2 mb-4 ms-2">Previous page</button>
-        <button class="btn-main py-2 mb-4">Next page</button>
+      <div class="d-flex justify-content-center mt-5">
+        @if (currentPage() === 1) {
+        <button class="btn-main py-2 mb-4 bg-white main-color" (click)="nextPage()">
+          Next page
+        </button>
+        } @if (currentPage() === 2) {
+        <button class="btn-main py-2 mb-4 bg-white main-color" (click)="prevPage()">
+          Previous page
+        </button>
+        }
       </div>
     </div>
   </div>
