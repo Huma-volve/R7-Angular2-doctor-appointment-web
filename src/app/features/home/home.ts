@@ -5,6 +5,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { AuthRoutingModule } from '../../auth/auth-routing-module';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../auth/service/auth';
 
 @Component({
   selector: 'app-home',
@@ -36,7 +37,7 @@ export class HomeComponent implements OnInit {
     this._Home.getTopRate().subscribe({
       next: (res) => {
         console.log(res);
-        this.doctors = res.data;
+        this.doctors.set(res.data);
       },
     });
   }
