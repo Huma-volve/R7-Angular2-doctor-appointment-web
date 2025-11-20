@@ -1,4 +1,3 @@
-export const prerender = false;
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PrettyDatePipe } from '../../shared/pipe/pretty-date-pipe';
