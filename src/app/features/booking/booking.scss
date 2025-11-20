@@ -32,4 +32,7 @@ a {
   &.Cancelled {
     color: #dc3545;
   }
+  &.Pending {
+    color: brown;
+  }
 }

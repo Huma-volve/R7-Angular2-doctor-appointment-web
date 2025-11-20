@@ -14,7 +14,12 @@ const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'login', component: Login, title: 'Login' },
       { path: 'register', component: Register, title: 'register' },
-      { path: 'verify/:phoneNumber', component: VerifyCode, title: 'verify-code' },
+      {
+        path: 'verify/:phoneNumber',
+        component: VerifyCode,
+        title: 'verify-code',
+        data: { prerender: false },
+      },
       { path: 'verifyRegister/:phoneNumber', component: VerifyRegister, title: 'verify-register' },
     ],
   },

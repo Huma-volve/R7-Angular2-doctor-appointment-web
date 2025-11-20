@@ -61,6 +61,7 @@ export class ChatPage implements OnInit, AfterViewChecked {
         name: c.doctorName,
         img: c.img,
         lastMessage: c.lastMessageContent,
+        unReadMessages: c.unReadMessages,
         isSuggestion: false,
       }));
 
