@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Profile } from '../interfaces/profile';
@@ -46,7 +46,7 @@ export class UserProfile {
     this.profileService.updateProfile(this.profileForm.value).subscribe({
         next: (response) => {
         console.log("Updated successfully", response);
-        this.updateProfile.set(null);
+        this.updateProfile.set(response.data);
       },
       error: (err) => {
         console.log("Update Error:", err);
@@ -54,12 +54,10 @@ export class UserProfile {
         if (err.error?.errors) {
           this.updateProfile.set(err.error.errors);
         }
-        this.profileForm.reset();
       }
     });
 
     console.log('Form submitted successfully');
-    console.log(this.profileForm.value);
   }
 
   setActive(item: string) {
@@ -70,6 +68,24 @@ export class UserProfile {
     this.hasProfileData = false;
     this.profileForm.reset();
   }
+
+  @ViewChild('imgInput') imgInput!: any;
+  selectedImage = signal<string | null>(null);
+
+  openImagePicker() {
+  this.imgInput.nativeElement.click();
+  }
+  onImageSelected(event: any) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    this.selectedImage.set(reader.result as string);
+  };
+
+  reader.readAsDataURL(file);
+}
+
 
   ngOnInit(): void {
     this.profileForm = this.fb.group({
