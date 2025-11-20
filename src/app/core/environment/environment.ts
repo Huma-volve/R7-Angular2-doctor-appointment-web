@@ -27,6 +27,9 @@ export const environment = {
       getAllDoctorsSpecialists: (id: number) =>
         `api/Customer/Specialists/GetAllDoctorsInSpecialist/${id}`,
     },
+    booking: {
+      createBooking: '/api/Customer/Booking/CreateBooking',
+    },
     Notifications: {
       getByUser: 'api/Customer/Notifications/GetNotificationsByUser',
       markRead: (id: string) => `api/Customer/Notifications/MarkAsRead/${id}`,
@@ -44,7 +47,7 @@ export const environment = {
       editReviewByDoctorId: (doctorId: number) => `api/Customer/Reviews/UpdateReview/${doctorId}`,
     },
     search: {
-      searchDoctors: 'api/Customer/SearchData/SearchDoctors'
+      searchDoctors: 'api/Customer/SearchData/SearchDoctors',
     },
     profile: {
       getProfile: 'api/profile/Editprofile/getprofile',
