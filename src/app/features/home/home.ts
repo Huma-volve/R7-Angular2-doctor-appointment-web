@@ -1,7 +1,7 @@
 import { iTopRatedDoctors } from './../interfaces/itop-rated-doctors';
 import { Home } from './../Services/home';
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { CarouselModule, OwlOptions } from 'ngx-owl-carousel-o';
 import { AuthRoutingModule } from '../../auth/auth-routing-module';
 import { RouterLink } from '@angular/router';
@@ -14,7 +14,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './home.scss',
 })
 export class HomeComponent implements OnInit {
-  doctors: iTopRatedDoctors[] = [];
+  doctors = signal<iTopRatedDoctors[]>([]);
   private readonly _Home = inject(Home);
   carouselOptions: OwlOptions = {
     loop: true,

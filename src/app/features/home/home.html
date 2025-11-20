@@ -119,7 +119,7 @@
   <section>
     <div class="container py-4">
       <owl-carousel-o [options]="carouselOptions" class="owl-theme">
-        @for (d of doctors; track $index) {
+        @for (d of doctors(); track $index) {
         <ng-template carouselSlide>
           <div class="doctor-item">
             <div class="card doctor-card shadow-sm">
