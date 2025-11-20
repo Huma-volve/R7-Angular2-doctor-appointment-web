@@ -29,16 +29,16 @@
                 (click)="toggleFavourite(doctor)">
               </i>
               <h6 *ngIf="doctor?.unReadMessages > 0" class="badge bg-danger m-0">
-                {{ doctor.unReadMessages }}
+                {{ doctor?.unReadMessages }}
               </h6>
 
             </div>
 
           </div>
           <h6 class="text-success">
-            {{ doctor?.lastMessageContent ? (doctor.lastMessageContent.length > 20? (doctor.lastMessageContent |
+            {{ doctor?.lastMessage ? (doctor.lastMessage.length > 20? (doctor.lastMessage |
             slice:0:50) + '...' :
-            doctor.lastMessageContent) : '' }}
+            doctor.lastMessage) : '' }}
           </h6>
         </div>
          

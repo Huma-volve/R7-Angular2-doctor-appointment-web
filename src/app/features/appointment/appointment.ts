@@ -10,7 +10,6 @@ import { Reviews } from '../Services/reviews';
 import { environment } from '../../core/environment/environment';
 import { DatePipe } from '@angular/common';
 
-
 @Component({
   selector: 'app-appointment',
   imports: [RouterLink, PrettyDatePipe, RatingStars, FormsModule, DatePipe],
