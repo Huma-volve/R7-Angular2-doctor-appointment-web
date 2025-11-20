@@ -154,11 +154,19 @@
         <div class="d-flex align-items-center justify-content-between border-bottom pb-3 mb-3">
           <h5 class="card-title mb-0">Choose date and time</h5>
           <div class="d-flex align-items-center">
-            <i class="fa-regular fa-calendar-days me-2"></i>
-            <span class="me-2">November, 2024</span>
-            <img src="/assets/images/arrow-top-dwon.svg" alt="" />
+            <div>
+              <i class="fa-regular fa-calendar-days me-2"></i>
+              <button class="border-0 bg-white" (click)="prevMonth()">
+                <i class="fa-solid fa-angle-left"></i>
+              </button>
+              <span>{{ currentMonth | date : 'MMMM, yyyy' }}</span>
+              <button class="border-0 bg-white" (click)="nextMonth()">
+                <i class="fa-solid fa-angle-right"></i>
+              </button>
+            </div>
           </div>
         </div>
+
         <div class="mb-3">
           @for (day of days; track day) {
           <button
@@ -171,7 +179,6 @@
           </button>
           }
         </div>
-
         <div class="mb-3">
           @for (time of times; track $index) {
           <button
@@ -187,10 +194,13 @@
         <div class="d-flex align-items-center justify-content-between my-2">
           <div class="d-flex align-items-center">
             <i class="fa-regular fa-calendar-days text-primary me-2"></i>
-            @if (selectedDay || selectedTime) {
+            @if (selectedDay || selectedTime ) {
             <span class="text-muted">
-              {{ selectedDay.label }}, November {{ selectedDay.number }} - {{ selectedTime }}
+              {{ selectedDay.label }}, {{ selectedDay.full | date : 'MMMM d, yyyy' }} -
+              {{ selectedTime }}
             </span>
+            } @else {
+            <div class="text-muted">Choose Date and Time</div>
             }
           </div>
 
@@ -210,12 +220,7 @@
           Reviews and Rating
           <span (click)="addReview()" class="fa-xs text-primary-emphasis pt-2">
             <i class="fa-solid fa-pencil"></i>
-            <button
-              class="btn-text"
-              type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#review"
-            >
+            <button class="btn-text" type="button" data-bs-toggle="modal" data-bs-target="#review">
               add review
             </button>
           </span>
@@ -307,10 +312,10 @@
               style="width: 100px; height: 100px; object-fit: cover"
             />
             <img
-                class="position-absolute custome-budget"
-                src="assets/images/budgetCorrect.svg"
-                alt=""
-              />
+              class="position-absolute custome-budget"
+              src="assets/images/budgetCorrect.svg"
+              alt=""
+            />
           </div>
           <h5 class="mb-0">Dr. {{ doctorDetails()?.fullName }}</h5>
           <p class="text-muted small">{{ doctorDetails()?.specialities }}</p>

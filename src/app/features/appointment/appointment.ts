@@ -8,14 +8,16 @@ import { FormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Reviews } from '../Services/reviews';
 import { environment } from '../../core/environment/environment';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-appointment',
-  imports: [RouterLink, PrettyDatePipe, RatingStars, FormsModule],
+  imports: [RouterLink, PrettyDatePipe, RatingStars, FormsModule, DatePipe],
   templateUrl: './appointment.html',
   styleUrl: './appointment.scss',
 })
 export class Appointment implements OnInit {
+
   rating: number = 0;
   comment: string = '';
 
@@ -29,6 +31,9 @@ export class Appointment implements OnInit {
 
   today = new Date();
   days: any[] = [];
+  currentMonth: Date = new Date(this.today.getFullYear(), this.today.getMonth(), 1);
+  selectedDay: any = null;
+  selectedTime: string | null = null;
 
   changeBg(selectedDiv: HTMLDivElement, otherDiv1?: HTMLDivElement, otherDiv2?: HTMLDivElement) {
     selectedDiv.style.backgroundColor = '#edf7ee';
@@ -58,27 +63,30 @@ export class Appointment implements OnInit {
       });
   }
 
-  // days = [
-  //   { name: 'Fri', date: 12 },
-  //   { name: 'Sat', date: 13 },
-  //   { name: 'Sun', date: 14 },
-  //   { name: 'Mon', date: 15 },
-  //   { name: 'Tue', date: 16 },
-  //   { name: 'Wed', date: 17 },
-  //   { name: 'Thu', date: 18 },
-  // ];
-
   generateDays() {
-    for (let i = 0; i < 7; i++) {
-      const date = new Date();
-      date.setDate(date.getDate() + i);
+    this.days = [];
+    const year = this.currentMonth.getFullYear();
+    const month = this.currentMonth.getMonth();
+    const numDays = new Date(year, month + 1, 0).getDate();
 
+    for (let i = 1; i <= numDays; i++) {
+      const date = new Date(year, month, i);
       this.days.push({
         label: date.toLocaleDateString('en-US', { weekday: 'short' }),
-        number: date.getDate(),
-        full: date,
+        number: i,
+        full: date
       });
     }
+  }
+
+  prevMonth() {
+    this.currentMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() - 1, 1);
+    this.generateDays();
+  }
+
+  nextMonth() {
+    this.currentMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 1);
+    this.generateDays();
   }
 
   times = [
@@ -92,8 +100,7 @@ export class Appointment implements OnInit {
     '10:00 PM',
   ];
 
-  selectedDay: any = null;
-  selectedTime: string | null = null;
+
 
   selectDay(day: any) {
     this.selectedDay = day;
@@ -113,6 +120,7 @@ export class Appointment implements OnInit {
   }
 
   ngOnInit(): void {
+    this.generateDays();
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       const idParam = params.get('id');
       if (idParam) {
@@ -135,5 +143,4 @@ export class Appointment implements OnInit {
       });
   }
 
-  baseUrl = environment.apiBaseUrl;
 }
