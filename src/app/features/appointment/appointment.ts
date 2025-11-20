@@ -1,3 +1,4 @@
+export const prerender = false;
 import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PrettyDatePipe } from '../../shared/pipe/pretty-date-pipe';
@@ -8,7 +9,6 @@ import { FormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Reviews } from '../Services/reviews';
 import { environment } from '../../core/environment/environment';
-
 
 @Component({
   selector: 'app-appointment',
