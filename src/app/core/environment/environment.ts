@@ -28,11 +28,13 @@ export const environment = {
         `api/Customer/Specialists/GetAllDoctorsInSpecialist/${id}`,
     },
     booking: {
-      createBooking: '/api/Customer/Booking/CreateBooking',
+      createBooking: 'api/Customer/Booking/CreateBooking',
+      paypaSuccess: 'api/Customer/Booking/PaypalSuccess',
+      stripeSuccess: 'api/Customer/Booking/StripeSuccess',
     },
     Notifications: {
       getByUser: 'api/Customer/Notifications/GetNotificationsByUser',
-      markRead: (id: string) => `api/Customer/Notifications/MarkAsRead/${id}`,
+      markRead: (id: number) => `api/Customer/Notifications/MarkAsRead/${id}`,
     },
     NotificationSettings: {
       setting: 'api/Profile/NotificationSettings',

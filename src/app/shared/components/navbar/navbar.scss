@@ -236,3 +236,24 @@ body {
     font-size: 14px;
   }
 }
+
+.notifications-dropdown .dropdown-menu {
+  width: 466px;
+  height: 314px;
+  border-radius: 20px;
+  padding: 0px !important;
+  margin: 0px;
+}
+.notification-h6 {
+  background-color: #f5f6f7;
+  padding: 16px !important;
+  font-size: 20px;
+  margin-bottom: 0px !important;
+}
+
+.notification-bg-odd {
+  background-color: #f5f6f7;
+}
+.notification-li-padding {
+  padding: 20px !important;
+}
