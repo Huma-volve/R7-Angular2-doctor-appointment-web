@@ -1,3 +1,4 @@
+import { RenderMode } from '@angular/ssr';
 import { Routes } from '@angular/router';
 import { afterLoginGuard } from './core/guards/after-login-guard-guard';
 import { authGuard } from './core/guards/auth-guard';

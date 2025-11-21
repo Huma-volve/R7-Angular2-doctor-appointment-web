@@ -31,6 +31,7 @@ import * as bootstrap from 'bootstrap';
   styleUrl: './appointment.scss',
 })
 export class Appointment implements OnInit {
+  baseUrl = environment.apiBaseUrl;
   rating: number = 0;
   comment: string = '';
   payment: 0 | 1 | 2 = 0;
@@ -51,6 +52,10 @@ export class Appointment implements OnInit {
   today = new Date();
   days: any[] = [];
   constructor(private route: ActivatedRoute) {}
+  currentMonth: Date = new Date(this.today.getFullYear(), this.today.getMonth(), 1);
+  selectedDay: any = null;
+  selectedTime: string | null = null;
+
   changeBg(selectedDiv: HTMLDivElement, otherDiv1?: HTMLDivElement, otherDiv2?: HTMLDivElement) {
     selectedDiv.style.backgroundColor = '#edf7ee';
     selectedDiv.style.borderRadius = '10px';
@@ -170,16 +175,37 @@ export class Appointment implements OnInit {
   // ];
 
   generateDays() {
-    for (let i = 0; i < 7; i++) {
-      const date = new Date();
-      date.setDate(date.getDate() + i);
+    this.days = [];
+    const year = this.currentMonth.getFullYear();
+    const month = this.currentMonth.getMonth();
+    const numDays = new Date(year, month + 1, 0).getDate();
 
+    for (let i = 1; i <= numDays; i++) {
+      const date = new Date(year, month, i);
       this.days.push({
         label: date.toLocaleDateString('en-US', { weekday: 'short' }),
-        number: date.getDate(),
+        number: i,
         full: date,
       });
     }
+  }
+
+  prevMonth() {
+    this.currentMonth = new Date(
+      this.currentMonth.getFullYear(),
+      this.currentMonth.getMonth() - 1,
+      1
+    );
+    this.generateDays();
+  }
+
+  nextMonth() {
+    this.currentMonth = new Date(
+      this.currentMonth.getFullYear(),
+      this.currentMonth.getMonth() + 1,
+      1
+    );
+    this.generateDays();
   }
 
   times = [
@@ -192,9 +218,6 @@ export class Appointment implements OnInit {
     '9:00 PM',
     '10:00 PM',
   ];
-
-  selectedDay: any = null;
-  selectedTime: string | null = null;
 
   selectDay(day: any) {
     const availableSlots = this.doctorDetails()?.availableSlots || [];
@@ -216,6 +239,7 @@ export class Appointment implements OnInit {
   }
 
   ngOnInit(): void {
+    this.generateDays();
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       const idParam = params.get('id');
       if (idParam) {
@@ -237,6 +261,4 @@ export class Appointment implements OnInit {
         this.reviewsByDoctor.set(res.data);
       });
   }
-
-  baseUrl = environment.apiBaseUrl;
 }

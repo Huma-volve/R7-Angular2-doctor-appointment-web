@@ -6,13 +6,23 @@
         <div class="card-body text-center">
           <div class="img position-relative d-inline-block rounded-circle">
             <img
-              [src]="baseUrl + profile()?.imgUrl || 'assets/images/profile-img.jpg'"
+              [src]="profile()?.imgUrl || selectedImage() || 'assets/images/default-user.webp'"
               alt="Seif Mohamed"
               class="w-100 h-100 rounded-circle"
             />
-            <div class="icon position-absolute px-1 rounded-circle bottom-0 end-0">
+            <div
+              (click)="openImagePicker()"
+              class="icon position-absolute px-1 rounded-circle bottom-0 end-0 pointer-event"
+            >
               <i class="fa-regular fa-camera fa-sm"></i>
             </div>
+            <input
+              #imgInput
+              type="file"
+              accept="image/*"
+              style="display: none"
+              (change)="onImageSelected($event)"
+            />
           </div>
 
           <div class="my-3">
@@ -77,8 +87,10 @@
                   formControlName="fullName"
                   placeholder="Full Name"
                 />
-                @if (updateProfile()?.FullName) {
-                <div class="text-danger mt-1">{{ updateProfile()?.FullName[0] }}</div>
+                @if (updateProfile().FullName) {
+                <div class="text-danger small">
+                  {{ updateProfile().FullName[0] }}
+                </div>
                 }
               </div>
 
@@ -92,18 +104,9 @@
                   formControlName="phoneNumber"
                   placeholder="Phone number"
                 />
-                @if (updateProfile()?.PhoneNumber) {
-                <div>
-                  @if (profileForm.controls['phoneNumber'].value === '') {
-                  <div class="text-danger mt-1">
-                    {{ updateProfile().PhoneNumber[0] }}
-                  </div>
-                  }
-                  @if (profileForm.controls['phoneNumber'].value !== '') {
-                  <div class="text-danger mt-1">
-                    {{ updateProfile().PhoneNumber[1] }}
-                  </div>
-                  }
+                @if (updateProfile().PhoneNumber) {
+                <div class="text-danger small">
+                  {{ updateProfile().PhoneNumber[0] }}
                 </div>
                 }
               </div>
@@ -120,18 +123,9 @@
                   formControlName="email"
                   placeholder="Email"
                 />
-                @if (updateProfile()?.Email) {
-                <div>
-                  @if (profileForm.controls['email'].value === '') {
-                  <div class="text-danger mt-1">
-                    {{ updateProfile().Email[0] }}
-                  </div>
-                  }
-                  @if (profileForm.controls['email'].value !== '') {
-                  <div class="text-danger mt-1">
-                    {{ updateProfile().Email[1] }}
-                  </div>
-                  }
+                @if (updateProfile().Email) {
+                <div class="text-danger small">
+                  {{ updateProfile().Email[0] }}
                 </div>
                 }
               </div>
@@ -188,8 +182,10 @@
                       }
                     </select>
                   </div>
-                  @if (updateProfile()?.BirthDate){
-                  <div class="text-danger mt-1">{{ updateProfile()?.BirthDate[0] }}</div>
+                  @if (updateProfile().BirthDate) {
+                  <div class="text-danger small">
+                    {{ updateProfile().BirthDate[0] }}
+                  </div>
                   }
                 </div>
               </div>
@@ -205,9 +201,10 @@
                 formControlName="location"
                 placeholder="Location"
               />
-              @if (profileForm.get('location')?.touched &&
-              profileForm.get('location')?.hasError('required')) {
-              <div class="text-danger mt-1">Location is required.</div>
+              @if (updateProfile().Address) {
+              <div class="text-danger small">
+                {{ updateProfile().Address[0] }}
+              </div>
               }
             </div>
 
