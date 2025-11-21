@@ -26,7 +26,7 @@
           </div>
           <div class="doctor-details">
             <h2>{{ doctorDetails()?.fullName }}</h2>
-            <p>
+            <p class="w-100">
               @for (doc of doctorDetails()?.specialities; track $index) {
               {{ doc }}, }
             </p>
@@ -165,9 +165,10 @@
     <div class="modal-content p-2">
       <div class="modal-header d-block border-0 pb-0"></div>
       <div class="modal-body flex-column">
-        @if(doctorDetails()?.availableSlots?.length !==0 ){ @for (availableSlots of
-        doctorDetails()?.availableSlots; track availableSlots.id) {
+        @if(doctorDetails()?.availableSlots?.length !==0 ){
         <h2>Only available appointment,please selected one fit you</h2>
+        @for (availableSlots of doctorDetails()?.availableSlots; track availableSlots.id) {
+
         <h3>{{ availableSlots.dateTime | date }}</h3>
         <button
           class="btn w-100 my-1"

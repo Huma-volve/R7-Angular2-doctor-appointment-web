@@ -69,6 +69,11 @@ export class Appointment implements OnInit {
       this.dateTime = availableSlote.dateTime;
       this.startTime = availableSlote.startTime;
       this.endTime = availableSlote.endTime;
+    } else {
+      this.selectedSlotId = null;
+      this.dateTime = '';
+      this.startTime = '';
+      this.endTime = '';
     }
   }
   book() {
@@ -142,8 +147,6 @@ export class Appointment implements OnInit {
       });
   }
   addReview() {
-    const createAt = new Date().toISOString();
-
     this.reviewService
       .addReview({
         rating: this.rating,

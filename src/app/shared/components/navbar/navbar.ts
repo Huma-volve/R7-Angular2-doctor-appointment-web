@@ -51,6 +51,7 @@ export class Navbar implements OnInit {
       .subscribe({
         next: (res) => {
           this.notifications.set(res.data);
+          this.notifications().reverse();
           this.notificationsIsread.set(res.data.filter((n) => n.isRead === false));
         },
       });

@@ -53,6 +53,6 @@ export class bookingServices {
       success: boolean;
       message: string;
       data: any;
-    }>(`${environment.endpoints.booking.stripeSuccess}?token=${sessionId}`);
+    }>(`${environment.endpoints.booking.stripeSuccess}?session_id=${sessionId}`);
   }
 }
