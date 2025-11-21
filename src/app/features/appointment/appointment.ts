@@ -86,7 +86,6 @@ export class Appointment implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
-          console.log(res);
           if (res.data.payment === 'Cach') {
             const modal = new bootstrap.Modal('#paymentSuccessModal');
             modal.show();
@@ -200,7 +199,6 @@ export class Appointment implements OnInit {
   selectDay(day: any) {
     const availableSlots = this.doctorDetails()?.availableSlots || [];
     const dateDay = availableSlots.filter((slot) => slot.dateTime === day.full.toISOString());
-    console.log(dateDay);
     this.selectedDay = day;
     this.selectedTime = null;
   }
@@ -213,7 +211,6 @@ export class Appointment implements OnInit {
     this.doctorService.getDoctorDetails(id).subscribe({
       next: (response) => {
         this.doctorDetails.set(response);
-        console.log(this.doctorDetails());
       },
     });
   }

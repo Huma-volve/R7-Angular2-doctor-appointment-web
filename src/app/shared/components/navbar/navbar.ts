@@ -62,7 +62,6 @@ export class Navbar implements OnInit {
         .pipe(takeUntilDestroyed(this.destroyRef))
         .subscribe({
           next: (res) => {
-            console.log(res);
             this.notificationsIsread.set(
               this.notificationsIsread().filter((notif) => notif.id !== n.id)
             );
