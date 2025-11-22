@@ -63,5 +63,6 @@ export const routes: Routes = [
     path: '**',
     loadComponent: () =>
       import('./shared/components/not-found-page/not-found-page').then((c) => c.NotFoundPage),
+    title: 'not-found',
   },
 ];
