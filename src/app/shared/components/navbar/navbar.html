@@ -2,7 +2,6 @@
   <header class="py-3 bg-white header-wrapper">
     <div class="container-fluid px-3">
       <div class="d-flex align-items-center justify-content-between gap-3 header-content">
-
         <!-- Logo -->
         <a routerLink="/layout" class="d-inline-flex align-items-center text-decoration-none">
           <img src="assets/images/NavLogo.svg" class="logo me-2" alt="Logo" />
@@ -11,20 +10,35 @@
         <!-- Search Form -->
         <form class="flex-grow-1 search-form" [class.active]="toggle">
           <div class="position-relative search-wrap mx-auto" style="max-width: 780px">
-
             <i class="fas fa-search search-icon"></i>
-            <input #search type="search" class="form-control search-input rounded-pill"
-              placeholder="Search about specialty, doctor" (input)="onSearch(search.value)" />
+            <input
+              #search
+              type="search"
+              class="form-control search-input rounded-pill"
+              placeholder="Search about specialty, doctor"
+              (input)="onSearch(search.value)"
+            />
 
-
-            <div class="search-results" [class.show]="filtered().length > 0" *ngIf="filtered().length > 0">
+            <div
+              class="search-results"
+              [class.show]="filtered().length > 0"
+              *ngIf="filtered().length > 0"
+            >
               <ul class="list-group">
                 <li class="list-group-item" *ngFor="let item of filtered()">
-
-                  <div class="result-item d-flex align-items-center" [routerLink]="['/layout/appointment', item.id]"
-                    style="cursor:pointer" (click)="closeSearch(search) ">
-                    <img class="result-img"
-                      [src]="item?.imgUrl ? baseUrl + item.imgUrl : 'assets/images/default-user.webp'" alt="" />
+                  <div
+                    class="result-item d-flex align-items-center"
+                    [routerLink]="['/layout/appointment', item.id]"
+                    style="cursor: pointer"
+                    (click)="closeSearch(search)"
+                  >
+                    <img
+                      class="result-img"
+                      [src]="
+                        item?.imgUrl ? baseUrl + item.imgUrl : 'assets/images/default-user.webp'
+                      "
+                      alt=""
+                    />
 
                     <div class="flex-grow-1 ms-3">
                       <p class="m-0 fw-semibold result-name">{{ item.fullName }}</p>
@@ -40,16 +54,10 @@
                         </p>
                       </div>
                     </div>
-
                   </div>
-
                 </li>
               </ul>
             </div>
-
-
-
-
           </div>
         </form>
 
@@ -62,37 +70,99 @@
 
           <!-- Menu Icon -->
           <button class="icon-btn" aria-label="Menu" (click)="changeToggle()">
-            <img [src]="toggle ? 'assets/images/XIcon.svg' : 'assets/images/headerIconToggle.svg'" alt="Toggle Icon" />
+            <img
+              [src]="toggle ? 'assets/images/XIcon.svg' : 'assets/images/headerIconToggle.svg'"
+              alt="Toggle Icon"
+            />
           </button>
 
           <!-- Notifications -->
-          <button class="icon-btn" aria-label="Notifications">
-            <i class="far fa-bell"></i>
-          </button>
+          <div class="dropdown notifications-dropdown">
+            <button
+              id="notificationsBtn"
+              class="icon-btn position-relative"
+              aria-label="Notifications"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              (click)="makeReadNotification()"
+            >
+              <i class="far fa-bell"></i>
+              @if(notificationsIsread()!.length){
+              <span
+                class="badge bg-danger position-absolute top-0 start-100 translate-middle p-1 rounded-circle"
+                style="width: 20px"
+              >
+                {{ notificationsIsread().length }}
+              </span>
+              }
+            </button>
+
+            <div
+              class="dropdown-menu dropdown-menu-end custom-dropdown-menu p-2 mt-2 overflow-auto"
+              aria-labelledby="notificationsBtn"
+            >
+              <h6 class="fw-semibold text-center notification-h6">Your Notification</h6>
+
+              <div class="overflow-auto">
+                <ul class="list-group list-group-flush">
+                  @for (n of notifications();let i =$index; track $index) {
+                  <li
+                    class="list-group-item notification-li-padding"
+                    [ngClass]="{ 'notification-bg-odd': i % 2 !== 0 }"
+                  >
+                    <a class="d-flex align-items-start text-decoration-none">
+                      <div class="flex-grow-1">
+                        <div class="d-flex justify-content-between">
+                          <strong class="small text-dark">{{ n.content }}</strong>
+                          <small class="text-muted ms-2">{{ n.createdAt | timeAgo }}</small>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  } @if(!notifications() || notifications().length === 0){
+                  <li class="list-group-item text-center text-muted">No notifications</li>
+                  }
+                </ul>
+              </div>
+            </div>
+          </div>
 
           <!-- User Dropdown -->
           <div class="dropdown user-dropdown">
-            <img id="userMenuBtn" [src]="data()?.imgUrl ? baseUrl + data()?.imgUrl : 'assets/images/default-user.webp'"
-              class="avatar" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer;" />
+            <img
+              id="userMenuBtn"
+              [src]="data()?.imgUrl ? baseUrl + data()?.imgUrl : 'assets/images/default-user.webp'"
+              class="avatar"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              style="cursor: pointer"
+            />
 
             <div class="dropdown-menu dropdown-menu-end custom-dropdown-menu p-3">
               <div class="d-flex align-items-center mb-3">
-                <img [src]="data()?.imgUrl ? baseUrl + data()?.imgUrl : 'assets/images/default-user.webp'"
-                  class="profile-img me-3" />
+                <img
+                  [src]="
+                    data()?.imgUrl ? baseUrl + data()?.imgUrl : 'assets/images/default-user.webp'
+                  "
+                  class="profile-img me-3"
+                />
 
                 <div>
-                  <h5 class="mb-0 fw-bold">{{data()?.firstName}}{{data()?.lastName}}</h5>
+                  <h5 class="mb-0 fw-bold">{{ data()?.firstName }}{{ data()?.lastName }}</h5>
                   <small class="text-muted">
                     <i class="fa-solid fa-location-dot me-1"></i>
-                    {{ data()?.address ? (data()?.address | slice:0:20) + '...' : '' }}
+                    {{ data()?.address ? (data()?.address | slice : 0 : 20) + '...' : '' }}
                   </small>
                 </div>
-                <i routerLink="/layout/user-profile" class="fa-solid fa-gear ms-auto text-primary"></i>
+                <i
+                  routerLink="/layout/user-profile"
+                  class="fa-solid fa-gear ms-auto text-primary"
+                ></i>
               </div>
 
-              <hr>
+              <hr />
 
-              <a routerLink="" class="dropdown-item custom-item ">
+              <a routerLink="" class="dropdown-item custom-item">
                 <i class="fa-solid fa-wallet me-2"></i> Payment Method
                 <i class="fa-solid fa-chevron-right ms-auto"></i>
               </a>
@@ -112,16 +182,14 @@
                 <i class="fa-solid fa-chevron-right ms-auto"></i>
               </a>
 
-              <hr>
+              <hr />
 
               <a (click)="logout()" class="dropdown-item logout-item text-danger fw-semibold">
                 <i class="fa-solid fa-right-from-bracket me-2"></i> Log out
               </a>
             </div>
           </div>
-
         </div>
-
       </div>
     </div>
   </header>

@@ -5,7 +5,19 @@
       <div class="modal-header d-block border-0 pb-0">
         <div class="payment-header d-flex justify-content-between m-auto">
           <div class="container-div-image position-relative">
-            <img class="rounded-circle h-100" src="assets/images/doctor-3.svg" alt="" />
+            <img
+              class="rounded-circle h-100"
+              [src]="
+                doctorDetails()?.imgUrl
+                  ? baseUrl +
+                    (doctorDetails()?.imgUrl?.startsWith('/')
+                      ? doctorDetails()?.imgUrl?.substring(1)
+                      : doctorDetails()?.imgUrl)
+                  : 'assets/images/default-user.webp'
+              "
+              [alt]="doctorDetails()?.fullName"
+            />
+
             <img
               class="position-absolute custome-budget"
               src="assets/images/budgetCorrect.svg"
@@ -13,8 +25,11 @@
             />
           </div>
           <div class="doctor-details">
-            <h2>Dr. Jessica Turner</h2>
-            <p>Pulmonologist</p>
+            <h2>{{ doctorDetails()?.fullName }}</h2>
+            <p class="w-100">
+              @for (doc of doctorDetails()?.specialities; track $index) {
+              {{ doc }}, }
+            </p>
             <div class="d-flex justify-content-between align-items-center location">
               <img class="location-image me-2" src="assets/images/Icon.svg" alt="" />
               <p class="location-p">129,El-Nasr Street, Cairo</p>
@@ -43,10 +58,10 @@
                 class="me-2"
                 type="radio"
                 name="payment"
-                value="0"
+                [value]="2"
                 id="visa"
                 #inputVisa
-                (click)="changeBg(divVisa, divPaypal, divApplePay)"
+                (change)="payment = 2; changeBg(divVisa, divPaypal, divApplePay)"
               />
               <label for="visa" class="curser-pointer">Credit Cart</label>
             </div>
@@ -61,9 +76,9 @@
                 class="me-2"
                 type="radio"
                 name="payment"
-                value="1"
+                [value]="0"
                 id="paypal"
-                (click)="changeBg(divPaypal, divVisa, divApplePay)"
+                (change)="payment = 0; changeBg(divPaypal, divVisa, divApplePay)"
               />
               <label for="paypal" class="curser-pointer">PayPal</label>
             </div>
@@ -78,9 +93,9 @@
                 class="me-2"
                 type="radio"
                 name="payment"
-                value="2"
+                [value]="1"
                 id="applePay"
-                (click)="changeBg(divApplePay, divVisa, divPaypal)"
+                (change)="payment = 1; changeBg(divApplePay, divVisa, divPaypal)"
               />
               <label for="applePay" class="curser-pointer">Apple Pay</label>
             </div>
@@ -94,9 +109,9 @@
       <div class="modal-footer flex-column border-0">
         <div class="d-flex justify-content-between align-items-center w-100">
           <h2 class="h2-price">Price <span class="span-hour">\hour</span></h2>
-          <span class="span-price">350$</span>
+          <span class="span-price">{{ doctorDetails()?.pricePerHour | currency : 'USD' }}</span>
         </div>
-        <button type="button" class="btn-main w-100">Pay</button>
+        <button type="button" class="btn-main w-100" (click)="book()">Pay</button>
       </div>
       <button
         type="button"
@@ -139,7 +154,69 @@
     </div>
   </div>
 </div>
+<div
+  class="modal fade"
+  id="availableSlots"
+  tabindex="-1"
+  aria-labelledby="availableSlots"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-2">
+      <div class="modal-header d-block border-0 pb-0"></div>
+      <div class="modal-body flex-column">
+        @if(doctorDetails()?.availableSlots?.length !==0 ){
+        <h2>Only available appointment,please selected one fit you</h2>
+        @for (availableSlots of doctorDetails()?.availableSlots; track availableSlots.id) {
 
+        <h3>{{ availableSlots.dateTime | date }}</h3>
+        <button
+          class="btn w-100 my-1"
+          [ngClass]="{
+            'btn-primary': selectedSlotId === availableSlots.id && selectedSlot,
+            'btn-outline-primary': selectedSlotId !== availableSlots.id && selectedSlot
+          }"
+          [disabled]="availableSlots.isBooked"
+          (click)="selectSlot(availableSlots)"
+        >
+          {{ availableSlots.startTime }} - {{ availableSlots.endTime }}
+          @if(availableSlots.isBooked){
+          <span class="text-danger ms-2">(Booked)</span>
+          }
+        </button>
+        } }@else {
+        <h3 class="text-center">
+          No available slots for Dr. {{ doctorDetails()?.fullName }} yet,coming soon
+        </h3>
+        }
+      </div>
+      <div class="modal-footer flex-column border-0"></div>
+      <button
+        type="button"
+        class="btn-close position-absolute custom-position-btn-close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="paymentSuccessModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content w-75 py-4 px-5 text-center rounded-4">
+      <div class="pyment-success-img d-flex justify-content-center w-100 mb-3">
+        <img src="assets/images/paymentsuccess.svg" alt="paymentsuccess" />
+      </div>
+      <h3>Congratulations!</h3>
+      <p>
+        Your appointment with Dr. {{ doctorDetails()?.fullName }} is confirmed for
+        {{ dateTime | date }} , {{ startTime }} - {{ endTime }}.
+      </p>
+      <button type="button" class="btn btn-dark mt-3" data-bs-dismiss="modal" (click)="done()">
+        Done
+      </button>
+    </div>
+  </div>
+</div>
 <div class="container py-4">
   <div class="d-flex align-items-center mb-4">
     <a routerLink="/layout/doctors-list" class="text-dark me-2">
@@ -164,6 +241,15 @@
                 <i class="fa-solid fa-angle-right"></i>
               </button>
             </div>
+            <i class="fa-regular fa-calendar-days me-2"></i>
+            <span class="me-2">November, 2024</span>
+            <img
+              class="curser-pointer"
+              data-bs-toggle="modal"
+              data-bs-target="#availableSlots"
+              src="/assets/images/arrow-top-dwon.svg"
+              alt=""
+            />
           </div>
         </div>
 
@@ -173,6 +259,8 @@
             [class.active]="selectedDay === day"
             class="date bg-light mt-2 py-2 rounded-3 border-0 text-secondary"
             (click)="selectDay(day)"
+            data-bs-toggle="modal"
+            data-bs-target="#availableSlots"
           >
             {{ day.label }}
             <span class="d-block">{{ day.number }} </span>
@@ -185,6 +273,8 @@
             class="bg-light me-4 mt-2 p-2 rounded-3 border-0 text-secondary"
             [class.active]="selectedTime === time"
             (click)="selectTime(time)"
+            data-bs-toggle="modal"
+            data-bs-target="#availableSlots"
           >
             {{ time }}
           </button>
@@ -192,7 +282,11 @@
         </div>
 
         <div class="d-flex align-items-center justify-content-between my-2">
-          <div class="d-flex align-items-center">
+          <div
+            class="d-flex align-items-center curser-pointer"
+            data-bs-toggle="modal"
+            data-bs-target="#availableSlots"
+          >
             <i class="fa-regular fa-calendar-days text-primary me-2"></i>
             @if (selectedDay || selectedTime ) {
             <span class="text-muted">
@@ -218,7 +312,7 @@
       <div class="mb-4">
         <h5 class="d-flex justify-content-between align-items-center">
           Reviews and Rating
-          <span (click)="addReview()" class="fa-xs text-primary-emphasis pt-2">
+          <span class="fa-xs text-primary-emphasis pt-2">
             <i class="fa-solid fa-pencil"></i>
             <button class="btn-text" type="button" data-bs-toggle="modal" data-bs-target="#review">
               add review
@@ -228,65 +322,42 @@
         <div class="d-flex justify-content-between align-items-center my-3">
           <h2>{{ doctorDetails()?.rating }}/5</h2>
 
-          <div class="text-warning">
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star"></i>
-            <i class="fa-solid fa-star-half-stroke"></i>
-            <span class="d-block text-muted">{{ doctorDetails()?.reviews }}+ Reviews</span>
+          <div>
+            @for (star of [1,2,3,4,5]; track $index) { @if (doctorDetails()!.rating >= star) {
+            <i class="fa-solid fa-star text-warning"></i>
+            } @if (doctorDetails()!.rating < star) {
+            <i class="fa-regular fa-star text-warning"></i>
+            } }
+            <span class="d-block text-muted">{{ doctorDetails()?.reviewsCount }}+ Reviews</span>
           </div>
         </div>
 
         <!-- reviews -->
         <div class="row">
+          @for (review of reviewsByDoctor(); track $index) {
           <div class="col-md-6 mt-3">
             <div class="card p-3 shadow-sm">
               <div class="d-flex align-items-center mb-2">
                 <img
                   src="assets/images/img-review-1.svg"
-                  alt="Nabila Reyna"
+                  [alt]="review.patientName"
                   class="rounded-circle me-2"
                 />
                 <div>
-                  <h6 class="mb-0">Nabila Reyna</h6>
-                  <small class="text-muted">30 min ago</small>
+                  <h6 class="mb-0">{{ review.patientName }}</h6>
+                  <small class="text-muted">{{ review.createdAt | timeAgo }}</small>
                 </div>
                 <div class="ms-auto text-warning bg-warning-subtle mb-2 p-1 rounded-1">
                   <i class="fa-solid fa-star"></i>
-                  <span>4.5</span>
+                  <span>{{ review.rating }}</span>
                 </div>
               </div>
               <p>
-                Excellent service! Dr. Jessica Turner was attentive and thorough. The clinic was
-                clean, and the staff were friendly. Highly recommend for in-person care!
+                {{ review.comment }}
               </p>
             </div>
           </div>
-
-          <div class="col-md-6 mt-3">
-            <div class="card p-3 shadow-sm">
-              <div class="d-flex align-items-center mb-2">
-                <img
-                  src="assets/images/img-review-2.svg"
-                  alt="Ferry Ichsan A"
-                  class="rounded-circle me-2"
-                />
-                <div>
-                  <h6 class="mb-0">Ferry Ichsan A</h6>
-                  <small class="text-muted">A week ago</small>
-                </div>
-                <div class="ms-auto text-warning bg-warning-subtle mb-2 p-1 rounded-1">
-                  <i class="fa-solid fa-star"></i>
-                  <span>4.5</span>
-                </div>
-              </div>
-              <p>
-                Quick and easy appointment! Dr. Jessica Turner was professional, and the staff made
-                me feel comfortable. Highly recommend!"
-              </p>
-            </div>
-          </div>
+          }
         </div>
       </div>
     </div>
@@ -315,6 +386,7 @@
               class="position-absolute custome-budget"
               src="assets/images/budgetCorrect.svg"
               alt=""
+            />
             />
           </div>
           <h5 class="mb-0">Dr. {{ doctorDetails()?.fullName }}</h5>

@@ -19,7 +19,7 @@
         pattern="^(010|011|012|015)[0-9]{8}$"
         placeholder="Enter your number"
       />
-      @if (phoneNumber.invalid && phoneNumber.touched) {
+      @if (phoneNumber.invalid && (phoneNumber.dirty ||phoneNumber.touched)) {
       <div class="w-100 text-start mt-1">
         @if (phoneNumber.errors?.['required']) {
         <small class="text-danger">Phone number is required.</small>
@@ -33,7 +33,7 @@
     </div>
 
     <button
-      class="btn-auth"
+      class="btn-auth curser-pointer"
       type="submit"
       [ngClass]="{ 'mt-4': phoneNumber.errors?.['pattern'] && (phoneNumber.errors | keyvalue)!.length > 0 }"
     >
@@ -60,7 +60,9 @@
 
   <p>
     Don’t have an account?
-    <a routerLink="../register" class="text-primary fw-semibold text-decoration-none">Sign up</a>
+    <a routerLink="../register" class="text-primary fw-semibold text-decoration-none curser-pointer"
+      >Sign up</a
+    >
   </p>
 </div>
 <div id="googleBtn"></div>

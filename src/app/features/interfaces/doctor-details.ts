@@ -1,4 +1,7 @@
-export interface DoctorDetails{
+import { AvailableSlots } from './available-slots';
+import { GetAllReviews } from './get-all-reviews';
+
+export interface DoctorDetails {
   id: number;
   userId: string;
   fullName: string;
@@ -11,13 +14,11 @@ export interface DoctorDetails{
   experienceYears: number;
   imgUrl: string;
   reviewsCount: number;
-  specialities: [
-    string
-  ];
+  specialities: [string];
   licenses: [];
   latitude: number;
   langtude: number;
   bookingCount: number;
-  availableSlots:[]
-  reviews: []
+  availableSlots: AvailableSlots[];
+  reviews: GetAllReviews[];
 }
