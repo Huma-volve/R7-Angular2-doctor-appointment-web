@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../core/environment/environment';
+import { CreateBooking } from '../interfaces/create-booking';
 
 @Injectable({
   providedIn: 'root',
@@ -19,5 +21,38 @@ export class bookingServices {
         headers: { 'Content-Type': 'application/json' },
       }
     );
+  }
+  createBooking(bookingData: CreateBooking): Observable<{
+    success: boolean;
+    message: string;
+    data: any;
+  }> {
+    return this._HttpClient.post<{
+      success: boolean;
+      message: string;
+      data: any;
+    }>(`${environment.endpoints.booking.createBooking}`, bookingData);
+  }
+  getPaypalSuccess(token: string): Observable<{
+    success: boolean;
+    message: string;
+    data: any;
+  }> {
+    return this._HttpClient.get<{
+      success: boolean;
+      message: string;
+      data: any;
+    }>(`${environment.endpoints.booking.paypaSuccess}?token=${token}`);
+  }
+  getStripeSuccess(sessionId: string): Observable<{
+    success: boolean;
+    message: string;
+    data: any;
+  }> {
+    return this._HttpClient.get<{
+      success: boolean;
+      message: string;
+      data: any;
+    }>(`${environment.endpoints.booking.stripeSuccess}?session_id=${sessionId}`);
   }
 }

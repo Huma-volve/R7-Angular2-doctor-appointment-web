@@ -44,7 +44,7 @@
         placeholder="Email"
         pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
       />
-      @if (email.invalid && email.touched) {
+      @if (email?.invalid && (email?.dirty || email?.touched)) {
       <div class="w-100 text-start my-2">
         @if (email.errors?.['required']) {
         <small class="text-danger">Email is required.</small>
@@ -75,7 +75,7 @@
         pattern="^(010|011|012|015)[0-9]{8}$"
         placeholder="Enter your number"
       />
-      @if (phoneNumber.invalid && phoneNumber.touched) {
+      @if (phoneNumber.invalid && (phoneNumber.dirty ||phoneNumber.touched)) {
       <div class="w-100 text-start my-1">
         @if (phoneNumber.errors?.['required']) {
         <small class="text-danger">Phone number is required.</small>
