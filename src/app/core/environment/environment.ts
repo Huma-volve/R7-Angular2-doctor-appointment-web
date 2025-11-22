@@ -27,9 +27,14 @@ export const environment = {
       getAllDoctorsSpecialists: (id: number) =>
         `api/Customer/Specialists/GetAllDoctorsInSpecialist/${id}`,
     },
+    booking: {
+      createBooking: 'api/Customer/Booking/CreateBooking',
+      paypaSuccess: 'api/Customer/Booking/PaypalSuccess',
+      stripeSuccess: 'api/Customer/Booking/StripeSuccess',
+    },
     Notifications: {
       getByUser: 'api/Customer/Notifications/GetNotificationsByUser',
-      markRead: (id: string) => `api/Customer/Notifications/MarkAsRead/${id}`,
+      markRead: (id: number) => `api/Customer/Notifications/MarkAsRead/${id}`,
     },
     NotificationSettings: {
       setting: 'api/Profile/NotificationSettings',
@@ -44,7 +49,7 @@ export const environment = {
       editReviewByDoctorId: (doctorId: number) => `api/Customer/Reviews/UpdateReview/${doctorId}`,
     },
     search: {
-      searchDoctors: 'api/Customer/SearchData/SearchDoctors'
+      searchDoctors: 'api/Customer/SearchData/SearchDoctors',
     },
     profile: {
       getProfile: 'api/profile/Editprofile/getprofile',
