@@ -14,7 +14,6 @@ import { TimeAgoPipe } from '../pipe/time-ago-pipe';
 import { bookingServices } from '../Services/bookingServices';
 import { AvailableSlots } from '../interfaces/available-slots';
 import { GetAllReviews } from '../interfaces/get-all-reviews';
-import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-appointment',
@@ -96,14 +95,10 @@ export class Appointment implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res) => {
-          if (res.data.payment === 'Cach') {
-            const modal = new bootstrap.Modal('#paymentSuccessModal');
-            modal.show();
-            setTimeout(() => {
-              this.router.navigate(['/layout/booking']);
-            }, 2000);
-          }
-          if (res.data.paymentUrl) {
+          console.log(res);
+          if (res.data.payment === 'Cash') {
+            this.showSuccessModal();
+          } else if (res.data.paymentUrl) {
             const url = res.data.paymentUrl as string;
             const screenW = window.screen.availWidth || window.screen.width;
             const screenH = window.screen.availHeight || window.screen.height;
@@ -114,37 +109,19 @@ export class Appointment implements OnInit {
             const features = `width=${w},height=${h},left=${left},top=${top},resizable=yes,scrollbars=yes`;
             const newWin = window.open(url, '_blank', features);
             if (newWin) newWin.focus();
-            if (res.data.paymentUrl.includes('paypal')) {
-              const token = res.data.paymentUrl.split('token=')[1];
-              this.bookingService
-                .getPaypalSuccess(token)
-                .pipe(takeUntilDestroyed(this.destroyRef))
-                .subscribe((res) => {
-                  const modal = new bootstrap.Modal('#paymentSuccessModal');
-                  modal.show();
-                  setTimeout(() => {
-                    this.router.navigate(['/layout/booking']);
-                  }, 2000);
-                });
-              if (res.data.paymentUrl.includes('stripe')) {
-                const sessionId = res.data.paymentUrl.split('session_id=')[1];
-                this.bookingService
-                  .getStripeSuccess(sessionId)
-                  .pipe(takeUntilDestroyed(this.destroyRef))
-                  .subscribe((res) => {
-                    const modal = new bootstrap.Modal('#paymentSuccessModal');
-                    modal.show();
-                    setTimeout(() => {
-                      this.router.navigate(['/layout/booking']);
-                    }, 2000);
-                  });
-              }
-            }
           }
 
           this.toaster.success(res.message);
         },
       });
+  }
+  private showSuccessModal() {
+    const btn = document.getElementById('openPaymentSuccessBtn') as HTMLButtonElement;
+    btn?.click();
+
+    setTimeout(() => {
+      this.router.navigate(['/layout/booking']);
+    }, 2000);
   }
   addReview() {
     this.reviewService
@@ -242,6 +219,15 @@ export class Appointment implements OnInit {
   }
 
   ngOnInit(): void {
+    window.addEventListener('message', (event) => {
+      if (event.data?.status === 'success') {
+        this.showSuccessModal();
+      }
+
+      if (event.data?.status === 'failed') {
+        this.toaster.error('Payment Failed…');
+      }
+    });
     this.generateDays();
     this.route.paramMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
       const idParam = params.get('id');
@@ -251,12 +237,6 @@ export class Appointment implements OnInit {
       }
     });
     this.generateDays();
-    // this.reviewService
-    //   .getAllReviews()
-    //   .pipe(takeUntilDestroyed(this.destroyRef))
-    //   .subscribe((res) => {
-    //     console.log(res);
-    //   });
     this.reviewService
       .getReviewByDoctor(this.doctorId)
       .pipe(takeUntilDestroyed(this.destroyRef))
